@@ -13,32 +13,33 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { EventsCampus } from "@/enums/events.enum";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
-const options = [
+const options: { label: string; value: EventsCampus }[] = [
   {
     label: "Tampa",
-    value: "tpa",
+    value: EventsCampus.Tampa,
   },
   {
     label: "St. Pete",
-    value: "stp",
+    value: EventsCampus.StPetersburg,
   },
   {
     label: "Sarasota",
-    value: "srs",
+    value: EventsCampus.SarasotaManatee,
   },
 ];
 
 export function CampusSelect() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<string>("tpa");
+  const [value, setValue] = React.useState<EventsCampus>(EventsCampus.Tampa);
 
   return (
-    <Popover open={open} onOpenChange={setOpen} >
-      <PopoverTrigger  asChild>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
@@ -58,10 +59,13 @@ export function CampusSelect() {
                 <CommandItem
                   key={option.value}
                   value={option.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                  onSelect={() => {
+                    setValue(option.value);
                     setOpen(false);
                   }}
+                  className={
+                    option.value === value ? "font-medium" : "font-base"
+                  }
                 >
                   <Check
                     className={cn(

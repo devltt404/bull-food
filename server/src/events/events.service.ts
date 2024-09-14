@@ -1,42 +1,55 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
+import formatDate from 'src/utils/format-date';
 import { GetEventsDto } from './dto/get-events.dto';
+import { EventsSortBy } from './enum/events.enum';
 import { FetchedEvent } from './interfaces/events.interface';
 
 @Injectable()
 export class EventsService {
-  async getEvents({ campus, fromDate, from, limit, toDate }: GetEventsDto) {
+  constructor(private readonly configService: ConfigService) {}
+
+  async getEvents({
+    campus,
+    fromDate,
+    range,
+    limit,
+    toDate,
+    sortBy,
+  }: GetEventsDto) {
+    const queryParams = {
+      range,
+      limit,
+      filter6: '7276307',
+    };
+
+    if (fromDate) {
+      queryParams['filter8'] = formatDate(fromDate);
+    }
+    if (toDate) {
+      queryParams['filter9'] = formatDate(toDate);
+    }
+
     const { data: fetchedEvents }: { data: FetchedEvent[] } = await axios.get(
       'https://bullsconnect.usf.edu/mobile_ws/v17/mobile_events_list',
       {
-        params: {
-          range: 0,
-          from,
-          limit,
-          filter6: '7276307', //Food event tag
-          filter8: fromDate,
-          filter9: toDate,
-        },
+        params: queryParams,
         headers: {
-          Cookie:
-            'CG.SessionID=auogrbmlqmpbfk5v1qqx0axs-lZpFx7E5K8XyfyczzyktnltPk1M%3d',
+          Cookie: `CG.SessionID=${this.configService.get('bullsconnect.sessionId')}`,
         },
       },
     );
 
+    // Filter events by campus
     const filteredEvents = fetchedEvents.filter((event) => {
-      return event.listingSeparator || event.p22.includes('Campus - ' + campus);
+      return (
+        !event.listingSeparator &&
+        (!campus || event.p22.includes(`Campus - ${campus}`))
+      );
     });
 
-    let totalEvents = 0;
-
     const events = filteredEvents.map((event) => {
-      if (event.listingSeparator)
-        return {
-          listingSeparator: true,
-          time: event.p1,
-        };
-      totalEvents++;
       const dateMatch = event.p4?.match(/(\w{3}, \w{3} \d{1,2}, \d{4})/);
       const timeMatch = event.p4?.match(
         /(\d{1,2}(?::\d{2})?\s[APM]{2})\s&ndash;\s(\d{1,2}(?::\d{2})?\s[APM]{2})/,
@@ -48,14 +61,19 @@ export class EventsService {
         date: dateMatch?.[0],
         startTime: timeMatch?.[1],
         endTime: timeMatch?.[2],
-        image: `https://bullsconnect.usf.edu${event.p5}`,
+        image: `https://bullsconnect.usf.edu${event.p11}`,
         location: event.p6,
-        going: event.p10,
+        going: parseInt(event.p10),
         isSoldOut: event.p26?.includes('SOLD-OUT'),
-        spotsLeft: event.p26?.match(/>(\d+)<\/span>/)?.[1],
+        spotsLeft: parseInt(event.p26?.match(/>(\d+)<\/span>/)?.[1]) || null,
       };
     });
 
-    return { events, totalEvents };
+    if (sortBy === EventsSortBy.participants) {
+      events.sort((a, b) => {
+        return b.going - a.going;
+      });
+    }
+    return { events };
   }
 }

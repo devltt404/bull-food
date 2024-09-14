@@ -20,8 +20,11 @@ let EventsController = class EventsController {
     constructor(eventsService) {
         this.eventsService = eventsService;
     }
-    getEvents(getEventsDto) {
-        return this.eventsService.getEvents(getEventsDto);
+    async getEvents(getEventsDto) {
+        return {
+            message: 'Events fetched successfully',
+            data: await this.eventsService.getEvents(getEventsDto),
+        };
     }
 };
 exports.EventsController = EventsController;
@@ -30,10 +33,13 @@ __decorate([
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [get_events_dto_1.GetEventsDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], EventsController.prototype, "getEvents", null);
 exports.EventsController = EventsController = __decorate([
-    (0, common_1.Controller)('events'),
+    (0, common_1.Controller)({
+        path: 'events',
+        version: '1',
+    }),
     __metadata("design:paramtypes", [events_service_1.EventsService])
 ], EventsController);
 //# sourceMappingURL=events.controller.js.map

@@ -23,10 +23,8 @@
     /* shadcnui */
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "app/store.ts", "src/api"]
 }

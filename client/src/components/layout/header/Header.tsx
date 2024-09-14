@@ -6,7 +6,7 @@ import CampusSelect from "./CampusSelect";
 
 const Header = () => {
   return (
-    <header className="border-b py-4">
+    <header className="py-4">
       <div className="container flex items-center justify-between">
         {/* Logo */}
         <Link className="flex items-center gap-2" to="/">

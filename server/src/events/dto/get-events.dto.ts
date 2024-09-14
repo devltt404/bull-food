@@ -1,21 +1,34 @@
-import { IsDate, IsEnum, IsInt } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsEnum, IsInt, IsISO8601, IsOptional } from 'class-validator';
+import { EventsCampus, EventsSortBy } from '../enum/events.enum';
 
 export class GetEventsDto {
-  @IsEnum(['Tampa', 'St Petersburg', 'Sarasota-Manatee'], {
-    message:
-      'Campus must be one of "Tampa", "St Petersburg", or "Sarasota-Manatee"',
+  @IsEnum(EventsCampus, {
+    message: `Campus must be one of ${Object.values(EventsCampus).join(', ')}`,
   })
-  campus: 'Tampa' | 'St Petersburg' | 'Sarasota-Manatee';
+  @IsOptional()
+  campus?: EventsCampus;
 
-  @IsDate()
-  fromDate: Date;
+  @IsISO8601()
+  @IsOptional()
+  fromDate?: string;
 
-  @IsDate()
-  toDate: Date;
+  @IsISO8601()
+  @IsOptional()
+  toDate?: string;
 
+  @Type(() => Number)
   @IsInt()
-  limit: number;
+  limit: number = 40;
 
+  @Type(() => Number)
   @IsInt()
-  from: number;
+  @IsOptional()
+  range: number = 0;
+
+  @IsEnum(EventsSortBy, {
+    message: `Sort by must be one of ${Object.values(EventsSortBy).join(', ')}`,
+  })
+  @IsOptional()
+  sortBy: EventsSortBy = EventsSortBy.time;
 }

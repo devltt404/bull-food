@@ -1,7 +1,9 @@
+import { EventsCampus, EventsSortBy } from '../enum/events.enum';
 export declare class GetEventsDto {
-    campus: 'Tampa' | 'St Petersburg' | 'Sarasota-Manatee';
-    fromDate: Date;
-    toDate: Date;
+    campus?: EventsCampus;
+    fromDate?: string;
+    toDate?: string;
     limit: number;
-    from: number;
+    range: number;
+    sortBy: EventsSortBy;
 }

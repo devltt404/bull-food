@@ -1,20 +1,10 @@
+import { ConfigService } from '@nestjs/config';
 import { GetEventsDto } from './dto/get-events.dto';
 export declare class EventsService {
-    getEvents({ campus, fromDate, from, limit, toDate }: GetEventsDto): Promise<{
-        events: ({
-            listingSeparator: boolean;
-            time: string;
-            id?: undefined;
-            title?: undefined;
-            date?: undefined;
-            startTime?: undefined;
-            endTime?: undefined;
-            image?: undefined;
-            location?: undefined;
-            going?: undefined;
-            isSoldOut?: undefined;
-            spotsLeft?: undefined;
-        } | {
+    private readonly configService;
+    constructor(configService: ConfigService);
+    getEvents({ campus, fromDate, range, limit, toDate, sortBy, }: GetEventsDto): Promise<{
+        events: {
             id: string;
             title: string;
             date: string;
@@ -22,12 +12,9 @@ export declare class EventsService {
             endTime: string;
             image: string;
             location: string;
-            going: string;
+            going: number;
             isSoldOut: boolean;
-            spotsLeft: string;
-            listingSeparator?: undefined;
-            time?: undefined;
-        })[];
-        totalEvents: number;
+            spotsLeft: number;
+        }[];
     }>;
 }

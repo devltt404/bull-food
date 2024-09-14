@@ -2,12 +2,18 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { GetEventsDto } from './dto/get-events.dto';
 import { EventsService } from './events.service';
 
-@Controller('events')
+@Controller({
+  path: 'events',
+  version: '1',
+})
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Get()
-  getEvents(@Query() getEventsDto: GetEventsDto) {
-    return this.eventsService.getEvents(getEventsDto);
+  async getEvents(@Query() getEventsDto: GetEventsDto) {
+    return {
+      message: 'Events fetched successfully',
+      data: await this.eventsService.getEvents(getEventsDto),
+    };
   }
 }
