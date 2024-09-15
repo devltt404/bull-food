@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,9 +10,9 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 140 89% 42%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 221 97% 53%;
+    --primary: 142 71% 45%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 247 96% 70%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
@@ -63,4 +64,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  overflow-y: scroll; 
 }

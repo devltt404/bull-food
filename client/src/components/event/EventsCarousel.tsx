@@ -50,7 +50,7 @@ const EventsCarouselItem = ({ event }: { event: Event }) => {
 const EventsCarousel = ({ events }: { events: Event[] }) => {
   return (
     <Carousel>
-      <CarouselContent className="-ml-2 gap-4 md:-ml-4">
+      <CarouselContent className="-ml-2 gap-6 md:-ml-4">
         {events.map((event) => (
           <EventsCarouselItem key={event.id} event={event} />
         ))}

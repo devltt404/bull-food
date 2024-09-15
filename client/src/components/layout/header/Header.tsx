@@ -6,13 +6,13 @@ import CampusSelect from "./CampusSelect";
 
 const Header = () => {
   return (
-    <header className="py-4">
-      <div className="container flex items-center justify-between">
+    <header className="bg-primary/10 py-4">
+      <div className="flex items-center justify-between px-20">
         {/* Logo */}
         <Link className="flex items-center gap-2" to="/">
           <img src={Logo} className="w-10" />
-          <p className="text-2xl font-semibold tracking-wide">
-            Bull<span className="font-bold">Food.</span>
+          <p className="text-2xl font-medium tracking-wide">
+            Bull<span className="font-semibold text-primary">Food.</span>
           </p>
         </Link>
 
