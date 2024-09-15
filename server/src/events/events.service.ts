@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import formatDate from 'src/utils/format-date';
+import { FetchedEvent } from '../common/interfaces/events.interface';
 import { GetEventsDto } from './dto/get-events.dto';
 import { EventsSortBy } from './enum/events.enum';
-import { FetchedEvent } from './interfaces/events.interface';
 
 @Injectable()
 export class EventsService {
