@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Today's Featured Events</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      table {
+        border-spacing: 0;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+      }
+      .header {
+        background-color: #28a745;
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+      }
+      .content {
+        padding: 20px;
+      }
+      .event {
+        margin-bottom: 20px;
+      }
+      .event-title {
+        font-size: 18px;
+        color: #333333;
+        margin: 0 0 10px 0;
+      }
+      .event-details {
+        font-size: 14px;
+        color: #666666;
+        margin: 5px 0;
+      }
+      .event-thumbnail {
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+        display: block;
+        margin: 10px 0;
+      }
+      .footer {
+        background-color: #f4f4f4;
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #999999;
+      }
+      a {
+        color: #28a745;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <!-- Header -->
+      <tr>
+        <td>
+          <table
+            role="presentation"
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+          >
+            <tr>
+              <td class="header">
+                <h1>Featured Events Today at USF</h1>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Content -->
+      <tr>
+        <td>
+          <table
+            role="presentation"
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            class="content"
+          >
+            {{#each events}}
+            <tr class="event">
+              <td>
+                <h2 class="event-title">{{this.title}}</h2>
+                <img
+                  src="{{this.image}}"
+                  alt="Event Thumbnail"
+                  class="event-thumbnail"
+                />
+                <p class="event-details">
+                  <strong>Date:</strong> {{this.date}}
+                </p>
+                <p class="event-details">
+                  <strong>Time:</strong> {{this.startTime}} - {{this.endTime}}
+                </p>
+                <p class="event-details">
+                  <strong>Location:</strong> {{this.location}}
+                </p>
+                <p><a href="https://bullsconnect.usf.edu/web/rsvp_boot?id={{this.id}}">View Event Details</a></p>
+              </td>
+            </tr>
+            {{/each}}
+          </table>
+        </td>
+      </tr>
+      <!-- Footer -->
+      <tr>
+        <td>
+          <table
+            role="presentation"
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+          >
+            <tr>
+              <td class="footer">
+                <p>
+                  If you no longer wish to receive these emails, you can
+                  <a href="#">unsubscribe here</a>.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -19,13 +19,39 @@ class EnvironmentVariablesValidator {
 }
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], EnvironmentVariablesValidator.prototype, "BC_SESSION_ID", void 0);
-exports.default = (0, config_1.registerAs)('bullsconnect', () => {
+], EnvironmentVariablesValidator.prototype, "MAIL_SENDER_NAME", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], EnvironmentVariablesValidator.prototype, "MAIL_SENDER_EMAIL", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], EnvironmentVariablesValidator.prototype, "MAIL_HOST", void 0);
+__decorate([
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(0),
+    (0, class_validator_1.Max)(65535),
+    __metadata("design:type", Number)
+], EnvironmentVariablesValidator.prototype, "MAIL_PORT", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], EnvironmentVariablesValidator.prototype, "MAIL_USER", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], EnvironmentVariablesValidator.prototype, "MAIL_PASS", void 0);
+exports.default = (0, config_1.registerAs)('mail', () => {
     (0, validate_config_1.default)(process.env, EnvironmentVariablesValidator);
     return {
-        sessionId: process.env.BC_SESSION_ID,
+        senderName: process.env.MAIL_SENDER_NAME,
+        senderEmail: process.env.MAIL_SENDER_EMAIL,
+        host: process.env.MAIL_HOST,
+        port: parseInt(process.env.MAIL_PORT),
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
     };
 });
-//# sourceMappingURL=bullsconnect.config.js.map
+//# sourceMappingURL=mail.config.js.map

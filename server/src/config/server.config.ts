@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { IsEnum, IsInt, IsOptional } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';
 import validateConfig from 'src/utils/validate-config';
 import { ServerConfig } from './server.config.type';
 
@@ -11,18 +11,21 @@ enum Environment {
 
 class EnvironmentVariablesValidator {
   @IsEnum(Environment)
-  NODE_ENV: Environment;
+  @IsOptional()
+  NODE_ENV: Environment = Environment.DEVELOPMENT;
 
   @IsInt()
+  @Min(0)
+  @Max(65535)
   @IsOptional()
   SERVER_PORT: number;
 }
 
-export default registerAs<ServerConfig>('server', () => {
+export default registerAs<ServerConfig>('server', ():ServerConfig => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
     nodeEnv: process.env.NODE_ENV,
-    port: process.env.SERVER_PORT,
+    port: parseInt(process.env.SERVER_PORT),
   };
 });

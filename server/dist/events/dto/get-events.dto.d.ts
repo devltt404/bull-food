@@ -3,7 +3,7 @@ export declare class GetEventsDto {
     campus?: EventsCampus;
     fromDate?: string;
     toDate?: string;
-    limit: number;
-    range: number;
-    sortBy: EventsSortBy;
+    limit?: number;
+    range?: number;
+    sortBy?: EventsSortBy;
 }

@@ -9,10 +9,13 @@ class EnvironmentVariablesValidator {
   BC_SESSION_ID?: string;
 }
 
-export default registerAs<BullsConnectConfig>('bullsconnect', () => {
-  validateConfig(process.env, EnvironmentVariablesValidator);
+export default registerAs<BullsConnectConfig>(
+  'bullsconnect',
+  (): BullsConnectConfig => {
+    validateConfig(process.env, EnvironmentVariablesValidator);
 
-  return {
-    sessionId: process.env.BC_SESSION_ID,
-  };
-});
+    return {
+      sessionId: process.env.BC_SESSION_ID,
+    };
+  },
+);

@@ -1,6 +1,6 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import * as compression from 'compression';
+import compression from 'compression';
 import { AppModule } from './app.module';
 import handleValidationError from './utils/handle-validation-error';
 

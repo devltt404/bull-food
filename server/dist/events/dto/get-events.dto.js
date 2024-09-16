@@ -29,31 +29,32 @@ __decorate([
     __metadata("design:type", String)
 ], GetEventsDto.prototype, "campus", void 0);
 __decorate([
-    (0, class_validator_1.IsISO8601)(),
     (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsISO8601)(),
     __metadata("design:type", String)
 ], GetEventsDto.prototype, "fromDate", void 0);
 __decorate([
-    (0, class_validator_1.IsISO8601)(),
     (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsISO8601)(),
     __metadata("design:type", String)
 ], GetEventsDto.prototype, "toDate", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], GetEventsDto.prototype, "limit", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], GetEventsDto.prototype, "range", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(events_enum_1.EventsSortBy, {
         message: `Sort by must be one of ${Object.values(events_enum_1.EventsSortBy).join(', ')}`,
     }),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], GetEventsDto.prototype, "sortBy", void 0);
 //# sourceMappingURL=get-events.dto.js.map

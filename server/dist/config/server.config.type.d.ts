@@ -1,4 +1,4 @@
 export type ServerConfig = {
     nodeEnv: string;
-    port: string;
+    port: number;
 };

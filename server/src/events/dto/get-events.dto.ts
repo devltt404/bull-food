@@ -9,26 +9,27 @@ export class GetEventsDto {
   @IsOptional()
   campus?: EventsCampus;
 
-  @IsISO8601()
   @IsOptional()
+  @IsISO8601()
   fromDate?: string;
 
-  @IsISO8601()
   @IsOptional()
+  @IsISO8601()
   toDate?: string;
 
-  @Type(() => Number)
-  @IsInt()
-  limit: number = 40;
-
-  @Type(() => Number)
-  @IsInt()
   @IsOptional()
-  range: number = 0;
+  @Type(() => Number)
+  @IsInt()
+  limit?: number = 40;
 
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  range?: number = 0;
+
+  @IsOptional()
   @IsEnum(EventsSortBy, {
     message: `Sort by must be one of ${Object.values(EventsSortBy).join(', ')}`,
   })
-  @IsOptional()
-  sortBy: EventsSortBy = EventsSortBy.time;
+  sortBy?: EventsSortBy = EventsSortBy.time;
 }
