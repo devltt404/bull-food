@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import axios from 'axios';
+import { BullsConnectService } from 'src/bullsconnect/bullsconnect.service';
 import formatDate from 'src/utils/format-date';
-import { FetchedEvent } from '../common/interfaces/events.interface';
+import { EventCampusId, EventSortBy } from './constants/event.constant';
 import { GetEventsDto } from './dto/get-events.dto';
-import { EventsSortBy } from './enum/events.enum';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly bullsConnectService: BullsConnectService) {}
 
   async getEvents({
     campus,
@@ -21,7 +19,7 @@ export class EventsService {
     const queryParams = {
       range,
       limit,
-      filter6: '7276307',
+      filter6: EventCampusId[campus],
     };
 
     if (fromDate) {
@@ -31,15 +29,8 @@ export class EventsService {
       queryParams['filter9'] = formatDate(toDate);
     }
 
-    const { data: fetchedEvents }: { data: FetchedEvent[] } = await axios.get(
-      'https://bullsconnect.usf.edu/mobile_ws/v17/mobile_events_list',
-      {
-        params: queryParams,
-        headers: {
-          Cookie: `CG.SessionID=${this.configService.get('bullsconnect.sessionId')}`,
-        },
-      },
-    );
+    const fetchedEvents =
+      await this.bullsConnectService.fetchEvents(queryParams);
 
     // Filter events by campus
     const filteredEvents = fetchedEvents.filter((event) => {
@@ -69,7 +60,7 @@ export class EventsService {
       };
     });
 
-    if (sortBy === EventsSortBy.participants) {
+    if (sortBy === EventSortBy.participants) {
       events.sort((a, b) => {
         return b.going - a.going;
       });

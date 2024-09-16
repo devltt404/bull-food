@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullsConnectModule } from './bullsconnect/bullsconnect.module';
 import bullsconnectConfig from './bullsconnect/config/bullsconnect.config';
@@ -10,6 +11,7 @@ import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
+    MongooseModule.forRoot('mongodb://localhost/bullfood'),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       load: [serverConfig, bullsconnectConfig, mailConfig],

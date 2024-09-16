@@ -2,7 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import axios from 'axios';
-import { FetchedEvent } from '../common/interfaces/events.interface';
+import { FetchedEvent } from '../events/interfaces/event.interface';
+import { FetchEventsDto } from './dto/fetch-events.dto';
 
 @Injectable()
 export class BullsConnectService {
@@ -12,6 +13,21 @@ export class BullsConnectService {
   ) {}
 
   private readonly logger = new Logger(BullsConnectService.name);
+
+  async fetchEvents(params: FetchEventsDto) {
+    const { data }: { data: FetchedEvent[] } = await axios.get(
+      'https://bullsconnect.usf.edu/mobile_ws/v17/mobile_events_list',
+      {
+        params,
+        headers: {
+          Cookie:
+            'CG.SessionID=' + this.configService.get('bullsconnect.sessionId'),
+        },
+      },
+    );
+
+    return data;
+  }
 
   @Cron(CronExpression.EVERY_30_MINUTES, {
     name: 'maintainSession',

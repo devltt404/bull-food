@@ -13,29 +13,29 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { EventsCampus } from "@/enums/events.enum";
+import { EventCampus } from "@/enums/events.enum";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
-const options: { label: string; value: EventsCampus }[] = [
+const options: { label: string; value: EventCampus }[] = [
   {
     label: "Tampa",
-    value: EventsCampus.Tampa,
+    value: EventCampus.Tampa,
   },
   {
     label: "St. Pete",
-    value: EventsCampus.StPetersburg,
+    value: EventCampus.StPetersburg,
   },
   {
     label: "Sarasota",
-    value: EventsCampus.SarasotaManatee,
+    value: EventCampus.SarasotaManatee,
   },
 ];
 
 export function CampusSelect() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<EventsCampus>(EventsCampus.Tampa);
+  const [value, setValue] = React.useState<EventCampus>(EventCampus.Tampa);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

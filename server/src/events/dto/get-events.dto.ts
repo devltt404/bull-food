@@ -1,13 +1,12 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsISO8601, IsOptional } from 'class-validator';
-import { EventsCampus, EventsSortBy } from '../enum/events.enum';
+import { EventCampus, EventSortBy } from '../constants/event.constant';
 
 export class GetEventsDto {
-  @IsEnum(EventsCampus, {
-    message: `Campus must be one of ${Object.values(EventsCampus).join(', ')}`,
+  @IsEnum(EventCampus, {
+    message: `Campus must be one of ${Object.values(EventCampus).join(', ')}`,
   })
-  @IsOptional()
-  campus?: EventsCampus;
+  campus: EventCampus;
 
   @IsOptional()
   @IsISO8601()
@@ -28,8 +27,8 @@ export class GetEventsDto {
   range?: number = 0;
 
   @IsOptional()
-  @IsEnum(EventsSortBy, {
-    message: `Sort by must be one of ${Object.values(EventsSortBy).join(', ')}`,
+  @IsEnum(EventSortBy, {
+    message: `Sort by must be one of ${Object.values(EventSortBy).join(', ')}`,
   })
-  sortBy?: EventsSortBy = EventsSortBy.time;
+  sortBy?: EventSortBy = EventSortBy.time;
 }

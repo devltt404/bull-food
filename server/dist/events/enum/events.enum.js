@@ -1,15 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EventsSortBy = exports.EventsCampus = void 0;
-var EventsCampus;
-(function (EventsCampus) {
-    EventsCampus["Tampa"] = "Tampa";
-    EventsCampus["StPetersburg"] = "St Petersburg";
-    EventsCampus["SarasotaManatee"] = "Sarasota-Manatee";
-})(EventsCampus || (exports.EventsCampus = EventsCampus = {}));
-var EventsSortBy;
-(function (EventsSortBy) {
-    EventsSortBy["time"] = "time";
-    EventsSortBy["participants"] = "participants";
-})(EventsSortBy || (exports.EventsSortBy = EventsSortBy = {}));
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.EventSortBy = exports.EventCampus = void 0;
+var EventCampus;
+(function (EventCampus) {
+  EventCampus['Tampa'] = 'Tampa';
+  EventCampus['StPetersburg'] = 'St Petersburg';
+  EventCampus['SarasotaManatee'] = 'Sarasota-Manatee';
+})(EventCampus || (exports.EventCampus = EventCampus = {}));
+var EventSortBy;
+(function (EventSortBy) {
+  EventSortBy['time'] = 'time';
+  EventSortBy['participants'] = 'participants';
+})(EventSortBy || (exports.EventSortBy = EventSortBy = {}));
 //# sourceMappingURL=events.enum.js.map

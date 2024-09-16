@@ -2,7 +2,7 @@ import { useGetEventsQuery } from "@/api/events.api";
 import CtaForm from "@/components/CtaForm";
 import EventsCarousel from "@/components/event/EventsCarousel";
 import HeroSection from "@/components/HeroSection";
-import { EventsSortBy } from "@/enums/events.enum";
+import { EventSortBy } from "@/enums/events.enum";
 import { useMemo, useRef } from "react";
 
 const IndexPage = () => {
@@ -21,7 +21,7 @@ const IndexPage = () => {
   const { data: todayFeaturedData, isLoading: isTodayLoading } =
     useGetEventsQuery({
       limit: 5,
-      sortBy: EventsSortBy.participants,
+      sortBy: EventSortBy.participants,
       fromDate: today,
       toDate: today,
     });
@@ -29,7 +29,7 @@ const IndexPage = () => {
   const { data: tomorrowFeaturedData, isLoading: isTomorrowLoading } =
     useGetEventsQuery({
       limit: 5,
-      sortBy: EventsSortBy.participants,
+      sortBy: EventSortBy.participants,
       fromDate: tomorrow,
       toDate: tomorrow,
     });

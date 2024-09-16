@@ -1,12 +1,12 @@
-import { EventsCampus, EventsSortBy } from "../src/enums/events.enum";
+import { EventCampus, EventSortBy } from "../src/constants/event.constant";
 
 export interface GetEventsParams {
-  campus?: EventsCampus;
+  campus?: EventCampus;
   fromDate?: string;
   toDate?: string;
   limit?: number;
   range?: number;
-  sortBy?: EventsSortBy;
+  sortBy?: EventSortBy;
 }
 
 export interface Event {
