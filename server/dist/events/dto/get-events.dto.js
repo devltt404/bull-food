@@ -28,21 +28,20 @@ Object.defineProperty(exports, '__esModule', { value: true });
 exports.GetEventsDto = void 0;
 const class_transformer_1 = require('class-transformer');
 const class_validator_1 = require('class-validator');
-const events_enum_1 = require('../enum/events.enum');
+const event_constant_1 = require('../constants/event.constant');
 class GetEventsDto {
   constructor() {
     this.limit = 40;
     this.range = 0;
-    this.sortBy = events_enum_1.EventSortBy.time;
+    this.sortBy = event_constant_1.EventSortOption.time;
   }
 }
 exports.GetEventsDto = GetEventsDto;
 __decorate(
   [
-    (0, class_validator_1.IsEnum)(events_enum_1.EventCampus, {
-      message: `Campus must be one of ${Object.values(events_enum_1.EventCampus).join(', ')}`,
+    (0, class_validator_1.IsEnum)(event_constant_1.EventCampus, {
+      message: `Campus must be one of ${Object.values(event_constant_1.EventCampus).join(', ')}`,
     }),
-    (0, class_validator_1.IsOptional)(),
     __metadata('design:type', String),
   ],
   GetEventsDto.prototype,
@@ -94,8 +93,8 @@ __decorate(
 __decorate(
   [
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(events_enum_1.EventSortBy, {
-      message: `Sort by must be one of ${Object.values(events_enum_1.EventSortBy).join(', ')}`,
+    (0, class_validator_1.IsEnum)(event_constant_1.EventSortOption, {
+      message: `Sort by must be one of ${Object.values(event_constant_1.EventSortOption).join(', ')}`,
     }),
     __metadata('design:type', String),
   ],

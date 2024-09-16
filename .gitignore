@@ -1,5 +1,0 @@
-/server/node_modules
-/client/node_modules
-
-/server/.env
-/client/.env

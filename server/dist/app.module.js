@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+const mongoose_1 = require("@nestjs/mongoose");
 const schedule_1 = require("@nestjs/schedule");
 const bullsconnect_module_1 = require("./bullsconnect/bullsconnect.module");
 const bullsconnect_config_1 = __importDefault(require("./bullsconnect/config/bullsconnect.config"));
@@ -25,6 +26,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            mongoose_1.MongooseModule.forRoot('mongodb://localhost/bullfood'),
             schedule_1.ScheduleModule.forRoot(),
             config_1.ConfigModule.forRoot({
                 load: [server_config_1.default, bullsconnect_config_1.default, mail_config_1.default],

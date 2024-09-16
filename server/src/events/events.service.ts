@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BullsConnectService } from 'src/bullsconnect/bullsconnect.service';
 import formatDate from 'src/utils/format-date';
-import { EventCampusId, EventSortBy } from './constants/event.constant';
+import { EventSortOption } from './constants/event.constant';
 import { GetEventsDto } from './dto/get-events.dto';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class EventsService {
     const queryParams = {
       range,
       limit,
-      filter6: EventCampusId[campus],
+      filter6: '7276307', //Food event tag
     };
 
     if (fromDate) {
@@ -60,7 +60,7 @@ export class EventsService {
       };
     });
 
-    if (sortBy === EventSortBy.participants) {
+    if (sortBy === EventSortOption.participants) {
       events.sort((a, b) => {
         return b.going - a.going;
       });

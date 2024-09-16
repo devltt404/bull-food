@@ -1,8 +1,8 @@
-import { ConfigService } from '@nestjs/config';
+import { BullsConnectService } from 'src/bullsconnect/bullsconnect.service';
 import { GetEventsDto } from './dto/get-events.dto';
 export declare class EventsService {
-    private readonly configService;
-    constructor(configService: ConfigService);
+    private readonly bullsConnectService;
+    constructor(bullsConnectService: BullsConnectService);
     getEvents({ campus, fromDate, range, limit, toDate, sortBy, }: GetEventsDto): Promise<{
         events: {
             id: string;

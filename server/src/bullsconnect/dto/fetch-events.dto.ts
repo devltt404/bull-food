@@ -1,5 +1,4 @@
-import { IsEnum, IsISO8601, IsNumber, IsOptional } from 'class-validator';
-import { CampusId } from '../constants/campus-id.constant';
+import { IsISO8601, IsNumber, IsOptional } from 'class-validator';
 
 export class FetchEventsDto {
   @IsNumber()
@@ -7,11 +6,6 @@ export class FetchEventsDto {
 
   @IsNumber()
   limit: number;
-
-  @IsEnum(CampusId, {
-    message: `Campus id must be one of ${Object.values(CampusId).join(', ')}`,
-  })
-  filter6?: string; // campus id
 
   @IsOptional()
   @IsISO8601()

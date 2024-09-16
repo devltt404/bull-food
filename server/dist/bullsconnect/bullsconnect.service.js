@@ -24,6 +24,15 @@ let BullsConnectService = BullsConnectService_1 = class BullsConnectService {
         this.schedulerRegistry = schedulerRegistry;
         this.logger = new common_1.Logger(BullsConnectService_1.name);
     }
+    async fetchEvents(params) {
+        const { data } = await axios_1.default.get('https://bullsconnect.usf.edu/mobile_ws/v17/mobile_events_list', {
+            params,
+            headers: {
+                Cookie: 'CG.SessionID=' + this.configService.get('bullsconnect.sessionId'),
+            },
+        });
+        return data;
+    }
     async maintainSession() {
         this.logger.log('Start maintaining BullsConnect session');
         try {

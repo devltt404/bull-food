@@ -1,5 +1,7 @@
 "use client";
 
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { RootState } from "@/app/store";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -13,29 +15,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { EventCampus } from "@/enums/events.enum";
+import { EventCampus } from "@/constants/event.constant";
+import { setCampus } from "@/features/campus.slice";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
-const options: { label: string; value: EventCampus }[] = [
-  {
-    label: "Tampa",
-    value: EventCampus.Tampa,
-  },
-  {
-    label: "St. Pete",
-    value: EventCampus.StPetersburg,
-  },
-  {
-    label: "Sarasota",
-    value: EventCampus.SarasotaManatee,
-  },
-];
-
 export function CampusSelect() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<EventCampus>(EventCampus.Tampa);
+  const { campus } = useAppSelector((state: RootState) => state.campus);
+  const dispatch = useAppDispatch();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -46,7 +35,7 @@ export function CampusSelect() {
           aria-expanded={open}
           className="w-[180px] justify-between"
         >
-          Campus: {options.find((option) => option.value === value)?.label}
+          Campus: {campus}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -55,25 +44,23 @@ export function CampusSelect() {
           <CommandList>
             <CommandEmpty>No option found.</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => (
+              {Object.values(EventCampus).map((option) => (
                 <CommandItem
-                  key={option.value}
-                  value={option.value}
+                  key={option}
+                  value={option}
                   onSelect={() => {
-                    setValue(option.value);
+                    dispatch(setCampus(option));
                     setOpen(false);
                   }}
-                  className={
-                    option.value === value ? "font-medium" : "font-base"
-                  }
+                  className={option === campus ? "font-medium" : "font-base"}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === option.value ? "opacity-100" : "opacity-0",
+                      option === campus ? "opacity-100" : "opacity-0",
                     )}
                   />
-                  {option.label}
+                  {option}
                 </CommandItem>
               ))}
             </CommandGroup>

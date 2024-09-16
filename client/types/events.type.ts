@@ -1,4 +1,4 @@
-import { EventCampus, EventSortBy } from "../src/constants/event.constant";
+import { EventCampus, EventSortOption } from "../src/constants/event.constant";
 
 export interface GetEventsParams {
   campus?: EventCampus;
@@ -6,7 +6,7 @@ export interface GetEventsParams {
   toDate?: string;
   limit?: number;
   range?: number;
-  sortBy?: EventSortBy;
+  sortBy?: EventSortOption;
 }
 
 export interface Event {

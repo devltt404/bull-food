@@ -15,6 +15,7 @@ exports.BullsConnectModule = BullsConnectModule;
 exports.BullsConnectModule = BullsConnectModule = __decorate([
     (0, common_1.Module)({
         providers: [bullsconnect_service_1.BullsConnectService],
+        exports: [bullsconnect_service_1.BullsConnectService],
     })
 ], BullsConnectModule);
 //# sourceMappingURL=bullsconnect.module.js.map

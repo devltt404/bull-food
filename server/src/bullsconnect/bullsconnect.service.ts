@@ -25,7 +25,6 @@ export class BullsConnectService {
         },
       },
     );
-
     return data;
   }
 

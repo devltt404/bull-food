@@ -5,7 +5,10 @@ import { readFile } from 'fs/promises';
 import Handlebars from 'handlebars';
 import * as nodemailer from 'nodemailer';
 import path from 'path';
-import { EventSortBy } from 'src/events/enum/event.enum';
+import {
+  EventCampus,
+  EventSortOption,
+} from 'src/events/constants/event.constant';
 import { EventsService } from 'src/events/events.service';
 
 @Injectable()
@@ -54,9 +57,10 @@ export class MailService {
 
     const events = await this.eventsSerivce.getEvents({
       limit: 5,
-      sortBy: EventSortBy.participants,
+      sortBy: EventSortOption.participants,
       fromDate: new Date().toISOString(),
       toDate: new Date().toISOString(),
+      campus: EventCampus.Tampa,
     });
     try {
       await this.sendMail({
