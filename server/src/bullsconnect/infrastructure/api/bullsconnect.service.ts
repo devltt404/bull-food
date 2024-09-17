@@ -2,17 +2,17 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import axios from 'axios';
-import { FetchedEvent } from '../events/interfaces/event.interface';
+import { FetchedEvent } from '../../../events/interfaces/event.interface';
 import { FetchEventsDto } from './dto/fetch-events.dto';
 
 @Injectable()
-export class BullsConnectService {
+export class BullsConnectApiService {
   constructor(
     private readonly configService: ConfigService,
     private schedulerRegistry: SchedulerRegistry,
   ) {}
 
-  private readonly logger = new Logger(BullsConnectService.name);
+  private readonly logger = new Logger(BullsConnectApiService.name);
 
   async fetchEvents(params: FetchEventsDto) {
     const { data }: { data: FetchedEvent[] } = await axios.get(

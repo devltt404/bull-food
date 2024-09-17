@@ -8,6 +8,7 @@ import serverConfig from './config/server.config';
 import { EventsModule } from './events/events.module';
 import mailConfig from './mail/config/mail.config';
 import { MailModule } from './mail/mail.module';
+import { NewsletterModule } from './newsletter/newsletter.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MailModule } from './mail/mail.module';
     EventsModule,
     BullsConnectModule,
     MailModule,
+    NewsletterModule,
   ],
 })
 export class AppModule {}

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { BullsConnectService } from 'src/bullsconnect/bullsconnect.service';
 import formatDate from 'src/utils/format-date';
 import { EventSortOption } from './constants/event.constant';
 import { GetEventsDto } from './dto/get-events.dto';
+import { BullsConnectApiService } from 'src/bullsconnect/infrastructure/api/bullsconnect.service';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly bullsConnectService: BullsConnectService) {}
+  constructor(private readonly bullsConnectApiService: BullsConnectApiService) {}
 
   async getEvents({
     campus,
@@ -30,7 +30,7 @@ export class EventsService {
     }
 
     const fetchedEvents =
-      await this.bullsConnectService.fetchEvents(queryParams);
+      await this.bullsConnectApiService.fetchEvents(queryParams);
 
     // Filter events by campus
     const filteredEvents = fetchedEvents.filter((event) => {

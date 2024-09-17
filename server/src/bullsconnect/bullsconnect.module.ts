@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { BullsConnectService } from './bullsconnect.service';
+import { BullsConnectApiService } from './infrastructure/api/bullsconnect.service';
 
 @Module({
-  providers: [BullsConnectService],
-  exports: [BullsConnectService],
+  providers: [BullsConnectApiService],
+  exports: [BullsConnectApiService],
 })
 export class BullsConnectModule {}

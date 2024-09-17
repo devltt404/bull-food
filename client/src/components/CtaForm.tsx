@@ -8,7 +8,7 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
       <div className="py-20">
         <div className="mx-auto max-w-2xl text-center">
           <h3 className="text-4xl font-semibold text-green-950">
-            Subcribe to our newsletter
+            Subscribe to our newsletter
           </h3>
           <p className="mt-4">
             Sign up for daily updates on featured free food events.

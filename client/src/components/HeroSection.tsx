@@ -61,7 +61,7 @@ const HeroSection = ({
           animate={{ y: [0, 4, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
         >
-          <p className="text-lg font-medium">Subcribe now</p>
+          <p className="text-lg font-medium">Subscribe now</p>
           <ChevronDown className="-mt-1" size={24} />
         </motion.div>
       </button>
