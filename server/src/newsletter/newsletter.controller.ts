@@ -13,7 +13,7 @@ export class NewsletterController {
   async subscribe(@Body() subscribeNewsletterDto: CreateSubscriberDto) {
     return {
       message: 'Subscribed to newsletter',
-      data: this.newsletterService.subscribe(subscribeNewsletterDto),
+      data: await this.newsletterService.subscribe(subscribeNewsletterDto),
     };
   }
 }

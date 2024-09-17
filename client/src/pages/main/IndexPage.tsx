@@ -1,13 +1,13 @@
-import { useGetEventsQuery } from "@/api/events.api";
+import { useGetFeaturedEventsQuery } from "@/api/events.api";
 import { useAppSelector } from "@/app/hooks";
 import CtaForm from "@/components/CtaForm";
 import EventsCarousel from "@/components/event/EventsCarousel";
 import HeroSection from "@/components/HeroSection";
-import { EventSortOption } from "@/constants/event.constant";
 import { useMemo, useRef } from "react";
 
 const IndexPage = () => {
   const { campus } = useAppSelector((state) => state.campus);
+
   const ctaRef = useRef<HTMLDivElement>(null);
 
   const today = useMemo(() => {
@@ -21,21 +21,19 @@ const IndexPage = () => {
   }, []);
 
   const { data: todayFeaturedData, isLoading: isTodayLoading } =
-    useGetEventsQuery({
+    useGetFeaturedEventsQuery({
       limit: 10,
-      sortBy: EventSortOption.participants,
+      campus,
       fromDate: today,
       toDate: today,
-      campus,
     });
 
   const { data: tomorrowFeaturedData, isLoading: isTomorrowLoading } =
-    useGetEventsQuery({
+    useGetFeaturedEventsQuery({
       limit: 10,
-      sortBy: EventSortOption.participants,
+      campus,
       fromDate: tomorrow,
       toDate: tomorrow,
-      campus,
     });
 
   const todayFeaturedEvents = useMemo(() => {

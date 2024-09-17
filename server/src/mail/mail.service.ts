@@ -1,25 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Cron, CronExpression } from '@nestjs/schedule';
 import { readFile } from 'fs/promises';
 import Handlebars from 'handlebars';
 import * as nodemailer from 'nodemailer';
-import path from 'path';
-import {
-  EventCampus,
-  EventSortOption,
-} from 'src/events/constants/event.constant';
-import { EventsService } from 'src/events/events.service';
 
 @Injectable()
 export class MailService {
   private readonly transporter: nodemailer.Transporter;
-  private readonly logger = new Logger(MailService.name);
 
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly eventsSerivce: EventsService,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
       host: this.configService.get('MAIL_HOST'),
       port: this.configService.get('MAIL_PORT'),
@@ -48,34 +37,6 @@ export class MailService {
         `${this.configService.get('mail.senderName')} <${this.configService.get('mail.senderEmail')}>`,
       html: mailOptions.html || html,
     });
-    console.log(data);
-  }
-
-  @Cron(CronExpression.EVERY_DAY_AT_8AM)
-  async sendDailyNewsletter() {
-    this.logger.log('Sending daily newsletter...');
-
-    const events = await this.eventsSerivce.getEvents({
-      limit: 5,
-      sortBy: EventSortOption.participants,
-      fromDate: new Date().toISOString(),
-      toDate: new Date().toISOString(),
-      campus: EventCampus.Tampa,
-    });
-    try {
-      await this.sendMail({
-        to: 'phamductri4862@gmail.com',
-        subject: `USF free food events on ${new Date().toLocaleDateString()}`,
-        templatePath: path.join(
-          process.cwd(),
-          'src/mail/templates/daily-newsletter.hbs',
-        ),
-        context: events,
-      });
-
-      this.logger.log('Daily newsletter sent successfully');
-    } catch (error) {
-      this.logger.error('Failed to send daily newsletter', error.stack);
-    }
+    return data;
   }
 }

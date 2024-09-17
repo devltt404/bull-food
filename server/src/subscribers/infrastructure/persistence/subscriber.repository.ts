@@ -17,4 +17,9 @@ export class SubscriberRepository {
     const createdSubscriber = await persistenceSchema.save();
     return SubscriberMapper.toDomain(createdSubscriber);
   }
+
+  async findAll(): Promise<Subscriber[]> {
+    const subscribers = await this.subscriberModel.find();
+    return subscribers.map(SubscriberMapper.toDomain);
+  }
 }

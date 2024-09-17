@@ -21,6 +21,7 @@ import { NewsletterModule } from './newsletter/newsletter.module';
     }),
     EventsModule,
     BullsConnectModule,
+    NewsletterModule,
     MailModule,
     NewsletterModule,
   ],

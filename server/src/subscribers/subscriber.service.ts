@@ -9,4 +9,8 @@ export class SubscriberService {
   async create(createSubscriberDto: CreateSubscriberDto) {
     return this.subscriberRepository.create(createSubscriberDto);
   }
+
+  async findAll() {
+    return this.subscriberRepository.findAll();
+  }
 }

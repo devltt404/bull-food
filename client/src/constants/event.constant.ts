@@ -4,7 +4,4 @@ export enum EventCampus {
   SarasotaManatee = "Sarasota-Manatee",
 }
 
-export enum EventSortOption {
-  time = "time",
-  participants = "participants",
-}
+

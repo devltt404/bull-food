@@ -52,7 +52,7 @@ export function CampusSelect() {
                     dispatch(setCampus(option));
                     setOpen(false);
                   }}
-                  className={option === campus ? "font-medium" : "font-base"}
+                  className={cn(option === campus ? "font-medium" : "font-base", "py-2")}
                 >
                   <Check
                     className={cn(

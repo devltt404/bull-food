@@ -16,4 +16,12 @@ export class EventsController {
       data: await this.eventsService.getEvents(getEventsDto),
     };
   }
+
+  @Get('featured')
+  async getFeaturedEvents(@Query() getEventsDto: GetEventsDto) {
+    return {
+      message: 'Featured events fetched successfully',
+      data: await this.eventsService.getFeaturedEvents(getEventsDto),
+    };
+  }
 }

@@ -5,6 +5,7 @@ import {
   SubscriberSchema,
   SubscriberSchemaClass,
 } from './infrastructure/persistence/subscriber.schema';
+import { SubscriberService } from './subscriber.service';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import {
       },
     ]),
   ],
-  providers: [SubscriberRepository],
+  providers: [SubscriberRepository, SubscriberService],
+  exports: [SubscriberService],
 })
 export class SubscriberModule {}

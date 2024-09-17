@@ -1,11 +1,10 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsISO8601, IsOptional } from 'class-validator';
-import { EventCampus, EventSortOption } from '../constants/event.constant';
+import { EventCampus } from '../constants/event.constant';
+import { IsEventCampus } from '../decorators/event-campus.decorator';
 
 export class GetEventsDto {
-  @IsEnum(EventCampus, {
-    message: `Campus must be one of ${Object.values(EventCampus).join(', ')}`,
-  })
+  @IsEventCampus()
   campus: EventCampus;
 
   @IsOptional()
@@ -25,10 +24,4 @@ export class GetEventsDto {
   @Type(() => Number)
   @IsInt()
   range?: number = 0;
-
-  @IsOptional()
-  @IsEnum(EventSortOption, {
-    message: `Sort by must be one of ${Object.values(EventSortOption).join(', ')}`,
-  })
-  sortBy?: EventSortOption = EventSortOption.time;
 }

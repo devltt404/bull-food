@@ -5,6 +5,7 @@ export class SubscriberMapper {
   static toDomain(persistenceSchema: SubscriberSchemaClass): Subscriber {
     const domainEntity = new Subscriber();
     domainEntity.id = persistenceSchema._id;
+    domainEntity.campus = persistenceSchema.campus;
     domainEntity.email = persistenceSchema.email;
     domainEntity.isSubscribed = persistenceSchema.isSubscribed;
     domainEntity.subscribedAt = persistenceSchema.subscribedAt;
@@ -19,6 +20,7 @@ export class SubscriberMapper {
     if (domainEntity.id && typeof domainEntity.id === 'string') {
       persistenceSchema._id = domainEntity.id;
     }
+    persistenceSchema.campus = domainEntity.campus;
     persistenceSchema.email = domainEntity.email;
     persistenceSchema.isSubscribed = domainEntity.isSubscribed;
     persistenceSchema.subscribedAt = domainEntity.subscribedAt;

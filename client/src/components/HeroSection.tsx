@@ -50,15 +50,14 @@ const HeroSection = ({
       </div>
 
       <button
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 transition hover:text-black"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 transition hover:text-green-950"
         onClick={() => {
           ctaRef.current?.scrollIntoView({ behavior: "smooth" });
         }}
       >
         <motion.div
           className="flex flex-col items-center"
-          initial={{ y: 0 }}
-          animate={{ y: [0, 4, 0] }}
+          animate={{ y: [0, 5, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
         >
           <p className="text-lg font-medium">Subscribe now</p>

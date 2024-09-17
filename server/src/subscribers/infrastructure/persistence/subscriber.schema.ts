@@ -1,11 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, now } from 'mongoose';
+import { EventCampus } from 'src/events/constants/event.constant';
 import { SchemaClassHelper } from 'src/utils/schema-class-helper';
 
 export type SubscriberDocument = HydratedDocument<SubscriberSchemaClass>;
 
 @Schema({
   timestamps: true,
+  collection: 'subscribers',
 })
 export class SubscriberSchemaClass extends SchemaClassHelper {
   @Prop({
@@ -14,6 +16,13 @@ export class SubscriberSchemaClass extends SchemaClassHelper {
     unique: true,
   })
   email: string;
+
+  @Prop({
+    type: String,
+    required: true,
+    enum: Object.values(EventCampus),
+  })
+  campus: EventCampus;
 
   @Prop({
     type: Boolean,
