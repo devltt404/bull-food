@@ -26,7 +26,7 @@ export class MailService {
     ...mailOptions
   }: nodemailer.SendMailOptions & {
     templatePath: string;
-    context: Record<string, unknown>;
+    context: Record<string, unknown> | Record<string, unknown>[];
   }) {
     const template = await readFile(templatePath, 'utf8');
     const html = Handlebars.compile(template)(context);

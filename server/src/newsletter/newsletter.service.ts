@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import path from 'path';
 import { EventCampus } from 'src/events/constants/event.constant';
@@ -7,7 +12,6 @@ import { MailService } from 'src/mail/mail.service';
 import { Subscriber } from 'src/subscribers/domain/subscriber.entity';
 import { CreateSubscriberDto } from 'src/subscribers/dto/create-subscriber';
 import { SubscriberService } from 'src/subscribers/subscriber.service';
-import { pickFields } from 'src/utils/pick-fields';
 
 @Injectable()
 export class NewsletterService {
@@ -26,14 +30,51 @@ export class NewsletterService {
       subscriber = await this.subscriberService.create(subscribeNewsletterDto);
     } catch (error) {
       if (error.code === 11000) {
-        throw new ConflictException('Subscriber already exists');
+        subscriber = await this.subscriberService.findByEmail(
+          subscribeNewsletterDto.email,
+        );
+
+        if (subscriber) {
+          const updatePayload: Partial<Subscriber> = {};
+
+          if (!subscriber.isSubscribed) {
+            updatePayload.isSubscribed = true;
+          }
+          if (subscriber.campus !== subscribeNewsletterDto.campus) {
+            updatePayload.campus = subscribeNewsletterDto.campus;
+          }
+
+          if (Object.keys(updatePayload).length > 0) {
+            subscriber = await this.subscriberService.updateByEmail({
+              email: subscribeNewsletterDto.email,
+              payload: updatePayload,
+            });
+          } else {
+            throw new ConflictException(
+              'This email is already subscribed to newsletter at this campus',
+            );
+          }
+        }
+      } else {
+        throw error;
       }
     }
 
     await this.sendDailyNewsletter([subscriber]);
-    return {
-      subscriber: pickFields(subscriber, ['email', 'campus']),
-    };
+    return subscriber;
+  }
+
+  async unsubscribe(email: string) {
+    const subscriber = await this.subscriberService.findByEmail(email);
+
+    if (!subscriber) {
+      throw new NotFoundException('Subscriber not found');
+    }
+
+    return await this.subscriberService.updateByEmail({
+      email,
+      payload: { isSubscribed: false },
+    });
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_8AM)
@@ -62,6 +103,7 @@ export class NewsletterService {
         toDate: today,
         campus: EventCampus.Tampa,
       });
+
       await this.mailService.sendMail({
         to: subscribersByCampus[campus],
         subject: `USF free food events on ${new Date().toLocaleDateString()}`,

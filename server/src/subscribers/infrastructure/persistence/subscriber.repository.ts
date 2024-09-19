@@ -20,6 +20,11 @@ export class SubscriberRepository {
     return SubscriberMapper.toDomain(createdSubscriber);
   }
 
+  async findByEmail(email: Subscriber['email']): Promise<Subscriber | null> {
+    const subscriber = await this.subscriberModel.findOne({ email }).lean();
+    return subscriber ? SubscriberMapper.toDomain(subscriber) : null;
+  }
+
   async findAll(): Promise<Subscriber[]> {
     const subscribers = await this.subscriberModel.find().lean();
     return subscribers.map(SubscriberMapper.toDomain);
@@ -29,7 +34,7 @@ export class SubscriberRepository {
     email,
     payload,
   }: {
-    email: string;
+    email: Subscriber['email'];
     payload: Partial<Subscriber>;
   }): Promise<Subscriber | null> {
     const clonePayload = { ...payload };

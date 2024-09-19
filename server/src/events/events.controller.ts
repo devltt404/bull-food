@@ -11,17 +11,25 @@ export class EventsController {
 
   @Get()
   async getEvents(@Query() getEventsDto: GetEventsDto) {
+    const events = await this.eventsService.getEvents(getEventsDto);
+
     return {
       message: 'Events fetched successfully',
-      data: await this.eventsService.getEvents(getEventsDto),
+      data: {
+        events,
+      },
     };
   }
 
   @Get('featured')
   async getFeaturedEvents(@Query() getEventsDto: GetEventsDto) {
+    const events = await this.eventsService.getFeaturedEvents(getEventsDto);
+
     return {
       message: 'Featured events fetched successfully',
-      data: await this.eventsService.getFeaturedEvents(getEventsDto),
+      data: {
+        events,
+      },
     };
   }
 }

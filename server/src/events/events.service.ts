@@ -54,11 +54,11 @@ export class EventsService {
       };
     });
 
-    return { events };
+    return events;
   }
 
   async getFeaturedEvents({ limit, campus, fromDate, toDate }: GetEventsDto) {
-    const { events } = await this.getEvents({
+    const events = await this.getEvents({
       campus,
       limit: 100,
       fromDate: fromDate,
@@ -66,6 +66,6 @@ export class EventsService {
     });
 
     events.sort((a, b) => b.going - a.going);
-    return { events: events.slice(0, limit) };
+    return events.slice(0, limit);
   }
 }

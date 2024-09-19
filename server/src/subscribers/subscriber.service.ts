@@ -11,6 +11,10 @@ export class SubscriberService {
     return this.subscriberRepository.create(createSubscriberDto);
   }
 
+  async findByEmail(email: string) {
+    return this.subscriberRepository.findByEmail(email);
+  }
+
   async findAll() {
     return this.subscriberRepository.findAll();
   }
