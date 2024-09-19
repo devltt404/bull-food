@@ -35,7 +35,7 @@ export function CampusSelect() {
           aria-expanded={open}
           className="w-[180px] justify-between"
         >
-          Campus: {campus}
+          <p className="truncate">Campus: {campus}</p>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -52,7 +52,10 @@ export function CampusSelect() {
                     dispatch(setCampus(option));
                     setOpen(false);
                   }}
-                  className={cn(option === campus ? "font-medium" : "font-base", "py-2")}
+                  className={cn(
+                    option === campus ? "font-medium" : "font-base",
+                    "py-2",
+                  )}
                 >
                   <Check
                     className={cn(

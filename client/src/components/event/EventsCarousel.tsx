@@ -82,15 +82,15 @@ const EventsCarouselItem = ({ event }: { event: Event }) => {
 
 const EventsCarousel = ({
   events,
-  isLoading,
+  isFetching,
 }: {
   events: Event[] | undefined;
-  isLoading: boolean;
+  isFetching: boolean;
 }) => {
   return (
     <Carousel>
       <CarouselContent className="-ml-4 md:-ml-8">
-        {isLoading ? (
+        {isFetching ? (
           Array.from({ length: 5 }).map((_, index) => (
             <EventsCarouselItemSkeleton key={index} />
           ))

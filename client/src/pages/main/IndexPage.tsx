@@ -20,7 +20,7 @@ const IndexPage = () => {
     return date.toISOString();
   }, []);
 
-  const { data: todayFeaturedData, isLoading: isTodayLoading } =
+  const { data: todayFeaturedData, isFetching: isTodayFetching } =
     useGetFeaturedEventsQuery({
       limit: 10,
       campus,
@@ -28,7 +28,7 @@ const IndexPage = () => {
       toDate: today,
     });
 
-  const { data: tomorrowFeaturedData, isLoading: isTomorrowLoading } =
+  const { data: tomorrowFeaturedData, isFetching: isTomorrowFetching } =
     useGetFeaturedEventsQuery({
       limit: 10,
       campus,
@@ -53,7 +53,7 @@ const IndexPage = () => {
             Featured <span className="bg-secondary px-2 text-white">Today</span>
           </h2>
           <EventsCarousel
-            isLoading={isTodayLoading}
+            isFetching={isTodayFetching}
             events={todayFeaturedEvents}
           />
         </section>
@@ -64,7 +64,7 @@ const IndexPage = () => {
             <span className="bg-secondary px-2 text-white">Tomorrow</span>
           </h2>
           <EventsCarousel
-            isLoading={isTomorrowLoading}
+            isFetching={isTomorrowFetching}
             events={tomorrowFeaturedEvents}
           />
         </section>

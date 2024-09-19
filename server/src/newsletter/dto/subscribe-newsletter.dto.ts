@@ -1,11 +1,12 @@
 import { Transform } from 'class-transformer';
 import { IsEmail } from 'class-validator';
 import { EventCampus } from 'src/events/constants/event.constant';
-import { IsEventCampus } from 'src/events/decorators/event-campus.decorator';
+import { IsEventCampus } from 'src/events/decorators/is-event-campus.decorator';
+import { lowerAndTrimTransformer } from 'src/utils/transformers/lower-and-trim.transformer';
 
 export class SubscribeNewsletterDto {
   @IsEmail()
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(lowerAndTrimTransformer)
   email: string;
 
   @IsEventCampus()

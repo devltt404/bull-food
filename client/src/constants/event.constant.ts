@@ -3,5 +3,3 @@ export enum EventCampus {
   StPetersburg = "St Petersburg",
   SarasotaManatee = "Sarasota-Manatee",
 }
-
-

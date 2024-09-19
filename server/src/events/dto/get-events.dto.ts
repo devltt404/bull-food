@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
-import { IsEnum, IsInt, IsISO8601, IsOptional } from 'class-validator';
+import { IsInt, IsISO8601, IsOptional } from 'class-validator';
 import { EventCampus } from '../constants/event.constant';
-import { IsEventCampus } from '../decorators/event-campus.decorator';
+import { IsEventCampus } from '../decorators/is-event-campus.decorator';
 
 export class GetEventsDto {
   @IsEventCampus()

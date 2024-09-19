@@ -8,7 +8,7 @@ const eventsApi = api.injectEndpoints({
       query: (params) => ({
         method: "GET",
         url: "/events",
-        params: params,
+        params,
       }),
     }),
 

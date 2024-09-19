@@ -12,14 +12,41 @@ export class SubscriberRepository {
     private readonly subscriberModel: Model<SubscriberSchemaClass>,
   ) {}
 
-  async create(data: Pick<Subscriber, 'email'>): Promise<Subscriber> {
+  async create(
+    data: Pick<Subscriber, 'email' | 'campus'>,
+  ): Promise<Subscriber> {
     const persistenceSchema = new this.subscriberModel(data);
     const createdSubscriber = await persistenceSchema.save();
     return SubscriberMapper.toDomain(createdSubscriber);
   }
 
   async findAll(): Promise<Subscriber[]> {
-    const subscribers = await this.subscriberModel.find();
+    const subscribers = await this.subscriberModel.find().lean();
     return subscribers.map(SubscriberMapper.toDomain);
+  }
+
+  async updateByEmail({
+    email,
+    payload,
+  }: {
+    email: string;
+    payload: Partial<Subscriber>;
+  }): Promise<Subscriber | null> {
+    const clonePayload = { ...payload };
+    delete clonePayload.id;
+
+    const updatedSubscriber = await this.subscriberModel
+      .findOneAndUpdate(
+        {
+          email,
+        },
+        clonePayload,
+        { new: true },
+      )
+      .lean();
+
+    return updatedSubscriber
+      ? SubscriberMapper.toDomain(updatedSubscriber)
+      : null;
   }
 }

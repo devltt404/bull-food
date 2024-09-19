@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BullsConnectApiService } from 'src/bullsconnect/infrastructure/api/bullsconnect.service';
+import { BullsConnectApiService } from 'src/bullsconnect/infrastructure/api/bullsconnect-api.service';
 import formatDate from 'src/utils/format-date';
 import { GetEventsDto } from './dto/get-events.dto';
 
@@ -62,7 +62,7 @@ export class EventsService {
       campus,
       limit: 100,
       fromDate: fromDate,
-      toDate: fromDate,
+      toDate: toDate,
     });
 
     events.sort((a, b) => b.going - a.going);

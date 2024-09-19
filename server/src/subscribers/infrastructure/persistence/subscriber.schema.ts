@@ -14,6 +14,7 @@ export class SubscriberSchemaClass extends SchemaClassHelper {
     type: String,
     required: true,
     unique: true,
+    index: true,
   })
   email: string;
 
@@ -57,3 +58,14 @@ export class SubscriberSchemaClass extends SchemaClassHelper {
 export const SubscriberSchema = SchemaFactory.createForClass(
   SubscriberSchemaClass,
 );
+
+SubscriberSchema.pre('save', function (next) {
+  if (this.isModified('isSubscribed')) {
+    if (this.isSubscribed) {
+      this.subscribedAt = now();
+    } else {
+      this.unSubscribedAt = now();
+    }
+  }
+  next();
+});
