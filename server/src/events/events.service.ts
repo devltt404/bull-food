@@ -22,9 +22,9 @@ export class EventsService {
       let endDate: string | null = null;
 
       const multipleDateReg =
-        /(?<startDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<startTime>\d{1,2}(?::\d{2}) [APM]{2})\s&ndash;\s.*(?<endDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<endTime>\d{1,2}(?::\d{2}) [APM]{2})/;
+        /(?<startDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s.*(?<endDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
       const oneDateReg =
-        /(?<date>\w{3}, \w{3} \d{1,2}, \d{4}).*(?<startTime>\d{1,2}(?::\d{2})\s[APM]{2})\s&ndash;\s(?<endTime>\d{1,2}(?::\d{2}) [APM]{2})/;
+        /(?<date>\w{3}, \w{3} \d{1,2}, \d{4}).*(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
 
       const multipleDateData = event.p4.match(multipleDateReg)?.groups as {
         startDate: string;
