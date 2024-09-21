@@ -1,5 +1,5 @@
-import { Type } from 'class-transformer';
-import { IsInt, IsISO8601, IsOptional } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IsInt, IsISO8601, IsOptional, IsString } from 'class-validator';
 import { EventCampus } from '../constants/event.constant';
 import { IsEventCampus } from '../decorators/is-event-campus.decorator';
 
@@ -24,4 +24,9 @@ export class GetEventsDto {
   @Type(() => Number)
   @IsInt()
   range?: number;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  searchWord?: string;
 }

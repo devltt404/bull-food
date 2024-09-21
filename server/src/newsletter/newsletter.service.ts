@@ -1,6 +1,6 @@
 import {
-  ConflictException,
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
@@ -24,44 +24,30 @@ export class NewsletterService {
   ) {}
 
   async subscribe(subscribeNewsletterDto: CreateSubscriberDto) {
-    let subscriber: Subscriber;
+    let subscriber: Subscriber | null;
 
     try {
       subscriber = await this.subscriberService.create(subscribeNewsletterDto);
     } catch (error) {
       if (error.code === 11000) {
-        subscriber = await this.subscriberService.findByEmail(
-          subscribeNewsletterDto.email,
-        );
-
-        if (subscriber) {
-          const updatePayload: Partial<Subscriber> = {};
-
-          if (!subscriber.isSubscribed) {
-            updatePayload.isSubscribed = true;
-          }
-          if (subscriber.campus !== subscribeNewsletterDto.campus) {
-            updatePayload.campus = subscribeNewsletterDto.campus;
-          }
-
-          if (Object.keys(updatePayload).length > 0) {
-            subscriber = await this.subscriberService.updateByEmail({
-              email: subscribeNewsletterDto.email,
-              payload: updatePayload,
-            });
-          } else {
-            throw new ConflictException(
-              'This email is already subscribed to newsletter at this campus',
-            );
-          }
-        }
+        subscriber = await this.subscriberService.updateByEmail({
+          email: subscribeNewsletterDto.email,
+          payload: {
+            isSubscribed: true,
+            campus: subscribeNewsletterDto.campus,
+          },
+        });
       } else {
         throw error;
       }
     }
 
-    await this.sendDailyNewsletter([subscriber]);
-    return subscriber;
+    if (subscriber) {
+      await this.sendDailyNewsletter([subscriber]);
+      return subscriber;
+    } else {
+      throw new InternalServerErrorException('Failed to subscribe');
+    }
   }
 
   async unsubscribe(email: string) {

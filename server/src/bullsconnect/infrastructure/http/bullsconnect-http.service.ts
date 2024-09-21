@@ -18,7 +18,6 @@ export class BullsConnectHttpService {
       headers: {
         'CG.SessionID': configService.get('bullsconnect.sessionId'),
       },
-      timeout: 10000, // 10 seconds
     });
 
     this.instance.interceptors.request.use((config) =>

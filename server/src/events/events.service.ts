@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BullsConnectApiService } from 'src/bullsconnect/infrastructure/api/bullsconnect-api.service';
+import { FetchEventsDto } from 'src/bullsconnect/infrastructure/api/dto/fetch-events.dto';
 import { formatDDMMMYYYY } from 'src/utils/format-date';
 import { GetEventsDto } from './dto/get-events.dto';
 import { FetchedEvent } from './interfaces/event.interface';
@@ -22,9 +23,9 @@ export class EventsService {
       let endDate: string | null = null;
 
       const multipleDateReg =
-        /(?<startDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s.*(?<endDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
+        /(?<startDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s.*?(?<endDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
       const oneDateReg =
-        /(?<date>\w{3}, \w{3} \d{1,2}, \d{4}).*(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
+        /(?<date>\w{3}, \w{3} \d{1,2}, \d{4}).*?(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
 
       const multipleDateData = event.p4.match(multipleDateReg)?.groups as {
         startDate: string;
@@ -67,13 +68,17 @@ export class EventsService {
     campus,
     fromDate,
     toDate,
+    searchWord,
   }: GetEventsDto) {
-    const queryParams = {
+    const queryParams: FetchEventsDto = {
       range,
       limit,
       filter6: '7276307', //Food event tag
     };
 
+    if (searchWord) {
+      queryParams['search_word'] = searchWord;
+    }
     if (fromDate) {
       queryParams['filter8'] = formatDDMMMYYYY(fromDate);
     }

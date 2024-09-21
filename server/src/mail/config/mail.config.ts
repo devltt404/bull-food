@@ -29,11 +29,11 @@ export default registerAs<MailConfig>('mail', (): MailConfig => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
-    senderName: process.env.MAIL_SENDER_NAME,
-    senderEmail: process.env.MAIL_SENDER_EMAIL,
-    host: process.env.MAIL_HOST,
-    port: parseInt(process.env.MAIL_PORT),
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    senderName: process.env.MAIL_SENDER_NAME!,
+    senderEmail: process.env.MAIL_SENDER_EMAIL!,
+    host: process.env.MAIL_HOST!,
+    port: parseInt(process.env.MAIL_PORT!),
+    user: process.env.MAIL_USER!,
+    pass: process.env.MAIL_PASS!,
   };
 });

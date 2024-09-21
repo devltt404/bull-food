@@ -1,71 +1,84 @@
 import { useGetEventsQuery } from "@/api/events.api";
 import { useAppSelector } from "@/app/hooks";
 import EventsGrid from "@/components/event/EventsGrid";
-import AdvancedFilter from "@/components/event/filter/AdvancedFilter";
-import QuickFilter from "@/components/event/filter/QuickFilter";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { CalendarSearch, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import FilterAccordion from "@/components/event/filter/FilterAccordion";
+import { EventsFilterOption } from "@/types/events.type";
+import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 
 const EventsPage = () => {
   const { campus } = useAppSelector((state) => state.campus);
 
+  const [selectedFilter, setSelectedFilter] = useState<EventsFilterOption>(
+    EventsFilterOption.quick,
+  );
+  const [searchWord, setSearchWord] = useState<string>("");
+  const [debouncedSearchWord, setDebouncedSearchWord] = useState<string>("");
+  const [dateOffset, setDateOffset] = useState<number | null>(null);
   const [range, setRange] = useState<number>(0);
-  const [date, setDate] = useState<DateRange | undefined>({
+  const [advancedDate, setAdvancedDate] = useState<DateRange | undefined>({
     from: undefined,
     to: undefined,
   });
-  
+
+  const isoDateRange = useMemo(() => {
+    let from: string | undefined;
+    let to: string | undefined;
+
+    if (selectedFilter === EventsFilterOption.quick) {
+      const dateObj = new Date();
+      if (dateOffset !== null) {
+        dateObj.setDate(dateObj.getDate() + dateOffset);
+        from = dateObj.toISOString();
+        to = dateObj.toISOString();
+      }
+    } else {
+      from = advancedDate?.from?.toISOString();
+      to = advancedDate?.to?.toISOString();
+    }
+
+    const dateRange: {
+      fromDate?: string;
+      toDate?: string;
+    } = {};
+    if (from) dateRange.fromDate = from;
+    if (to) dateRange.toDate = to;
+
+    return dateRange;
+  }, [selectedFilter, dateOffset, advancedDate]);
+
   const { data, isFetching } = useGetEventsQuery({
     campus,
     range,
-    ...(date?.from && { fromDate: date.from.toISOString() }),
-    ...(date?.to && { toDate: date.to.toISOString() }),
+    searchWord: debouncedSearchWord,
+    ...isoDateRange,
   });
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearchWord(searchWord);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [searchWord]);
 
   return (
     <div>
       <div className="container-area">
         <h1 className="mb-3 text-3xl font-medium">Food Events</h1>
 
-        <Accordion
-          className="mb-8"
-          type="single"
-          defaultValue="quick"
-          collapsible
-        >
-          <AccordionItem value="quick">
-            <AccordionTrigger>
-              <div className="flex items-center gap-2">
-                <CalendarSearch className="h-5 w-5" />
-                <h2 className="text-lg">Quick Filter</h2>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent>
-              <QuickFilter />
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="advanced">
-            <AccordionTrigger>
-              <div className="flex items-center gap-2">
-                <SlidersHorizontal className="h-5 w-5" />
-                <h2 className="text-lg">Advanced Filter</h2>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="p-1">
-                <AdvancedFilter date={date} setDate={setDate} />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <FilterAccordion
+          searchWord={searchWord}
+          setSearchWord={setSearchWord}
+          advancedDate={advancedDate}
+          dateOffset={dateOffset}
+          selectedFilter={selectedFilter}
+          setAdvancedDate={setAdvancedDate}
+          setDateOffset={setDateOffset}
+          setSelectedFilter={setSelectedFilter}
+        />
 
         <EventsGrid isFetching={isFetching} events={data?.data.events} />
       </div>

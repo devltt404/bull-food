@@ -7,7 +7,7 @@ function handleValidationError(errors: ValidationError[]) {
       ...acc,
       [error.property]: error.children?.length
         ? handleValidationError(error.children)
-        : Object.values(error.constraints).join(', '),
+        : error.constraints && Object.values(error.constraints).join(', '),
     };
   }, {});
 

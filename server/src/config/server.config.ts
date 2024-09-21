@@ -21,11 +21,11 @@ class EnvironmentVariablesValidator {
   SERVER_PORT: number;
 }
 
-export default registerAs<ServerConfig>('server', ():ServerConfig => {
+export default registerAs<ServerConfig>('server', (): ServerConfig => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
-    nodeEnv: process.env.NODE_ENV,
-    port: parseInt(process.env.SERVER_PORT),
+    nodeEnv: process.env.NODE_ENV!,
+    port: parseInt(process.env.SERVER_PORT!),
   };
 });

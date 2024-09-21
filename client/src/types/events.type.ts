@@ -1,4 +1,9 @@
-import { EventCampus } from "../src/constants/event.constant";
+import { EventCampus } from "../constants/event.constant";
+
+export enum EventsFilterOption {
+  quick = "quick",
+  advanced = "advanced",
+}
 
 export interface GetEventsParams {
   campus: EventCampus;
@@ -6,6 +11,7 @@ export interface GetEventsParams {
   toDate?: string;
   limit?: number;
   range?: number;
+  searchWord?: string;
 }
 
 export interface Event {
@@ -19,7 +25,6 @@ export interface Event {
   image: string;
   location: string;
   going: number;
-
 }
 
 export interface GetEventsData {

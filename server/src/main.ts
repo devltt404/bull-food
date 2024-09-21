@@ -17,6 +17,7 @@ async function bootstrap() {
       whitelist: true,
       transform: true,
       exceptionFactory: handleValidationError,
+      
     }),
   );
   await app.listen(4000);

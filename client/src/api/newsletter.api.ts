@@ -1,5 +1,5 @@
-import { ApiResponse } from "types/api.type";
-import { SubscribeData, SubscribeParams } from "types/newsletter.type";
+import { ApiResponse } from "@/types/api.type";
+import { SubscribeData, SubscribeParams } from "@/types/newsletter.type";
 import { api } from ".";
 
 export const newsletterApi = api.injectEndpoints({

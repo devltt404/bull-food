@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Event } from "types/events.type";
+import { Event } from "@/types/events.type";
+import { useMemo } from "react";
 import { EventCard, EventCardSkeleton } from "./EventCard";
 
 interface EventsGridProps {
@@ -8,10 +8,9 @@ interface EventsGridProps {
 }
 
 const EventsGrid = ({ events, isFetching }: EventsGridProps) => {
-
   const today = useMemo(() => new Date().getDate(), []);
 
-  const groupedEvents = useMemo(() => {
+  const groupedEvents: Record<string, Event[]> | undefined = useMemo(() => {
     return events?.reduce(
       (acc, event) => {
         const date = event.date || event.startDate;
@@ -62,7 +61,7 @@ const EventsGrid = ({ events, isFetching }: EventsGridProps) => {
             <ul className="grid grid-cols-4 gap-8">
               {groupedEvents[key].map((event) => (
                 <li key={event.id}>
-                  <EventCard event={event} />
+                  <EventCard event={event} isTitleTruncate={false} />
                 </li>
               ))}
             </ul>

@@ -1,14 +1,17 @@
 import { cn } from "@/lib/utils";
-import { Clock, Heart, MapPin, Users } from "lucide-react";
+import { Event } from "@/types/events.type";
+import { Clock, MapPin, Users } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Event } from "types/events.type";
+import { EventBadge } from "./EventBadge";
 
 export const EventCard = ({
   event,
   className,
+  isTitleTruncate = true,
 }: {
   event: Event;
   className?: string;
+  isTitleTruncate?: boolean;
 }) => {
   return (
     <Link
@@ -23,13 +26,17 @@ export const EventCard = ({
       >
         <div className="relative">
           <img className="h-40 w-full object-cover" src={event.image} />
-
-          <button className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-muted text-secondary">
-            <Heart size={20} />
-          </button>
+          <EventBadge going={event.going} />
         </div>
         <div className="px-4 pb-5 pt-3">
-          <h3 className="mb-1 truncate text-lg font-medium">{event.title}</h3>
+          <h3
+            className={cn(
+              "mb-1 text-lg font-medium",
+              isTitleTruncate && "truncate",
+            )}
+          >
+            {event.title}
+          </h3>
           <ul className="flex flex-col gap-1">
             <li className="flex items-center text-muted-foreground">
               <Clock size={16} className="mr-2 inline-block" />
@@ -58,9 +65,6 @@ export const EventCardSkeleton = () => {
       <div className="relative">
         {/* Skeleton for the image */}
         <div className="h-40 w-full animate-pulse bg-gray-200" />
-
-        {/* Skeleton for the heart icon */}
-        <div className="absolute right-2 top-2 flex h-9 w-9 animate-pulse items-center justify-center rounded-full bg-gray-200" />
       </div>
       <div className="px-4 pb-5 pt-4">
         {/* Skeleton for the title */}
