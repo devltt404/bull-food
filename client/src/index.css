@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -66,4 +66,8 @@
   body {
     @apply bg-background text-foreground scroll-smooth overflow-y-scroll;
   }
+}
+
+.container-area {
+  @apply container py-8;
 }

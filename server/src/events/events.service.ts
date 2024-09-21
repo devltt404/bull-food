@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { BullsConnectApiService } from 'src/bullsconnect/infrastructure/api/bullsconnect-api.service';
-import formatDate from 'src/utils/format-date';
+import { formatDDMMMYYYY } from 'src/utils/format-date';
 import { GetEventsDto } from './dto/get-events.dto';
+import { FetchedEvent } from './interfaces/event.interface';
 
 @Injectable()
 export class EventsService {
@@ -9,7 +10,64 @@ export class EventsService {
     private readonly bullsConnectApiService: BullsConnectApiService,
   ) {}
 
-  async getEvents({ campus, fromDate, range, limit, toDate }: GetEventsDto) {
+  /**
+   * Maps fetched events from BullsConnect API to a more readable and computable format
+   */
+  private mapEvents(fetchedEvents: FetchedEvent[]) {
+    return fetchedEvents.map((event) => {
+      let date: string | null = null;
+      let startTime: string | null = null;
+      let endTime: string | null = null;
+      let startDate: string | null = null;
+      let endDate: string | null = null;
+
+      const multipleDateReg =
+        /(?<startDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<startTime>\d{1,2}(?::\d{2}) [APM]{2})\s&ndash;\s.*(?<endDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<endTime>\d{1,2}(?::\d{2}) [APM]{2})/;
+      const oneDateReg =
+        /(?<date>\w{3}, \w{3} \d{1,2}, \d{4}).*(?<startTime>\d{1,2}(?::\d{2})\s[APM]{2})\s&ndash;\s(?<endTime>\d{1,2}(?::\d{2}) [APM]{2})/;
+
+      const multipleDateData = event.p4.match(multipleDateReg)?.groups as {
+        startDate: string;
+        startTime: string;
+        endDate: string;
+        endTime: string;
+      };
+
+      if (multipleDateData) {
+        ({ startDate, startTime, endDate, endTime } = multipleDateData);
+      } else {
+        const singleDateData = event.p4.match(oneDateReg)?.groups as {
+          date: string;
+          startTime: string;
+          endTime: string;
+        };
+        if (singleDateData) {
+          ({ date, startTime, endTime } = singleDateData);
+        }
+      }
+
+      return {
+        id: event.p1,
+        title: event.p3,
+        date,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        image: `https://bullsconnect.usf.edu${event.p11}`,
+        location: event.p6,
+        going: parseInt(event.p10),
+      };
+    });
+  }
+
+  async getEvents({
+    range = 0,
+    limit = 40,
+    campus,
+    fromDate,
+    toDate,
+  }: GetEventsDto) {
     const queryParams = {
       range,
       limit,
@@ -17,52 +75,33 @@ export class EventsService {
     };
 
     if (fromDate) {
-      queryParams['filter8'] = formatDate(fromDate);
+      queryParams['filter8'] = formatDDMMMYYYY(fromDate);
     }
     if (toDate) {
-      queryParams['filter9'] = formatDate(toDate);
+      queryParams['filter9'] = formatDDMMMYYYY(toDate);
     }
 
     const fetchedEvents =
       await this.bullsConnectApiService.fetchEvents(queryParams);
 
-    // Filter events by campus
+    // Filter date separators and events that are not on the specified campus
     const filteredEvents = fetchedEvents.filter((event) => {
       return (
         !event.listingSeparator &&
+        'p22' in event &&
         (!campus || event.p22.includes(`Campus - ${campus}`))
       );
-    });
+    }) as FetchedEvent[];
 
-    const events = filteredEvents.map((event) => {
-      const dateMatch = event.p4?.match(/(\w{3}, \w{3} \d{1,2}, \d{4})/);
-      const timeMatch = event.p4?.match(
-        /(\d{1,2}(?::\d{2})?\s[APM]{2})\s&ndash;\s(\d{1,2}(?::\d{2})?\s[APM]{2})/,
-      );
-
-      return {
-        id: event.p1,
-        title: event.p3,
-        date: dateMatch?.[0],
-        startTime: timeMatch?.[1],
-        endTime: timeMatch?.[2],
-        image: `https://bullsconnect.usf.edu${event.p11}`,
-        location: event.p6,
-        going: parseInt(event.p10),
-        isSoldOut: event.p26?.includes('SOLD-OUT'),
-        spotsLeft: parseInt(event.p26?.match(/>(\d+)<\/span>/)?.[1]) || null,
-      };
-    });
-
-    return events;
+    return this.mapEvents(filteredEvents);
   }
 
   async getFeaturedEvents({ limit, campus, fromDate, toDate }: GetEventsDto) {
     const events = await this.getEvents({
       campus,
       limit: 100,
-      fromDate: fromDate,
-      toDate: toDate,
+      fromDate,
+      toDate,
     });
 
     events.sort((a, b) => b.going - a.going);

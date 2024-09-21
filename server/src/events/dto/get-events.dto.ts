@@ -18,10 +18,10 @@ export class GetEventsDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  limit?: number = 40;
+  limit?: number;
 
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  range?: number = 0;
+  range?: number;
 }

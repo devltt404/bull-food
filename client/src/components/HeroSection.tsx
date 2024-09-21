@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import CurvedLine from "./svg/CurvedLine";
 import { Button } from "./ui/button";
 
@@ -42,9 +43,11 @@ const HeroSection = ({
         </p>
 
         <div className="text-center">
-          <Button variant="secondary" className="px-12 py-7 text-lg">
-            Discover Now
-            <ChevronRight strokeWidth={2} size={24} className="ml-2" />
+          <Button asChild variant="secondary" className="px-12 py-7 text-lg">
+            <Link to="/events">
+              Discover Now
+              <ChevronRight strokeWidth={2} size={24} className="ml-2" />
+            </Link>
           </Button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-function formatDate(date: string): string {
+export function formatDDMMMYYYY(date: string): string {
   const dateObj = new Date(date);
   const day = String(dateObj.getDate()).padStart(2, '0');
   const month = dateObj.toLocaleString('en-US', { month: 'short' });
@@ -7,4 +7,3 @@ function formatDate(date: string): string {
   return `${day} ${month} ${year}`;
 }
 
-export default formatDate;

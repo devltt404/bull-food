@@ -47,7 +47,7 @@ const IndexPage = () => {
   return (
     <div>
       <HeroSection ctaRef={ctaRef} />
-      <div className="mb-20 mt-20 flex flex-col gap-14">
+      <div className="flex flex-col gap-14 py-20">
         <section className="container">
           <h2 className="mb-8 border-b pb-4 text-3xl font-semibold text-green-950">
             Featured <span className="bg-secondary px-2 text-white">Today</span>

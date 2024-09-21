@@ -1,12 +1,21 @@
-import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "../../../assets/logo.png";
 import { Button } from "../../ui/button";
 import { Separator } from "../../ui/separator";
 import CampusSelect from "./CampusSelect";
 
 const Header = () => {
+  const { pathname } = useLocation();
+  const isIndexPage = pathname === "/";
+
   return (
-    <header className="bg-primary/10 py-4">
+    <header
+      className={cn(
+        "py-4",
+        isIndexPage ? "bg-primary/10" : "border-b bg-white shadow-sm",
+      )}
+    >
       <div className="flex items-center justify-between px-20">
         {/* Logo */}
         <Link className="flex items-center gap-2" to="/">
