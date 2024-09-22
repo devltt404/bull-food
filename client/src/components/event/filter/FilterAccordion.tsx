@@ -4,12 +4,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { EventsFilterOption } from "@/types/events.type";
 import { CalendarSearch, SlidersHorizontal } from "lucide-react";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import AdvancedFilter from "./AdvancedFilter";
 import QuickFilter from "./QuickFilter";
-import { EventsFilterOption } from "@/types/events.type";
 
 interface FilterAccordionProps {
   selectedFilter: EventsFilterOption;
@@ -60,7 +60,12 @@ const FilterAccordion = ({
           </div>
         </AccordionTrigger>
         <AccordionContent className="px-1 pt-1">
-          <AdvancedFilter searchWord={searchWord} setSearchWord={setSearchWord} date={advancedDate} setDate={setAdvancedDate} />
+          <AdvancedFilter
+            searchWord={searchWord}
+            setSearchWord={setSearchWord}
+            date={advancedDate}
+            setDate={setAdvancedDate}
+          />
         </AccordionContent>
       </AccordionItem>
     </Accordion>

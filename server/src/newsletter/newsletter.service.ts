@@ -51,16 +51,16 @@ export class NewsletterService {
   }
 
   async unsubscribe(email: string) {
-    const subscriber = await this.subscriberService.findByEmail(email);
+    const subscriber = await this.subscriberService.updateByEmail({
+      email,
+      payload: { isSubscribed: false },
+    });
 
     if (!subscriber) {
       throw new NotFoundException('Subscriber not found');
     }
 
-    return await this.subscriberService.updateByEmail({
-      email,
-      payload: { isSubscribed: false },
-    });
+    return subscriber;
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_8AM)

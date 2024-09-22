@@ -5,9 +5,7 @@ export interface SubscribeParams {
   campus: EventCampus;
 }
 
-export interface SubscribeData {
-  subscriber: {
-    email: string;
-    campus: EventCampus;
-  };
+export interface Subscriber {
+  email: string;
+  campus: EventCampus;
 }

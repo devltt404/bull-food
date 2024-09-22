@@ -3,6 +3,7 @@ import { useAppSelector } from "@/app/hooks";
 import React from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Separator } from "./ui/separator";
 
 const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
   const { campus } = useAppSelector((state) => state.campus);
@@ -38,6 +39,9 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
               placeholder="Your email address"
               className="h-full bg-white"
             />
+
+            <Separator orientation="vertical" />
+
             <Button className="h-full" type="submit">
               Subscribe
             </Button>

@@ -5,16 +5,16 @@ export enum EventsFilterOption {
   advanced = "advanced",
 }
 
-export interface GetEventsParams {
+export type GetEventsParams = {
   campus: EventCampus;
   fromDate?: string;
   toDate?: string;
   limit?: number;
   range?: number;
   searchWord?: string;
-}
+};
 
-export interface Event {
+export type Event = {
   id: string;
   title: string;
   date: string | null;
@@ -25,8 +25,4 @@ export interface Event {
   image: string;
   location: string;
   going: number;
-}
-
-export interface GetEventsData {
-  events: Event[];
-}
+};

@@ -80,7 +80,7 @@ const EventsPage = () => {
           setSelectedFilter={setSelectedFilter}
         />
 
-        <EventsGrid isFetching={isFetching} events={data?.data.events} />
+        <EventsGrid isLoading={isFetching} events={data} />
       </div>
     </div>
   );

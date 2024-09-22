@@ -6,7 +6,7 @@ interface CampusState {
 }
 
 const initialState: CampusState = {
-  campus: EventCampus.Tampa,
+  campus: (localStorage.getItem("campus") as EventCampus) ?? EventCampus.Tampa,
 };
 
 const campusSlice = createSlice({
@@ -15,6 +15,7 @@ const campusSlice = createSlice({
   reducers: {
     setCampus: (state, action: PayloadAction<EventCampus>) => {
       state.campus = action.payload;
+      localStorage.setItem("campus", action.payload);
     },
   },
 });

@@ -4,10 +4,10 @@ import { EventCard, EventCardSkeleton } from "./EventCard";
 
 interface EventsGridProps {
   events?: Event[];
-  isFetching: boolean;
+  isLoading: boolean;
 }
 
-const EventsGrid = ({ events, isFetching }: EventsGridProps) => {
+const EventsGrid = ({ events, isLoading }: EventsGridProps) => {
   const today = useMemo(() => new Date().getDate(), []);
 
   const groupedEvents: Record<string, Event[]> | undefined = useMemo(() => {
@@ -46,7 +46,7 @@ const EventsGrid = ({ events, isFetching }: EventsGridProps) => {
     );
   }, [events]);
 
-  return isFetching ? (
+  return isLoading ? (
     <div className="grid grid-cols-4 gap-8">
       {Array.from({ length: 8 }).map((_, index) => (
         <EventCardSkeleton key={index} />

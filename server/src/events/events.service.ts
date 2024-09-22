@@ -86,11 +86,11 @@ export class EventsService {
       queryParams['filter9'] = formatDDMMMYYYY(toDate);
     }
 
-    const fetchedEvents =
+    const fetchEventData =
       await this.bullsConnectApiService.fetchEvents(queryParams);
 
     // Filter date separators and events that are not on the specified campus
-    const filteredEvents = fetchedEvents.filter((event) => {
+    const filteredEvents = fetchEventData.filter((event) => {
       return (
         !event.listingSeparator &&
         'p22' in event &&

@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "py-4",
+        "py-4 transition",
         isIndexPage ? "bg-primary/10" : "border-b bg-white shadow-sm",
       )}
     >

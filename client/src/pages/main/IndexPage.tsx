@@ -20,7 +20,7 @@ const IndexPage = () => {
     return date.toISOString();
   }, []);
 
-  const { data: todayFeaturedData, isFetching: isTodayFetching } =
+  const { data: todayFeaturedEvents, isFetching: isTodayFetching } =
     useGetFeaturedEventsQuery({
       limit: 10,
       campus,
@@ -28,21 +28,13 @@ const IndexPage = () => {
       toDate: today,
     });
 
-  const { data: tomorrowFeaturedData, isFetching: isTomorrowFetching } =
+  const { data: tomorrowFeaturedEvents, isFetching: isTomorrowFetching } =
     useGetFeaturedEventsQuery({
       limit: 10,
       campus,
       fromDate: tomorrow,
       toDate: tomorrow,
     });
-
-  const todayFeaturedEvents = useMemo(() => {
-    return todayFeaturedData?.data.events;
-  }, [todayFeaturedData]);
-
-  const tomorrowFeaturedEvents = useMemo(() => {
-    return tomorrowFeaturedData?.data.events;
-  }, [tomorrowFeaturedData]);
 
   return (
     <div>

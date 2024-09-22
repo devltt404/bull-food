@@ -17,20 +17,13 @@ export class NewsletterController {
       subscribeNewsletterDto,
     );
 
-    return {
-      message: 'Subscribed to newsletter',
-      data: {
-        subscriber: pickFields(subscriber, ['email']),
-      },
-    };
+    return pickFields(subscriber, ['email', 'campus']);
   }
 
   @Post('unsubscribe')
   async unsubscribe(@Body('email') { email }: UnsubscribeNewsletterDto) {
-    await this.newsletterService.unsubscribe(email);
+    const subscriber = await this.newsletterService.unsubscribe(email);
 
-    return {
-      message: 'Unsubscribed from newsletter',
-    };
+    return pickFields(subscriber, ['email', 'campus']);
   }
 }
