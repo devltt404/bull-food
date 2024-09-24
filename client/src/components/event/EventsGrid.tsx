@@ -1,73 +1,47 @@
-import { Event } from "@/types/events.type";
-import { useMemo } from "react";
+import useGroupedEvents from "@/hooks/useGroupedEvents";
+import { Event } from "@/types/event.type";
 import { EventCard, EventCardSkeleton } from "./EventCard";
 
 interface EventsGridProps {
   events?: Event[];
   isLoading: boolean;
+  isFilterChanged: boolean;
 }
 
-const EventsGrid = ({ events, isLoading }: EventsGridProps) => {
-  const today = useMemo(() => new Date().getDate(), []);
+const EventsGrid = ({
+  events,
+  isLoading,
+  isFilterChanged,
+}: EventsGridProps) => {
+  const groupedEvents = useGroupedEvents(events, isFilterChanged);
 
-  const groupedEvents: Record<string, Event[]> | undefined = useMemo(() => {
-    return events?.reduce(
-      (acc, event) => {
-        const date = event.date || event.startDate;
-        if (!date) return acc;
-
-        // Generate group key based on date
-        let key: string;
-        const dateObj = new Date(date);
-
-        if (dateObj.getDate() === today) {
-          key = "Today";
-        } else if (dateObj.getDate() === today + 1) {
-          key = "Tomorrow";
-        } else if (dateObj.getDate() < today) {
-          key = "Ongoing";
-        } else {
-          const options: Intl.DateTimeFormatOptions = {
-            weekday: "short",
-            month: "short",
-            day: "2-digit",
-          };
-          key = dateObj.toLocaleDateString("en-US", options);
-        }
-
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(event);
-
-        return acc;
-      },
-      {} as Record<string, Event[]>,
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-4 gap-8">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <EventCardSkeleton key={index} />
+        ))}
+      </div>
     );
-  }, [events]);
+  }
 
-  return isLoading ? (
-    <div className="grid grid-cols-4 gap-8">
-      {Array.from({ length: 8 }).map((_, index) => (
-        <EventCardSkeleton key={index} />
+  if (Object.keys(groupedEvents).length === 0) return null;
+
+  return (
+    <>
+      {Object.keys(groupedEvents).map((key) => (
+        <div className="mb-8" key={key}>
+          <h3 className="mb-4 text-2xl font-semibold">{key}</h3>
+          <ul className="grid grid-cols-4 gap-8">
+            {groupedEvents[key].map((event) => (
+              <li key={event.id}>
+                <EventCard event={event} isTitleTruncate={false} />
+              </li>
+            ))}
+          </ul>
+        </div>
       ))}
-    </div>
-  ) : (
-    groupedEvents &&
-      Object.keys(groupedEvents).map((key) => {
-        return (
-          <div className="mb-8" key={key}>
-            <h3 className="mb-4 text-2xl font-semibold">{key}</h3>
-            <ul className="grid grid-cols-4 gap-8">
-              {groupedEvents[key].map((event) => (
-                <li key={event.id}>
-                  <EventCard event={event} isTitleTruncate={false} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })
+    </>
   );
 };
 

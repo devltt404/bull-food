@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { EventsFilterOption } from "@/types/events.type";
+import { EventsFilterOption } from "@/types/event.type";
 import { CalendarSearch, SlidersHorizontal } from "lucide-react";
 import React from "react";
 import { DateRange } from "react-day-picker";

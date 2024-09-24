@@ -1,4 +1,4 @@
-import { Event, GetEventsParams } from "../types/events.type";
+import { Event, GetEventsParams } from "../types/event.type";
 import { api } from "./index";
 
 const eventsApi = api.injectEndpoints({

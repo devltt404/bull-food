@@ -26,3 +26,7 @@ export type Event = {
   location: string;
   going: number;
 };
+
+export type GroupedEvents =  {
+  [key: string]: Event[];
+}

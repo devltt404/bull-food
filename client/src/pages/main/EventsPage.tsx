@@ -2,9 +2,13 @@ import { useGetEventsQuery } from "@/api/events.api";
 import { useAppSelector } from "@/app/hooks";
 import EventsGrid from "@/components/event/EventsGrid";
 import FilterAccordion from "@/components/event/filter/FilterAccordion";
-import { EventsFilterOption } from "@/types/events.type";
+import useDebouncedValue from "@/hooks/useDebouncedValue";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { Event, EventsFilterOption } from "@/types/event.type";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
+
+const LIMIT = 40;
 
 const EventsPage = () => {
   const { campus } = useAppSelector((state) => state.campus);
@@ -12,8 +16,8 @@ const EventsPage = () => {
   const [selectedFilter, setSelectedFilter] = useState<EventsFilterOption>(
     EventsFilterOption.quick,
   );
+  const [events, setEvents] = useState<Event[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
-  const [debouncedSearchWord, setDebouncedSearchWord] = useState<string>("");
   const [dateOffset, setDateOffset] = useState<number | null>(null);
   const [range, setRange] = useState<number>(0);
   const [advancedDate, setAdvancedDate] = useState<DateRange | undefined>({
@@ -21,48 +25,50 @@ const EventsPage = () => {
     to: undefined,
   });
 
-  const isoDateRange = useMemo(() => {
-    let from: string | undefined;
-    let to: string | undefined;
+  const debouncedSearchWord = useDebouncedValue<string>(searchWord, 300);
 
-    if (selectedFilter === EventsFilterOption.quick) {
-      const dateObj = new Date();
-      if (dateOffset !== null) {
-        dateObj.setDate(dateObj.getDate() + dateOffset);
-        from = dateObj.toISOString();
-        to = dateObj.toISOString();
-      }
-    } else {
-      from = advancedDate?.from?.toISOString();
-      to = advancedDate?.to?.toISOString();
+  const isoDateRange = useMemo(() => {
+    const dateObj = new Date();
+    dateObj.setHours(0, 0, 0, 0);
+
+    if (selectedFilter === EventsFilterOption.quick && dateOffset !== null) {
+      dateObj.setDate(dateObj.getDate() + dateOffset);
+      const dateIso = dateObj.toISOString();
+      return { fromDate: dateIso, toDate: dateIso };
     }
 
-    const dateRange: {
-      fromDate?: string;
-      toDate?: string;
-    } = {};
-    if (from) dateRange.fromDate = from;
-    if (to) dateRange.toDate = to;
-
-    return dateRange;
+    return {
+      fromDate: advancedDate?.from?.toISOString(),
+      toDate: advancedDate?.to?.toISOString(),
+    };
   }, [selectedFilter, dateOffset, advancedDate]);
 
   const { data, isFetching } = useGetEventsQuery({
     campus,
     range,
     searchWord: debouncedSearchWord,
+    limit: LIMIT,
     ...isoDateRange,
   });
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebouncedSearchWord(searchWord);
-    }, 500);
+    if (data) {
+      setEvents((prev) => (range === 0 ? data : [...prev, ...data]));
+    }
+  }, [data, range]);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [searchWord]);
+  useEffect(() => {
+    setRange(0);
+  }, [selectedFilter, dateOffset, advancedDate]);
+
+  useInfiniteScroll(
+    () => {
+      setRange((prev) => prev + LIMIT);
+    },
+    isFetching,
+    data?.length !== 0,
+    1500,
+  );
 
   return (
     <div>
@@ -80,7 +86,11 @@ const EventsPage = () => {
           setSelectedFilter={setSelectedFilter}
         />
 
-        <EventsGrid isLoading={isFetching} events={data} />
+        <EventsGrid
+          isLoading={isFetching && range === 0}
+          events={range === 0 ? data : events}
+          isFilterChanged={range === 0}
+        />
       </div>
     </div>
   );

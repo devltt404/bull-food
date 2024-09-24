@@ -3,7 +3,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Event } from "types/events.type";
+import { Event } from "@/types/event.type";
 import { EventCard, EventCardSkeleton } from "./EventCard";
 
 const EventsCarousel = ({
@@ -24,7 +24,7 @@ const EventsCarousel = ({
             ))
           : events?.map((event) => (
               <CarouselItem key={event.id} className="basis-1/4 pl-4 md:pl-8">
-                <EventCard   event={event} />
+                <EventCard event={event} />
               </CarouselItem>
             ))}
       </CarouselContent>

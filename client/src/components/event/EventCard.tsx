@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Event } from "@/types/events.type";
+import { Event } from "@/types/event.type";
 import { Clock, MapPin, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { EventBadge } from "./EventBadge";
