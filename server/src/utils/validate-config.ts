@@ -2,7 +2,7 @@ import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 
 function validateConfig<T extends object>(
-  config: Record<string, unknown>, //read from .env file
+  config: Record<string, unknown>, //process.env - read from .env file
   envVariablesValidator: ClassConstructor<T>,
 ) {
   const validatedConfig = plainToInstance(envVariablesValidator, config, {

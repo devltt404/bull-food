@@ -4,18 +4,21 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullsConnectModule } from './bullsconnect/bullsconnect.module';
 import bullsconnectConfig from './bullsconnect/config/bullsconnect.config';
+import { CacheModule } from './cache/cache.module';
 import serverConfig from './config/server.config';
 import { EventsModule } from './events/events.module';
 import mailConfig from './mail/config/mail.config';
 import { MailModule } from './mail/mail.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
+import redisConfig from './redis/config/redis.config';
 
 @Module({
   imports: [
+    CacheModule,
     MongooseModule.forRoot('mongodb://localhost/bullfood'),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
-      load: [serverConfig, bullsconnectConfig, mailConfig],
+      load: [serverConfig, bullsconnectConfig, mailConfig, redisConfig],
       isGlobal: true,
       envFilePath: ['.env'],
     }),
@@ -23,6 +26,7 @@ import { NewsletterModule } from './newsletter/newsletter.module';
     BullsConnectModule,
     MailModule,
     NewsletterModule,
+    CacheModule,
   ],
 })
 export class AppModule {}

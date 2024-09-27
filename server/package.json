@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@keyv/redis": "^3.0.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
@@ -33,6 +34,7 @@
     "compression": "^1.7.4",
     "handlebars": "^4.7.8",
     "i": "^0.3.7",
+    "keyv": "^5.0.3",
     "mongoose": "^8.6.2",
     "nodemailer": "^6.9.15",
     "npm": "^10.8.3",
