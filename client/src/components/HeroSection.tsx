@@ -11,7 +11,7 @@ const HeroSection = ({
 }) => {
   return (
     <div className="relative rounded-b-[125px] bg-primary/10 py-36">
-      <div className="mx-auto">
+      <div className="relative mx-auto">
         <h1 className="text-center text-6xl font-semibold leading-tight">
           <div className="inline-block bg-primary px-6 py-2 text-white">
             <motion.div
@@ -36,20 +36,30 @@ const HeroSection = ({
           </div>
         </h1>
 
-        <p className="mb-10 mt-8 text-center text-lg">
+        <motion.p
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.2 }}
+          className="mb-10 mt-8 text-center text-lg text-gray-700"
+        >
           BullFood helps you find{" "}
           <span className="font-semibold text-green-600">free</span> food events
           near you!
-        </p>
+        </motion.p>
 
-        <div className="text-center">
+        <motion.div
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-center"
+        >
           <Button asChild variant="secondary" className="px-12 py-7 text-lg">
             <Link to="/events">
               Discover Now
               <ChevronRight strokeWidth={2} size={24} className="ml-2" />
             </Link>
           </Button>
-        </div>
+        </motion.div>
       </div>
 
       <button

@@ -5,6 +5,7 @@ import FilterAccordion from "@/components/event/filter/FilterAccordion";
 import useDebouncedValue from "@/hooks/useDebouncedValue";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { Event, EventsFilterOption } from "@/types/event.type";
+import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -71,7 +72,12 @@ const EventsPage = () => {
   );
 
   return (
-    <div>
+    <motion.div
+      className="overflow-x-hidden"
+      initial={false}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 10 }}
+    >
       <div className="container-area">
         <h1 className="mb-3 text-3xl font-medium">Food Events</h1>
 
@@ -92,7 +98,7 @@ const EventsPage = () => {
           isFilterChanged={range === 0}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

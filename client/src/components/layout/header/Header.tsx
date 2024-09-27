@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../../assets/logo.png";
-import { Button } from "../../ui/button";
 import { Separator } from "../../ui/separator";
 import CampusSelect from "./CampusSelect";
 
@@ -37,14 +36,14 @@ const Header = () => {
                 </Link>
               </li>
 
-              <li>
+              {/* <li>
                 <Link
                   to="/about"
                   className="inline-flex h-full items-center px-4 transition-colors hover:text-primary"
                 >
                   About
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
 
@@ -52,9 +51,9 @@ const Header = () => {
 
           <CampusSelect />
 
-          <Separator orientation="vertical" className="mx-8 h-8" />
+          {/* <Separator orientation="vertical" className="mx-8 h-8" />
 
-          <Button size="lg">Sign Up</Button>
+          <Button size="lg">Subscribe</Button> */}
         </div>
       </div>
     </header>

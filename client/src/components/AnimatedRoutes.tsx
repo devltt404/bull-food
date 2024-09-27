@@ -1,0 +1,22 @@
+import EventsPage from "@/pages/main/EventsPage";
+import IndexPage from "@/pages/main/IndexPage";
+import { AnimatePresence } from "framer-motion";
+import { Route, Routes, useLocation } from "react-router-dom";
+import RootLayout from "./wrappers/RootLayout";
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route element={<RootLayout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/events" element={<EventsPage />} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+export default AnimatedRoutes;

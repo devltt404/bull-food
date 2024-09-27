@@ -25,22 +25,24 @@ const EventsGrid = ({
     );
   }
 
-  if (Object.keys(groupedEvents).length === 0) return null;
-
   return (
     <>
-      {Object.keys(groupedEvents).map((key) => (
-        <div className="mb-8" key={key}>
-          <h3 className="mb-4 text-2xl font-semibold">{key}</h3>
-          <ul className="grid grid-cols-4 gap-8">
-            {groupedEvents[key].map((event) => (
-              <li key={event.id}>
-                <EventCard event={event} isTitleTruncate={false} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      {Object.keys(groupedEvents).length === 0 ? (
+        <p className="text-2xl font-medium">No Events found</p>
+      ) : (
+        Object.keys(groupedEvents).map((key) => (
+          <div className="mb-8" key={key}>
+            <h3 className="mb-4 text-2xl font-semibold">{key}</h3>
+            <ul className="grid grid-cols-4 gap-8">
+              {groupedEvents[key].map((event) => (
+                <li key={event.id}>
+                  <EventCard event={event} isTitleTruncate={false} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      )}
     </>
   );
 };

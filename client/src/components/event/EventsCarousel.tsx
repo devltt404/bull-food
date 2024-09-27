@@ -10,7 +10,7 @@ const EventsCarousel = ({
   events,
   isFetching,
 }: {
-  events: Event[] | undefined;
+  events?: Event[];
   isFetching: boolean;
 }) => {
   return (
