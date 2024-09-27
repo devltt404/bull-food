@@ -21,7 +21,11 @@ export const EventCard = ({
       <div
         className={cn(
           "overflow-hidden rounded-br-2xl rounded-tl-2xl border-2 bg-white transition hover:border-primary",
-          className,
+          event.going >= 50
+            ? "border-red-500"
+            : event.going >= 15
+              ? "border-yellow-500"
+              : className,
         )}
       >
         <div className="relative">

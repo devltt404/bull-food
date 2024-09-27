@@ -50,16 +50,10 @@ const QuickFilter = ({
             `group relative flex flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition`,
             dateOffset === option.value
               ? "bg-primary text-white"
-              : "border hover:text-black",
+              : "border hover:border-primary hover:bg-green-50 hover:text-black",
           )}
         >
           {option.label}
-          <div
-            className={cn(
-              "absolute bottom-0 left-0 h-[4px] w-full rounded-b-lg bg-primary opacity-0 transition",
-              dateOffset !== option.value && "group-hover:opacity-100",
-            )}
-          ></div>
         </button>
       ))}
     </div>

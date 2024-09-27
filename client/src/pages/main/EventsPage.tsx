@@ -32,16 +32,21 @@ const EventsPage = () => {
     const dateObj = new Date();
     dateObj.setHours(0, 0, 0, 0);
 
-    if (selectedFilter === EventsFilterOption.quick && dateOffset !== null) {
+    if (selectedFilter === EventsFilterOption.advanced) {
+      return {
+        fromDate: advancedDate?.from?.toISOString(),
+        toDate: advancedDate?.to?.toISOString(),
+      };
+    } else if (
+      selectedFilter === EventsFilterOption.quick &&
+      dateOffset !== null
+    ) {
       dateObj.setDate(dateObj.getDate() + dateOffset);
       const dateIso = dateObj.toISOString();
       return { fromDate: dateIso, toDate: dateIso };
+    } else {
+      return {};
     }
-
-    return {
-      fromDate: advancedDate?.from?.toISOString(),
-      toDate: advancedDate?.to?.toISOString(),
-    };
   }, [selectedFilter, dateOffset, advancedDate]);
 
   const { data, isFetching } = useGetEventsQuery({

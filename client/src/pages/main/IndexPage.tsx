@@ -61,10 +61,10 @@ const IndexPage = () => {
       </div>
 
       <CtaForm ctaRef={ctaRef} />
-      <footer className="relative flex items-center justify-between gap-4 bg-lime-50 px-8 py-4">
-        <img src={Logo} className="w-12" />
+      <footer className="relative flex items-center justify-between gap-4 bg-lime-50 px-8 py-3">
+        <img src={Logo} className="w-10" />
 
-        <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg">
+        <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg text-green-900">
           &copy; Made by <span className="font-medium">Tri Pham</span>
         </p>
 

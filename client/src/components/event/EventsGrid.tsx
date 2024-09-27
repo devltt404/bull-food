@@ -32,7 +32,7 @@ const EventsGrid = ({
       ) : (
         Object.keys(groupedEvents).map((key) => (
           <div className="mb-8" key={key}>
-            <h3 className="mb-4 text-2xl font-semibold">{key}</h3>
+            <h3 className="mb-4 text-2xl font-semibold text-secondary">{key}</h3>
             <ul className="grid grid-cols-4 gap-8">
               {groupedEvents[key].map((event) => (
                 <li key={event.id}>
