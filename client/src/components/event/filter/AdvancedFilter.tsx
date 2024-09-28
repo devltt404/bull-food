@@ -17,7 +17,7 @@ const AdvancedFilter = ({
 }) => {
   return (
     <div className="rounded-lg">
-      <div className="flex items-stretch gap-6">
+      <div className="flex flex-wrap items-stretch gap-x-6 gap-y-4">
         <div className="relative max-w-64">
           <Input
             value={searchWord}

@@ -36,7 +36,7 @@ const EventsGrid = ({
             <h3 className="mb-4 text-2xl font-semibold text-secondary">
               {key}
             </h3>
-            <ul className="grid grid-cols-4 gap-8">
+            <ul className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-8">
               {groupedEvents[key].map((event) => (
                 <li key={event.id}>
                   <EventCard event={event} isTitleTruncate={false} />

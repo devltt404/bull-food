@@ -10,7 +10,7 @@ const HeroSection = ({
   ctaRef: React.RefObject<HTMLDivElement>;
 }) => {
   return (
-    <div className="relative rounded-b-[125px] bg-primary/10 py-36">
+    <div className="relative xl:rounded-b-[125px] md:rounded-b-[100px] rounded-b-[75px] bg-primary/10 py-36">
       <div className="relative mx-auto">
         <h1 className="text-center text-6xl font-semibold leading-tight">
           <div className="inline-block bg-primary px-6 py-2 text-white">
@@ -44,7 +44,7 @@ const HeroSection = ({
         >
           BullFood helps you find{" "}
           <span className="font-semibold text-green-600">free</span> food events
-          near you!
+          at USF!
         </motion.p>
 
         <motion.div

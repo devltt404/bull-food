@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../../assets/logo.png";
-import { Separator } from "../../ui/separator";
 import CampusSelect from "./CampusSelect";
 
 const Header = () => {
@@ -15,17 +14,18 @@ const Header = () => {
         isIndexPage ? "bg-primary/10" : "border-b bg-white shadow-sm",
       )}
     >
-      <div className="flex items-center justify-between px-20">
+      <div className="container flex items-center justify-between">
         {/* Logo */}
         <Link className="flex items-center gap-2" to="/">
           <img src={Logo} className="w-10" />
-          <p className="text-2xl font-medium tracking-wide">
+          <p className="invisible text-2xl font-medium tracking-wide sm:visible">
             Bull<span className="font-semibold text-primary">Food.</span>
           </p>
         </Link>
 
         <div className="flex items-center">
-          <nav className="self-stretch">
+          {/* TODO: Implement nav */}
+          {/* <nav className="self-stretch">
             <ul className="flex h-full font-semibold">
               <li>
                 <Link
@@ -36,23 +36,22 @@ const Header = () => {
                 </Link>
               </li>
 
-              {/* <li>
+              <li>
                 <Link
                   to="/about"
                   className="inline-flex h-full items-center px-4 transition-colors hover:text-primary"
                 >
                   About
                 </Link>
-              </li> */}
+              </li>
             </ul>
-          </nav>
+          </nav> */}
 
-          <Separator orientation="vertical" className="mr-8 ms-4 h-8" />
+          {/* <Separator orientation="vertical" className="mr-8 ms-4 h-8" /> */}
 
           <CampusSelect />
 
           {/* <Separator orientation="vertical" className="mx-8 h-8" />
-
           <Button size="lg">Subscribe</Button> */}
         </div>
       </div>

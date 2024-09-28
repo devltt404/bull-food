@@ -1,6 +1,6 @@
 import { useGetEventsQuery, useGetFeaturedEventsQuery } from "@/api/events.api";
 import { useAppSelector } from "@/app/hooks";
-import CtaForm from "@/components/CtaForm";
+import CtaForm from "@/components/cta/CtaForm";
 import EventsSection from "@/components/event/EventsSection";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/layout/Footer";

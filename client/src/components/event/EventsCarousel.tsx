@@ -18,12 +18,18 @@ const EventsCarousel = ({
       <CarouselContent className="-ml-4 md:-ml-8">
         {isFetching
           ? Array.from({ length: 5 }).map((_, index) => (
-              <CarouselItem key={index} className="basis-1/4 pl-4 md:pl-8">
+              <CarouselItem
+                key={index}
+                className="pl-4 md:basis-1/2 md:pl-8 lg:basis-1/3 xl:basis-1/4"
+              >
                 <EventCardSkeleton />
               </CarouselItem>
             ))
           : events?.map((event) => (
-              <CarouselItem key={event.id} className="basis-1/4 pl-4 md:pl-8">
+              <CarouselItem
+                key={event.id}
+                className="pl-4 md:basis-1/2 md:pl-8 lg:basis-1/3 xl:basis-1/4"
+              >
                 <EventCard event={event} />
               </CarouselItem>
             ))}

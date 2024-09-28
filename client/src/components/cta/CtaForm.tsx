@@ -1,24 +1,47 @@
 import { useSubscribeMutation } from "@/api/newsletter.api";
 import { useAppSelector } from "@/app/hooks";
 import React from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Separator } from "./ui/separator";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Separator } from "../ui/separator";
+import SubscribeAlert from "./SubscribeAlert";
 
 const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
   const { campus } = useAppSelector((state) => state.campus);
 
-  const [subscribe] = useSubscribeMutation();
+  const [subscribe, { isLoading: isSubscribing }] = useSubscribeMutation();
 
   const [email, setEmail] = React.useState<string>("");
+  const [showAlert, setShowAlert] = React.useState<boolean>(false);
+  const [alertErrMessage, setAlertErrMessage] = React.useState<string>("");
+  const [isSuccess, setIsSuccess] = React.useState<boolean>(true);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    subscribe({ email, campus }).unwrap();
+
+    subscribe({ email, campus })
+      .unwrap()
+      .then(() => {
+        setEmail("");
+        setIsSuccess(true);
+        setShowAlert(true);
+      })
+      .catch((e) => {
+        setAlertErrMessage(
+          e.data?.message ||
+            "Unable to subscribe. Please try again later.",
+        );
+        setIsSuccess(false);
+        setShowAlert(true);
+      });
   };
 
   return (
-    <section id="cta" ref={ctaRef} className="rounded-t-[125px] bg-primary/10">
+    <section
+      id="cta"
+      ref={ctaRef}
+      className="rounded-t-[75px] bg-primary/10 md:rounded-t-[100px] xl:rounded-t-[125px]"
+    >
       <form
         onSubmit={handleSubmit}
         className="mx-auto max-w-2xl py-24 text-center"
@@ -33,6 +56,7 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
         <div className="mx-auto max-w-lg">
           <div className="flex h-12 items-center space-x-4">
             <Input
+              disabled={isSubscribing}
               value={email}
               onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
               type="email"
@@ -42,7 +66,7 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
 
             <Separator orientation="vertical" />
 
-            <Button className="h-full" type="submit">
+            <Button disabled={isSubscribing} className="h-full" type="submit">
               Subscribe
             </Button>
           </div>
@@ -51,6 +75,13 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
           </p>
         </div>
       </form>
+
+      <SubscribeAlert
+        show={showAlert}
+        setShow={setShowAlert}
+        isSuccess={isSuccess}
+        errMessage={alertErrMessage}
+      />
     </section>
   );
 };
