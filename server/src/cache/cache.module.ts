@@ -11,6 +11,7 @@ import { CacheService } from './cache.service';
       useFactory: (configService: ConfigService) => {
         return new Keyv({
           store: new KeyvRedis(configService.get('redis.uri')!),
+          ttl: 1000 * 60, //Default TTL is 1 minute
         });
       },
       inject: [ConfigService],
