@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -30,16 +31,10 @@ export class NewsletterService {
       subscriber = await this.subscriberService.create(subscribeNewsletterDto);
     } catch (error) {
       if (error.code === 11000) {
-        subscriber = await this.subscriberService.updateByEmail({
-          email: subscribeNewsletterDto.email,
-          payload: {
-            isSubscribed: true,
-            campus: subscribeNewsletterDto.campus,
-          },
-        });
-      } else {
-        throw error;
+        throw new ConflictException('Email already subscribed to newsletter.');
       }
+
+      throw error;
     }
 
     if (subscriber) {

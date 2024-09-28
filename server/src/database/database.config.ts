@@ -1,17 +1,17 @@
 import { registerAs } from '@nestjs/config';
 import { IsString } from 'class-validator';
 import validateConfig from 'src/utils/validate-config';
-import { RedisConfig } from './redis.config.type';
+import { DatabaseConfig } from './database.config.type';
 
 class EnvironmentVariablesValidator {
   @IsString()
-  REDIS_URI: string;
+  DB_URI: string;
 }
 
-export default registerAs<RedisConfig>('redis', (): RedisConfig => {
+export default registerAs<DatabaseConfig>('db', (): DatabaseConfig => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
-    uri: process.env.REDIS_URI,
+    uri: process.env.DB_URI,
   };
 });

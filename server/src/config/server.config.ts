@@ -18,7 +18,7 @@ class EnvironmentVariablesValidator {
   @Min(0)
   @Max(65535)
   @IsOptional()
-  SERVER_PORT: number;
+  SERVER_PORT: number = 4000;
 }
 
 export default registerAs<ServerConfig>('server', (): ServerConfig => {

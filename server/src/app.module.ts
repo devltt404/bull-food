@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullsConnectModule } from './bullsconnect/bullsconnect.module';
@@ -11,14 +11,21 @@ import mailConfig from './mail/config/mail.config';
 import { MailModule } from './mail/mail.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
 import redisConfig from './redis/config/redis.config';
+import databaseConfig from './database/database.config';
 
 @Module({
   imports: [
     CacheModule,
-    MongooseModule.forRoot('mongodb://localhost/bullfood'),
+    MongooseModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('db.uri'),
+      }),
+      inject: [ConfigService],
+      imports: [ConfigModule],
+    }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
-      load: [serverConfig, bullsconnectConfig, mailConfig, redisConfig],
+      load: [serverConfig, bullsconnectConfig, mailConfig, redisConfig, databaseConfig],
       isGlobal: true,
       envFilePath: ['.env'],
     }),
