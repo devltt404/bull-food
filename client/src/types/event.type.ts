@@ -27,6 +27,16 @@ export type Event = {
   going: number;
 };
 
-export type GroupedEvents =  {
+export type GroupedEvents = {
   [key: string]: Event[];
-}
+};
+
+export type EventsSectionProps = {
+  isFetching: boolean;
+  events?: Event[];
+  label: {
+    left?: string;
+    right?: string;
+    highlight?: string;
+  };
+};

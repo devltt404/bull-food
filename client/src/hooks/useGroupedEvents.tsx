@@ -3,6 +3,10 @@ import { isBefore, isToday, isTomorrow } from "date-fns";
 import { useMemo, useRef } from "react";
 
 const useGroupedEvents = (events?: Event[], isFilterChanged?: boolean) => {
+  /*
+    Implement useRef+useMemo instead of useState+useEffect to ensure that the EventsGrid component 
+    doesn't flash the old events before the new events are fetched.
+  */
   const groupedEvents = useRef<GroupedEvents>({});
   const eventIdsSet = useRef<Set<string>>(new Set<string>());
 

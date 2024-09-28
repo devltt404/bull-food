@@ -1,27 +1,18 @@
 import { cn } from "@/lib/utils";
-import { Event } from "@/types/event.type";
+import { EventsSectionProps } from "@/types/event.type";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import EventsCarousel from "./EventsCarousel";
+import NoEvents from "./NoEvents";
 
-const EventsSection = ({
-  isFetching,
-  events,
-  day,
-  useAnimation = false,
-}: {
-  isFetching: boolean;
-  events?: Event[];
-  day: "Today" | "Tomorrow";
-  useAnimation?: boolean;
-}) => {
+const EventsSection = ({ isFetching, events, label }: EventsSectionProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
   return (
     <section className="container" ref={ref}>
       <h2 className="mb-8 border-b pb-4 text-3xl font-semibold text-green-950">
-        Featured{" "}
+        {label.left}{" "}
         <span className="relative inline-block px-2.5 py-1 text-white">
           <div
             className={cn(
@@ -29,10 +20,18 @@ const EventsSection = ({
               isInView ? "w-full" : "w-0",
             )}
           ></div>
-          {day}
-        </span>
+          {label.highlight}
+        </span>{" "}
+        {label.right}
       </h2>
-      <EventsCarousel isFetching={isFetching} events={events} />
+      
+      {isFetching ? (
+        <EventsCarousel events={events} isFetching={isFetching} />
+      ) : events && events.length > 0 ? (
+        <EventsCarousel events={events} isFetching={isFetching} />
+      ) : (
+        <NoEvents />
+      )}
     </section>
   );
 };
