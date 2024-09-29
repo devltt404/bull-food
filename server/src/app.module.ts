@@ -5,13 +5,13 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { BullsConnectModule } from './bullsconnect/bullsconnect.module';
 import bullsconnectConfig from './bullsconnect/config/bullsconnect.config';
 import { CacheModule } from './cache/cache.module';
-import serverConfig from './config/server.config';
+import appConfig from './config/app.config';
+import databaseConfig from './database/database.config';
 import { EventsModule } from './events/events.module';
 import mailConfig from './mail/config/mail.config';
 import { MailModule } from './mail/mail.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
 import redisConfig from './redis/config/redis.config';
-import databaseConfig from './database/database.config';
 
 @Module({
   imports: [
@@ -25,7 +25,13 @@ import databaseConfig from './database/database.config';
     }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
-      load: [serverConfig, bullsconnectConfig, mailConfig, redisConfig, databaseConfig],
+      load: [
+        appConfig,
+        bullsconnectConfig,
+        mailConfig,
+        redisConfig,
+        databaseConfig,
+      ],
       isGlobal: true,
       envFilePath: ['.env'],
     }),
