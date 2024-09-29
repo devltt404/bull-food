@@ -6,7 +6,7 @@ import { store } from "./app/store.ts";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
+  <BrowserRouter basename="bull-food/">
     <Provider store={store}>
       <App />
     </Provider>
