@@ -50,7 +50,7 @@
         max-width: 150px;
         height: auto;
         display: block;
-        margin-right: 15px;
+        margin-bottom: 15px;
       }
       .footer {
         background-color: #f4f4f4;
@@ -63,12 +63,11 @@
         color: #28a745;
         text-decoration: none;
       }
-      .event-row {
-        display: flex;
-        align-items: flex-start;
-      }
-      .event-row td {
-        vertical-align: top;
+      .no-events {
+        text-align: center;
+        font-size: 16px;
+        color: #666666;
+        margin-top: 20px;
       }
     </style>
   </head>
@@ -101,41 +100,56 @@
             cellspacing="0"
             class="content"
           >
-            {{#each events}}
-            <tr class="event">
-              <td>
-                <h2 class="event-title">{{this.title}}</h2>
-                <table class="event-row" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td>
-                      <img
-                        src="{{this.image}}"
-                        alt="Event Thumbnail"
-                        class="event-thumbnail"
-                      />
-                    </td>
-                    <td>
-                      <p class="event-details">
-                        <strong>Date:</strong> {{this.date}}
-                      </p>
-                      <p class="event-details">
-                        <strong>Time:</strong> {{this.startTime}} - {{this.endTime}}
-                      </p>
-                      <p class="event-details">
-                        <strong>Location:</strong> {{this.location}}
-                      </p>
-                      <p><a href="https://bullsconnect.usf.edu/web/rsvp_boot?id={{this.id}}">View Event Details</a></p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            {{/each}}
+            {{#if events.length}}
+              {{#each events}}
+              <tr class="event">
+                <td>
+                  <h2 class="event-title">{{this.title}}</h2>
+                  <table cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>
+                        <img
+                          src="{{this.image}}"
+                          alt="Event Thumbnail"
+                          class="event-thumbnail"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="event-details">
+                          <strong>Date:</strong> {{this.date}}
+                        </p>
+                        <p class="event-details">
+                          <strong>Time:</strong> {{this.startTime}} - {{this.endTime}}
+                        </p>
+                        <p class="event-details">
+                          <strong>Location:</strong> {{this.location}}
+                        </p>
+                        <p>
+                          <a href="https://bullsconnect.usf.edu/web/rsvp_boot?id={{this.id}}">
+                            View Event Details
+                          </a>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              {{/each}}
+            {{else}}
+              <tr>
+                <td class="no-events">
+                  <p>No events scheduled for today. Check back tomorrow for more updates!</p>
+                </td>
+              </tr>
+            {{/if}}
           </table>
         </td>
       </tr>
       <!-- Footer -->
-      <tr>
+      {{!-- TODO: IMPLEMENT UNSUBSCRIBE --}}
+      {{!-- <tr>
         <td>
           <table
             role="presentation"
@@ -153,7 +167,7 @@
             </tr>
           </table>
         </td>
-      </tr>
+      </tr> --}}
     </table>
   </body>
 </html>
