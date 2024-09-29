@@ -33,9 +33,7 @@ import redisConfig from './redis/config/redis.config';
         databaseConfig,
       ],
       isGlobal: true,
-      envFilePath: [
-        `${process.env.NODE_ENV === 'production' ? '.env.prod' : '.env'}`,
-      ],
+      envFilePath: ['.env'],
     }),
     EventsModule,
     BullsConnectModule,
