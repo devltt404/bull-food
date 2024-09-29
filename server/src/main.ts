@@ -9,9 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const appConfig = app.get(ConfigService).get('app');
 
-  app.enableCors({
-    origin: appConfig.clientBaseUrl,
-  });
+  app.enableCors();
   app.use(compression());
   app.setGlobalPrefix('api');
   app.enableVersioning({
