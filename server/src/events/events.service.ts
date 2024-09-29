@@ -102,6 +102,7 @@ export class EventsService {
   }
 
   async getFeaturedEvents({ limit, campus, fromDate, toDate }: GetEventsDto) {
+    // BullsConnect API does not support sorting by going count, so we have to fetch 100 events and sort them manually
     const events = await this.getEvents({
       campus,
       limit: 100,
