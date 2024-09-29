@@ -92,7 +92,7 @@ export class NewsletterService {
           process.cwd(),
           'src/mail/templates/daily-newsletter.hbs',
         ),
-        context: events,
+        context: { events },
       });
 
       this.logger.log(`Newsletter sent to campus ${campus}`);
