@@ -1,4 +1,5 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import compression from 'compression';
 import { AppModule } from './app.module';
@@ -6,7 +7,11 @@ import handleValidationError from './utils/handle-validation-error';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  const appConfig = app.get(ConfigService).get('app');
+
+  app.enableCors({
+    origin: appConfig.clientBaseUrl,
+  });
   app.use(compression());
   app.setGlobalPrefix('api');
   app.enableVersioning({
@@ -17,9 +22,8 @@ async function bootstrap() {
       whitelist: true,
       transform: true,
       exceptionFactory: handleValidationError,
-      
     }),
   );
-  await app.listen(4000);
+  await app.listen(appConfig.port);
 }
 bootstrap();
