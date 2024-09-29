@@ -16,5 +16,9 @@ COPY . .
 # Creates a "dist" folder with the production build
 RUN npm run build
 
+# Expose the port the app runs on
+EXPOSE 4000
+
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
+
