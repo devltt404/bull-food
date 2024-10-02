@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/app/hooks";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { Check, X } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 const SubscribeAlert = ({
   show,
@@ -21,9 +23,37 @@ const SubscribeAlert = ({
   isSuccess: boolean;
   errMessage: string;
 }) => {
+  const { campus } = useAppSelector((state) => state.campus);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Close alert dialog when user presses Enter or clicks outside
+  useEffect(() => {
+    const handleEnter = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        setShow(false);
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dialogRef.current && !dialogRef.current.contains(e.target as Node)) {
+        setShow(false);
+      }
+    };
+
+    if (show) {
+      window.addEventListener("keydown", handleEnter);
+      window.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleEnter);
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, [show, setShow]);
+
   return (
     <AlertDialog open={show}>
-      <AlertDialogContent className="max-w-md">
+      <AlertDialogContent ref={dialogRef} className="max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle className="relative flex flex-col items-center justify-center gap-3">
             <div
@@ -45,7 +75,7 @@ const SubscribeAlert = ({
           </AlertDialogTitle>
           <AlertDialogDescription className="py-2 text-center text-base">
             {isSuccess
-              ? "You will now receive daily updates on featured free food events."
+              ? `You will now receive daily newsletter about featured free food events at USF - ${campus}.`
               : errMessage}
           </AlertDialogDescription>
         </AlertDialogHeader>
