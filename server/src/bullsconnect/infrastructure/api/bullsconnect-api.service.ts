@@ -35,6 +35,7 @@ export class BullsConnectApiService {
 
   @Cron(CronExpression.EVERY_30_MINUTES, {
     name: 'maintainSession',
+    utcOffset: -4, // UTC-4 (EDT)
   })
   async maintainSession() {
     this.logger.log('Start maintaining BullsConnect session');
