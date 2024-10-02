@@ -14,6 +14,10 @@ class EnvironmentVariablesValidator {
   @IsOptional()
   NODE_ENV?: Environment;
 
+  @IsOptional()
+  @IsString()
+  SERVER_HOST?: string;
+
   @IsInt()
   @Min(0)
   @Max(65535)
@@ -34,6 +38,7 @@ export default registerAs<AppConfig>('app', (): AppConfig => {
 
   return {
     nodeEnv: process.env.NODE_ENV || Environment.DEVELOPMENT,
+    host: process.env.SERVER_HOST || 'localhost',
     port: parseInt(process.env.SERVER_PORT || '4000'),
     clientBaseUrl: process.env.CLIENT_BASE_URL || 'http://localhost:5173',
     apiPrefix: process.env.API_PREFIX || 'api',

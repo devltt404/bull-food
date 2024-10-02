@@ -26,6 +26,6 @@ async function bootstrap() {
       exceptionFactory: handleValidationError,
     }),
   );
-  await app.listen(appConfig?.port || 4000);
+  await app.listen(appConfig?.port || 4000, appConfig?.host || 'localhost');
 }
 bootstrap();
