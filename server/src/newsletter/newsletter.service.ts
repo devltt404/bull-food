@@ -58,7 +58,7 @@ export class NewsletterService {
     return subscriber;
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_8AM)
+  @Cron(CronExpression.EVERY_DAY_AT_NOON) // 8AM EDT
   async sendDailyNewsletter(
     subscribers: Pick<Subscriber, 'email' | 'campus'>[],
   ) {
