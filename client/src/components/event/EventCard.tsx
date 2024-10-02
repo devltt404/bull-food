@@ -1,6 +1,9 @@
+import { EventBadgeType } from "@/constants/event.constant";
 import { cn } from "@/lib/utils";
 import { Event } from "@/types/event.type";
+import { classifyEventBadgeType } from "@/utils/helper.util";
 import { Clock, MapPin, Users } from "lucide-react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { EventBadge } from "./EventBadge";
 
@@ -13,6 +16,29 @@ export const EventCard = ({
   className?: string;
   isTitleTruncate?: boolean;
 }) => {
+  const eventBadgeType = useMemo(
+    () => classifyEventBadgeType(event.going),
+    [event],
+  );
+
+  const eventDetails = useMemo(
+    () => [
+      {
+        icon: Clock,
+        text: `${event.startTime} - ${event.endTime}`,
+      },
+      {
+        icon: MapPin,
+        text: event.location,
+      },
+      {
+        icon: Users,
+        text: `${event.going} ongoing`,
+      },
+    ],
+    [event],
+  );
+
   return (
     <Link
       to={`https://bullsconnect.usf.edu/web/rsvp_boot?id=${event.id}`}
@@ -21,11 +47,9 @@ export const EventCard = ({
       <div
         className={cn(
           "overflow-hidden rounded-br-2xl rounded-tl-2xl border-2 bg-white transition hover:border-primary",
-          event.going >= 50
-            ? "border-red-500"
-            : event.going >= 15
-              ? "border-yellow-500"
-              : className,
+          eventBadgeType === EventBadgeType.hot && "border-red-500",
+          eventBadgeType === EventBadgeType.popular && "border-yellow-500",
+          className,
         )}
       >
         <div className="relative">
@@ -37,25 +61,19 @@ export const EventCard = ({
             className={cn(
               "mb-1 text-lg font-medium",
               isTitleTruncate && "truncate",
+              eventBadgeType === EventBadgeType.hot && "text-red-600",
+              eventBadgeType === EventBadgeType.popular && "text-yellow-600",
             )}
           >
             {event.title}
           </h3>
           <ul className="flex flex-col gap-1">
-            <li className="flex items-center text-gray-500">
-              <Clock size={16} className="mr-2 inline-block" />
-              <span className="text-sm">
-                {event.startTime} - {event.endTime}
-              </span>
-            </li>
-            <li className="flex items-center text-gray-500">
-              <MapPin size={16} className="mr-2 inline-block shrink-0" />
-              <span className="truncate text-sm">{event.location}</span>
-            </li>
-            <li className="flex items-center text-gray-500">
-              <Users size={16} className="mr-2 inline-block" />
-              <span className="text-sm">{event.going} ongoing</span>
-            </li>
+            {eventDetails.map((detail, index) => (
+              <li key={index} className="flex items-center text-gray-500">
+                <detail.icon size={16} className="mr-2 inline-block" />
+                <span className="text-sm">{detail.text}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

@@ -3,3 +3,9 @@ export enum EventCampus {
   StPetersburg = "St Petersburg",
   SarasotaManatee = "Sarasota-Manatee",
 }
+
+export enum EventBadgeType {
+  popular = "Popular",
+  hot = "Hot",
+  none = "",
+}

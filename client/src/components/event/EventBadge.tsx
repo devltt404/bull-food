@@ -1,10 +1,19 @@
+import { EventBadgeType } from "@/constants/event.constant";
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { classifyEventBadgeType } from "@/utils/helper.util";
+import { ReactNode, useMemo } from "react";
 import { Badge } from "../ui/badge";
 
 export const EventBadge = ({ going }: { going: number }) => {
-  if (going >= 50) return <HotEventBadge />;
-  if (going >= 15) return <PopularEventBadge />;
+  const eventBadgeType = useMemo(() => classifyEventBadgeType(going), [going]);
+  if (eventBadgeType === EventBadgeType.hot) {
+    return <HotEventBadge />;
+  }
+
+  if (eventBadgeType === EventBadgeType.popular) {
+    return <PopularEventBadge />;
+  }
+
   return null;
 };
 
