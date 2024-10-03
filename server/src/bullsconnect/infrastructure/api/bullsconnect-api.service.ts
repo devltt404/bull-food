@@ -33,6 +33,7 @@ export class BullsConnectApiService {
     return data;
   }
 
+  // Call every 30 minutes to maintain the session id validity
   @Cron(CronExpression.EVERY_30_MINUTES, {
     name: 'maintainSession',
   })
@@ -40,29 +41,17 @@ export class BullsConnectApiService {
     this.logger.log('Start maintaining BullsConnect session');
 
     try {
-      const { data }: { data: FetchedEvent[] } =
-        await this.bullsConnectHttpService.get('mobile_events_list', {
-          params: {
-            limit: 10,
-          },
-          headers: {
-            Cookie:
-              'CG.SessionID=' +
-              this.configService.get('bullsconnect.sessionId'),
-          },
-        });
+      await this.bullsConnectHttpService.get('mobile_events_list', {
+        params: {
+          limit: 0,
+        },
+        headers: {
+          Cookie:
+            'CG.SessionID=' + this.configService.get('bullsconnect.sessionId'),
+        },
+      });
 
-      const sessionExpired = data.some((event) =>
-        event.p6?.includes('Private Location (sign in to display)'),
-      );
-
-      if (sessionExpired) {
-        this.logger.error('Session expired. Please update the session ID.');
-        this.schedulerRegistry.getCronJob('maintainSession').stop();
-        this.logger.warn('BullsConnect session maintenance stopped');
-      } else {
-        this.logger.log('BullsConnect session is still valid');
-      }
+      this.logger.log('BullsConnect session maintained');
     } catch (error) {
       this.logger.error('Failed to maintain BullsConnect session', error.stack);
     }
