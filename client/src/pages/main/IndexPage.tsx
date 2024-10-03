@@ -5,6 +5,7 @@ import EventsSection from "@/components/event/EventsSection";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/layout/Footer";
 import { EventsSectionProps } from "@/types/event.type";
+import { getIsoDate } from "@/utils/helper.util";
 import { motion } from "framer-motion";
 import { useMemo, useRef } from "react";
 
@@ -14,14 +15,8 @@ const IndexPage = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
 
   // Memoize dates
-  const today = useMemo(() => {
-    return new Date().toISOString();
-  }, []);
-  const tomorrow = useMemo(() => {
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-    return date.toISOString();
-  }, []);
+  const today = useMemo(() => getIsoDate(), []);
+  const tomorrow = useMemo(() => getIsoDate(1), []);
 
   const { data: todayFeaturedEvents, isFetching: isTodayFetching } =
     useGetFeaturedEventsQuery({
@@ -45,32 +40,26 @@ const IndexPage = () => {
       campus,
     });
 
-  const eventSections: EventsSectionProps[] = [
-    {
-      label: {
-        highlight: "Upcoming",
-        right: "Events",
+  const eventSections: EventsSectionProps[] = useMemo(
+    () => [
+      {
+        label: { highlight: "Upcoming", right: "Events" },
+        isFetching: isUpcomingFetching,
+        events: upcomingEvents,
       },
-      isFetching: isUpcomingFetching,
-      events: upcomingEvents,
-    },
-    {
-      label: {
-        left: "Featured",
-        highlight: "Today",
+      {
+        label: { left: "Featured", highlight: "Today" },
+        isFetching: isTodayFetching,
+        events: todayFeaturedEvents,
       },
-      isFetching: isTodayFetching,
-      events: todayFeaturedEvents,
-    },
-    {
-      label: {
-        left: "Featured",
-        highlight: "Tomorrow",
+      {
+        label: { left: "Featured", highlight: "Tomorrow" },
+        isFetching: isTomorrowFetching,
+        events: tomorrowFeaturedEvents,
       },
-      isFetching: isTomorrowFetching,
-      events: tomorrowFeaturedEvents,
-    },
-  ];
+    ],
+    [upcomingEvents, todayFeaturedEvents, tomorrowFeaturedEvents],
+  );
 
   return (
     <motion.div

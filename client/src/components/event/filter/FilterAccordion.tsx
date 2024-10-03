@@ -14,8 +14,8 @@ import QuickFilter from "./QuickFilter";
 interface FilterAccordionProps {
   selectedFilter: EventsFilterOption;
   setSelectedFilter: React.Dispatch<React.SetStateAction<EventsFilterOption>>;
-  dateOffset: number | null;
-  setDateOffset: React.Dispatch<React.SetStateAction<number | null>>;
+  daysOffset: number | null;
+  setdaysOffset: React.Dispatch<React.SetStateAction<number | null>>;
   advancedDate: DateRange | undefined;
   setAdvancedDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
   searchWord: string;
@@ -25,8 +25,8 @@ interface FilterAccordionProps {
 const FilterAccordion = ({
   selectedFilter,
   setSelectedFilter,
-  dateOffset,
-  setDateOffset,
+  daysOffset,
+  setdaysOffset,
   advancedDate,
   setAdvancedDate,
   searchWord,
@@ -48,7 +48,7 @@ const FilterAccordion = ({
           </div>
         </AccordionTrigger>
         <AccordionContent className="pb-0">
-          <QuickFilter dateOffset={dateOffset} setDateOffset={setDateOffset} />
+          <QuickFilter daysOffset={daysOffset} setdaysOffset={setdaysOffset} />
         </AccordionContent>
       </AccordionItem>
 

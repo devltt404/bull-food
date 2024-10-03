@@ -22,11 +22,11 @@ const WordLabel = memo(({ word }: { word: string }) => (
 ));
 
 const QuickFilter = ({
-  dateOffset,
-  setDateOffset,
+  daysOffset,
+  setdaysOffset,
 }: {
-  dateOffset: number | null;
-  setDateOffset: React.Dispatch<React.SetStateAction<number | null>>;
+  daysOffset: number | null;
+  setdaysOffset: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
   const filterOptions = useMemo(() => {
     const res = [
@@ -49,18 +49,18 @@ const QuickFilter = ({
 
   return (
     <Carousel className="px-2 pb-6 pt-4">
-      <CarouselContent className="md:-ml-6 items-stretch">
+      <CarouselContent className="items-stretch md:-ml-6">
         {filterOptions.map((option, idx) => (
           <CarouselItem
-            className="basis-1/2 md:pl-6 sm:basis-1/4 md:basis-1/4 lg:basis-1/5 xl:basis-[12.5%]"
+            className="basis-1/2 sm:basis-1/4 md:basis-1/4 md:pl-6 lg:basis-1/5 xl:basis-[12.5%]"
             key={idx}
           >
             <button
               key={idx}
-              onClick={() => setDateOffset(option.value)}
+              onClick={() => setdaysOffset(option.value)}
               className={cn(
                 `flex h-full w-full flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition`,
-                dateOffset === option.value
+                daysOffset === option.value
                   ? "bg-primary text-white"
                   : "border hover:border-primary hover:bg-green-50 hover:text-black",
               )}

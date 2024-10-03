@@ -5,6 +5,7 @@ import FilterAccordion from "@/components/event/filter/FilterAccordion";
 import useDebouncedValue from "@/hooks/useDebouncedValue";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { Event, EventsFilterOption } from "@/types/event.type";
+import { getIsoDate } from "@/utils/helper.util";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -19,7 +20,7 @@ const EventsPage = () => {
   );
   const [events, setEvents] = useState<Event[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
-  const [dateOffset, setDateOffset] = useState<number | null>(null);
+  const [daysOffset, setdaysOffset] = useState<number | null>(null);
   const [range, setRange] = useState<number>(0);
   const [advancedDate, setAdvancedDate] = useState<DateRange | undefined>({
     from: undefined,
@@ -29,9 +30,6 @@ const EventsPage = () => {
   const debouncedSearchWord = useDebouncedValue<string>(searchWord, 300);
 
   const isoDateRange = useMemo(() => {
-    const dateObj = new Date();
-    dateObj.setHours(0, 0, 0, 0);
-
     if (selectedFilter === EventsFilterOption.advanced) {
       return {
         fromDate: advancedDate?.from?.toISOString(),
@@ -39,15 +37,14 @@ const EventsPage = () => {
       };
     } else if (
       selectedFilter === EventsFilterOption.quick &&
-      dateOffset !== null
+      daysOffset !== null
     ) {
-      dateObj.setDate(dateObj.getDate() + dateOffset);
-      const dateIso = dateObj.toISOString();
-      return { fromDate: dateIso, toDate: dateIso };
+      const isoDate = getIsoDate(daysOffset);
+      return { fromDate: isoDate, toDate: isoDate };
     } else {
       return {};
     }
-  }, [selectedFilter, dateOffset, advancedDate]);
+  }, [selectedFilter, daysOffset, advancedDate]);
 
   const { data, isFetching } = useGetEventsQuery({
     campus,
@@ -65,7 +62,7 @@ const EventsPage = () => {
 
   useEffect(() => {
     setRange(0);
-  }, [selectedFilter, dateOffset, advancedDate]);
+  }, [selectedFilter, daysOffset, advancedDate]);
 
   useInfiniteScroll(
     () => {
@@ -90,10 +87,10 @@ const EventsPage = () => {
           searchWord={searchWord}
           setSearchWord={setSearchWord}
           advancedDate={advancedDate}
-          dateOffset={dateOffset}
+          daysOffset={daysOffset}
           selectedFilter={selectedFilter}
           setAdvancedDate={setAdvancedDate}
-          setDateOffset={setDateOffset}
+          setdaysOffset={setdaysOffset}
           setSelectedFilter={setSelectedFilter}
         />
 
