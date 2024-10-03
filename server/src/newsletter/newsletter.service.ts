@@ -38,7 +38,7 @@ export class NewsletterService {
     }
 
     if (subscriber) {
-      await this.sendDailyNewsletter([subscriber]);
+      this.sendDailyNewsletter([subscriber]); // Send newsletter to new subscriber
       return subscriber;
     } else {
       throw new InternalServerErrorException('Failed to subscribe');
