@@ -41,6 +41,6 @@ export default registerAs<AppConfig>('app', (): AppConfig => {
     host: process.env.SERVER_HOST || 'localhost',
     port: parseInt(process.env.SERVER_PORT || '4000'),
     clientBaseUrl: process.env.CLIENT_BASE_URL || 'http://localhost:5173',
-    apiPrefix: process.env.API_PREFIX || 'api',
+    apiPrefix: process.env.API_PREFIX || '',
   };
 });

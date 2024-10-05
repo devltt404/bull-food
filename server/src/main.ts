@@ -15,7 +15,7 @@ async function bootstrap() {
     credentials: true,
   });
   app.use(compression());
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(appConfig?.apiPrefix || '');
   app.enableVersioning({
     type: VersioningType.URI,
   });
