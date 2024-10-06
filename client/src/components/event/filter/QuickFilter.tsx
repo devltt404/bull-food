@@ -52,7 +52,7 @@ const QuickFilter = ({
       <CarouselContent className="items-stretch md:-ml-6">
         {filterOptions.map((option, idx) => (
           <CarouselItem
-            className="basis-1/2 sm:basis-1/4 md:basis-1/4 md:pl-6 lg:basis-1/5 xl:basis-[12.5%]"
+            className="max-xl:max-w-40 md:pl-6 xl:basis-[12.5%]"
             key={idx}
           >
             <button

@@ -1,4 +1,4 @@
-import { Event, GetEventsParams } from "../types/event.type";
+import { DetailedEvent, Event, GetEventsParams } from "../types/event.type";
 import { api } from "./index";
 
 const eventsApi = api.injectEndpoints({
@@ -18,7 +18,15 @@ const eventsApi = api.injectEndpoints({
         params: params,
       }),
     }),
+
+    getEvent: builder.query<DetailedEvent, string>({
+      query: (id) => `/events/${id}`,
+    }),
   }),
 });
 
-export const { useGetEventsQuery, useGetFeaturedEventsQuery } = eventsApi;
+export const {
+  useGetEventsQuery,
+  useGetFeaturedEventsQuery,
+  useGetEventQuery,
+} = eventsApi;

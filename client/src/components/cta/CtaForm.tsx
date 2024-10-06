@@ -28,8 +28,7 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
       })
       .catch((e) => {
         setAlertErrMessage(
-          e.data?.message ||
-            "Unable to subscribe. Please try again later.",
+          e.data?.message || "Unable to subscribe. Please try again later.",
         );
         setIsSuccess(false);
         setShowAlert(true);
@@ -44,7 +43,7 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
     >
       <form
         onSubmit={handleSubmit}
-        className="mx-auto max-w-2xl py-24 text-center"
+        className="container mx-auto max-w-2xl py-20 text-center sm:py-24"
       >
         <h3 className="text-4xl font-semibold text-green-950">
           Subscribe to our newsletter
@@ -66,7 +65,11 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
 
             <Separator orientation="vertical" />
 
-            <Button disabled={isSubscribing} className="h-full" type="submit">
+            <Button
+              disabled={isSubscribing || !email}
+              className="h-full"
+              type="submit"
+            >
               Subscribe
             </Button>
           </div>

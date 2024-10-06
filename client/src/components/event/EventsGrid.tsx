@@ -9,6 +9,12 @@ interface EventsGridProps {
   isFilterChanged: boolean;
 }
 
+const Grid = ({ children }: { children: React.ReactNode }) => (
+  <div className="grid items-start gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    {children}
+  </div>
+);
+
 const EventsGrid = ({
   events,
   isLoading,
@@ -18,11 +24,11 @@ const EventsGrid = ({
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-4 gap-8">
+      <Grid>
         {Array.from({ length: 8 }).map((_, index) => (
           <EventCardSkeleton key={index} />
         ))}
-      </div>
+      </Grid>
     );
   }
 
@@ -34,13 +40,15 @@ const EventsGrid = ({
         Object.keys(groupedEvents).map((key) => (
           <div className="mb-10" key={key}>
             <h3 className="mb-6 text-3xl font-semibold">{key}</h3>
-            <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <Grid>
               {groupedEvents[key].map((event) => (
-                <li key={event.id}>
-                  <EventCard event={event} isTitleTruncate={false} />
-                </li>
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  isTextTruncate={false}
+                />
               ))}
-            </ul>
+            </Grid>
           </div>
         ))
       )}
