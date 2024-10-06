@@ -40,7 +40,7 @@ export class NewsletterService {
     if (subscriber) {
       const today = new Date().toISOString();
       this.sendNewsLetter({
-        subscribers: [subscriber.email as unknown as Pick<Subscriber, 'email'>],
+        subscribers: [subscriber.email],
         campus: subscriber.campus,
         fromDate: today,
         toDate: today,
@@ -74,11 +74,13 @@ export class NewsletterService {
     fromDate,
     toDate,
   }: {
-    subscribers: Pick<Subscriber, 'email'>[];
+    subscribers: Subscriber['email'][];
     campus: EventCampus;
     fromDate: string;
     toDate: string;
   }) {
+    if (subscribers.length === 0) return;
+
     const events = await this.eventsSerivce.getFeaturedEvents({
       limit: 5,
       fromDate,
@@ -91,7 +93,7 @@ export class NewsletterService {
 
     try {
       await this.mailService.sendMail({
-        to: subscribers.map((subscriber) => subscriber.email),
+        to: subscribers,
         subject: `USF free food events on ${new Date().toLocaleDateString()}`,
         templatePath: path.join(
           process.cwd(),
