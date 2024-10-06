@@ -14,9 +14,10 @@ export class BullsConnectHttpService {
 
   constructor(configService: ConfigService) {
     this.instance = axios.create({
-      baseURL: 'https://bullsconnect.usf.edu/mobile_ws/v17',
+      baseURL: 'https://bullsconnect.usf.edu',
+
       headers: {
-        'CG.SessionID': configService.get('bullsconnect.sessionId'),
+        Cookie: 'CG.SessionID=' + configService.get('bullsconnect.sessionId'),
       },
     });
 

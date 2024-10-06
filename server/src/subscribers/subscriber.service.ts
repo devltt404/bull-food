@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSubscriberDto } from './dto/create-subscriber';
+import { FilterSubscriberDto } from './dto/query-subscriber';
 import { UpdateSubscriberByEmailDto } from './dto/update-subscriber';
 import { SubscriberRepository } from './infrastructure/persistence/subscriber.repository';
 
@@ -15,8 +16,8 @@ export class SubscriberService {
     return this.subscriberRepository.findByEmail(email);
   }
 
-  async findAll() {
-    return this.subscriberRepository.findAll();
+  async findAll({ filterOptions }: { filterOptions?: FilterSubscriberDto }) {
+    return this.subscriberRepository.findAll({ filterOptions });
   }
 
   async updateByEmail({ email, payload }: UpdateSubscriberByEmailDto) {

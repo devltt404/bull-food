@@ -1,66 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { parse } from 'node-html-parser';
 import { BullsConnectApiService } from 'src/bullsconnect/infrastructure/api/bullsconnect-api.service';
 import { FetchEventsDto } from 'src/bullsconnect/infrastructure/api/dto/fetch-events.dto';
+import { FetchedEvent } from 'src/bullsconnect/infrastructure/api/interfaces/fetched-events.interface';
 import { formatDDMMMYYYY } from 'src/utils/format-date';
+import { getEventImageSrc } from 'src/utils/get-event-image-src';
+import { parseEventHTML, parseFetchedEvents } from 'src/utils/parse-events';
+import { EventResponseDto, EventsResponseDto } from './dto/events-response.dto';
 import { GetEventsDto } from './dto/get-events.dto';
-import { FetchedEvent } from './interfaces/event.interface';
 
 @Injectable()
 export class EventsService {
   constructor(
     private readonly bullsConnectApiService: BullsConnectApiService,
   ) {}
-
-  /**
-   * Maps fetched events from BullsConnect API to a more readable and computable format
-   */
-  private mapEvents(fetchedEvents: FetchedEvent[]) {
-    return fetchedEvents.map((event) => {
-      let date: string | null = null;
-      let startTime: string | null = null;
-      let endTime: string | null = null;
-      let startDate: string | null = null;
-      let endDate: string | null = null;
-
-      const multipleDateReg =
-        /(?<startDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s.*?(?<endDate>\w{3}, \w{3} \d{1,2}, \d{4})\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
-      const oneDateReg =
-        /(?<date>\w{3}, \w{3} \d{1,2}, \d{4}).*?(?<startTime>\d{1,2}(?::\d{2})? [APM]{2})\s&ndash;\s(?<endTime>\d{1,2}(?::\d{2})? [APM]{2})/;
-
-      const multipleDateData = event.p4.match(multipleDateReg)?.groups as {
-        startDate: string;
-        startTime: string;
-        endDate: string;
-        endTime: string;
-      };
-
-      if (multipleDateData) {
-        ({ startDate, startTime, endDate, endTime } = multipleDateData);
-      } else {
-        const singleDateData = event.p4.match(oneDateReg)?.groups as {
-          date: string;
-          startTime: string;
-          endTime: string;
-        };
-        if (singleDateData) {
-          ({ date, startTime, endTime } = singleDateData);
-        }
-      }
-
-      return {
-        id: event.p1,
-        title: event.p3,
-        date,
-        startDate,
-        endDate,
-        startTime,
-        endTime,
-        image: `https://bullsconnect.usf.edu${event.p11}`,
-        location: event.p6,
-        going: parseInt(event.p10),
-      };
-    });
-  }
 
   async getEvents({
     range = 0,
@@ -69,7 +22,7 @@ export class EventsService {
     fromDate,
     toDate,
     searchWord,
-  }: GetEventsDto) {
+  }: GetEventsDto): Promise<EventsResponseDto[]> {
     const queryParams: FetchEventsDto = {
       range,
       limit,
@@ -87,7 +40,7 @@ export class EventsService {
     }
 
     const fetchEventData =
-      await this.bullsConnectApiService.fetchEvents(queryParams);
+      await this.bullsConnectApiService.fetchEventsList(queryParams);
 
     // Filter date separators and events that are not on the specified campus
     const filteredEvents = fetchEventData.filter((event) => {
@@ -98,11 +51,16 @@ export class EventsService {
       );
     }) as FetchedEvent[];
 
-    return this.mapEvents(filteredEvents);
+    return parseFetchedEvents(filteredEvents);
   }
 
-  async getFeaturedEvents({ limit, campus, fromDate, toDate }: GetEventsDto) {
-    // BullsConnect API does not support sorting by going count, so we have to fetch 100 events and sort them manually
+  async getFeaturedEvents({
+    limit,
+    campus,
+    fromDate,
+    toDate,
+  }: GetEventsDto): Promise<EventsResponseDto[]> {
+    // ⚠️ BullsConnect API does not support sorting by "going" count, so we have to fetch 100 upcoming events and sort them manually
     const events = await this.getEvents({
       campus,
       limit: 100,
@@ -112,5 +70,32 @@ export class EventsService {
 
     events.sort((a, b) => b.going - a.going);
     return events.slice(0, limit);
+  }
+
+  async getEvent(id: string): Promise<EventResponseDto> {
+    const root = parse(await this.bullsConnectApiService.fetchEvent(id));
+
+    const parsedEventData = parseEventHTML(root);
+
+    return {
+      id,
+      image: getEventImageSrc(parsedEventData.image),
+      title: parsedEventData.title || 'Food Event at USF',
+      timeInfo1: parsedEventData.timeInfo1 || 'TBD',
+      timeInfo2: parsedEventData.timeInfo2,
+      location: {
+        name: parsedEventData.location.name || 'TBD',
+        address: parsedEventData.location.address,
+      },
+      tags: parsedEventData.tags,
+      organizer: parsedEventData.organizer || 'USF',
+      going: parsedEventData.going || 0,
+      details: {
+        image:
+          parsedEventData.details.image &&
+          getEventImageSrc(parsedEventData.details.image),
+        description: parsedEventData.details.description || 'No description',
+      },
+    };
   }
 }

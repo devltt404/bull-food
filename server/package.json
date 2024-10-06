@@ -36,6 +36,7 @@
     "i": "^0.3.7",
     "keyv": "^5.0.3",
     "mongoose": "^8.6.2",
+    "node-html-parser": "^6.1.13",
     "nodemailer": "^6.9.15",
     "npm": "^10.8.3",
     "reflect-metadata": "^0.2.0",

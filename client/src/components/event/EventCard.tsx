@@ -2,20 +2,23 @@ import { EventBadgeType } from "@/constants/event.constant";
 import { cn } from "@/lib/utils";
 import { Event } from "@/types/event.type";
 import { classifyEventBadgeType } from "@/utils/helper.util";
+import { AnimatePresence } from "framer-motion";
 import { Clock, MapPin, Users } from "lucide-react";
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
 import { EventBadge } from "./EventBadge";
+import EventDialog from "./EventDialog";
 
 export const EventCard = ({
   event,
   className,
-  isTitleTruncate = true,
+  isTextTruncate = true,
 }: {
   event: Event;
   className?: string;
-  isTitleTruncate?: boolean;
+  isTextTruncate?: boolean;
 }) => {
+  const [showEventDialog, setShowEventDialog] = useState<boolean>(false);
+
   const eventBadgeType = useMemo(
     () => classifyEventBadgeType(event.going),
     [event],
@@ -40,13 +43,11 @@ export const EventCard = ({
   );
 
   return (
-    <Link
-      to={`https://bullsconnect.usf.edu/web/rsvp_boot?id=${event.id}`}
-      target="_blank"
-    >
+    <>
       <div
+        onClick={() => setShowEventDialog(true)}
         className={cn(
-          "overflow-hidden rounded-br-2xl rounded-tl-2xl border-2 bg-white transition hover:border-primary",
+          "cursor-pointer overflow-hidden rounded-br-2xl rounded-tl-2xl border-2 bg-white transition hover:border-primary",
           eventBadgeType === EventBadgeType.hot && "border-red-500",
           eventBadgeType === EventBadgeType.popular && "border-yellow-500",
           className,
@@ -60,7 +61,7 @@ export const EventCard = ({
           <h3
             className={cn(
               "mb-1 text-lg font-medium",
-              isTitleTruncate && "truncate",
+              isTextTruncate && "truncate",
               eventBadgeType === EventBadgeType.hot && "text-red-600",
               eventBadgeType === EventBadgeType.popular && "text-yellow-600",
             )}
@@ -70,14 +71,22 @@ export const EventCard = ({
           <ul className="flex flex-col gap-1">
             {eventDetails.map((detail, index) => (
               <li key={index} className="flex items-center text-gray-500">
-                <detail.icon size={16} className="mr-2 inline-block" />
-                <span className="text-sm">{detail.text}</span>
+                <detail.icon size={16} className="mr-2 inline-block shrink-0" />
+                <p className={cn("text-sm", isTextTruncate && "truncate")}>
+                  {detail.text}
+                </p>
               </li>
             ))}
           </ul>
         </div>
       </div>
-    </Link>
+
+      <AnimatePresence>
+        {showEventDialog && (
+          <EventDialog setShow={setShowEventDialog} id={event.id} />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

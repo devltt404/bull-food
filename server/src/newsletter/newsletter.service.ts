@@ -38,7 +38,14 @@ export class NewsletterService {
     }
 
     if (subscriber) {
-      this.sendDailyNewsletter([subscriber]); // Send newsletter to new subscriber
+      const today = new Date().toISOString();
+      this.sendNewsLetter({
+        subscribers: [subscriber.email as unknown as Pick<Subscriber, 'email'>],
+        campus: subscriber.campus,
+        fromDate: today,
+        toDate: today,
+      });
+
       return subscriber;
     } else {
       throw new InternalServerErrorException('Failed to subscribe');
@@ -58,11 +65,64 @@ export class NewsletterService {
     return subscriber;
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_NOON) // 8AM EDT
-  async sendDailyNewsletter(
-    subscribers: Pick<Subscriber, 'email' | 'campus'>[],
-  ) {
-    let subcribers = subscribers ?? (await this.subscriberService.findAll());
+  /**
+   * Send newsletter of featured events to subscribers at specified campus in the given date range.
+   */
+  private async sendNewsLetter({
+    subscribers,
+    campus,
+    fromDate,
+    toDate,
+  }: {
+    subscribers: Pick<Subscriber, 'email'>[];
+    campus: EventCampus;
+    fromDate: string;
+    toDate: string;
+  }) {
+    const events = await this.eventsSerivce.getFeaturedEvents({
+      limit: 5,
+      fromDate,
+      toDate,
+      campus,
+    });
+    this.logger.log(
+      `📧 Sending newsletter to subscribers at ${campus}: ${subscribers.join(', ')}`,
+    );
+
+    try {
+      await this.mailService.sendMail({
+        to: subscribers.map((subscriber) => subscriber.email),
+        subject: `USF free food events on ${new Date().toLocaleDateString()}`,
+        templatePath: path.join(
+          process.cwd(),
+          'src/mail/templates/daily-newsletter.hbs',
+        ),
+        context: { events },
+      });
+
+      this.logger.log(
+        `📧 Newsletter sent to ${subscribers.length} subscribers at ${campus}`,
+      );
+    } catch (error) {
+      this.logger.error(
+        `❌ Failed to send newsletter to ${subscribers.length} subscribers at ${campus}`,
+      );
+      this.logger.error(error);
+    }
+  }
+
+  /**
+   * Send daily newsletter to all subscribers at 8:00 AM EDT.
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_8AM, {
+    timeZone: 'America/New_York',
+  })
+  async sendDailyNewsletter() {
+    this.logger.log('✉️ Start sending daily newsletter...');
+
+    const subcribers = await this.subscriberService.findAll({
+      filterOptions: { isSubscribed: true },
+    });
 
     // Split subscribers by campus
     const subscribersByCampus = {};
@@ -73,31 +133,18 @@ export class NewsletterService {
       subscribersByCampus[subscriber.campus].push(subscriber.email);
     }
 
-    // Send daily newsletter for each campus
     const today = new Date().toISOString();
-    for (const campus of Object.values(EventCampus)) {
-      if (!subscribersByCampus[campus].length) continue;
 
-      const events = await this.eventsSerivce.getFeaturedEvents({
-        limit: 5,
+    // Send daily newsletter for each campus
+    for (const campus of Object.values(EventCampus)) {
+      await this.sendNewsLetter({
+        subscribers: subscribersByCampus[campus],
+        campus,
         fromDate: today,
         toDate: today,
-        campus: EventCampus.Tampa,
       });
-
-      await this.mailService.sendMail({
-        to: subscribersByCampus[campus],
-        subject: `USF free food events on ${new Date().toLocaleDateString()}`,
-        templatePath: path.join(
-          process.cwd(),
-          'src/mail/templates/daily-newsletter.hbs',
-        ),
-        context: { events },
-      });
-
-      this.logger.log(`Newsletter sent to campus ${campus}`);
     }
 
-    this.logger.log('Daily newsletter sent successfully');
+    this.logger.log('📥 Daily newsletter sent successfully');
   }
 }

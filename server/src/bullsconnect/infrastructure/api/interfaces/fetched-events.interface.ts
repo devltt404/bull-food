@@ -53,6 +53,5 @@ export interface FetchedEvent {
   p37: string | null;
   p38: string | null;
   p39: string | null;
-  htmlFields: Array<String> | null;
+  htmlFields: Array<string> | null;
 }
-

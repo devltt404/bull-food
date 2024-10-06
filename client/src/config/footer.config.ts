@@ -1,13 +1,9 @@
+import { IconComponent } from "@/types/icon.type";
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
 import { Mail } from "lucide-react";
 
 export const SocialLinks: {
-  icon:
-    | React.ForwardRefExoticComponent<
-        IconProps & React.RefAttributes<SVGSVGElement>
-      >
-    | React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: IconComponent;
   link: string;
 }[] = [
   {
