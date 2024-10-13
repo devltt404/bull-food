@@ -1,0 +1,62 @@
+name: Node.js CI/CD API server
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - .github/workflows/node-api.js.yml
+      - server/**
+  pull_request:
+    branches: ["main"]
+    paths:
+      - .github/workflows/node-api.js.yml
+      - server/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "server/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Create .env file
+        run: |
+          cat <<EOF > .env
+          NODE_ENV=${{ vars.NODE_ENV }}
+          SERVER_PORT=${{ vars.SERVER_PORT }}
+          CLIENT_BASE_URL=${{ vars.CLIENT_BASE_URL }}
+          DB_URI=${{ secrets.DB_URI }}
+          REDIS_URI=${{ secrets.REDIS_URI }}
+          MAIL_SENDER_NAME=${{ secrets.MAIL_SENDER_NAME }}
+          MAIL_SENDER_EMAIL=${{ secrets.MAIL_SENDER_EMAIL }}
+          MAIL_HOST=${{ secrets.MAIL_HOST }}
+          MAIL_PORT=${{ secrets.MAIL_PORT }}
+          MAIL_USER=${{ secrets.MAIL_USER }}
+          MAIL_PASS=${{ secrets.MAIL_PASS }}
+          BC_SESSION_ID=${{ secrets.BC_SESSION_ID }}
+          EOF
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Restart API server
+        run: pm2 restart bullfood-api --update-env || pm2 start npm --name "bullfood-api" -- run start:prod
