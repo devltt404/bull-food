@@ -26,7 +26,10 @@ jobs:
         working-directory: server
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: "server"
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
