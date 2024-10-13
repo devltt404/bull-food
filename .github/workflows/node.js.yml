@@ -1,10 +1,14 @@
-name: Node.js CI/CD bullfood
+name: Node.js CI/CD API server
 
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'server/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'server/**'
 
 jobs:
   build:
