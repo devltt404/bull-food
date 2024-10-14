@@ -4,12 +4,12 @@ on:
   push:
     branches: ["main"]
     paths:
-      - .github/workflows/node-api.js.yml
+      - .github/workflows/api.node.js.yml
       - server/**
   pull_request:
     branches: ["main"]
     paths:
-      - .github/workflows/node-api.js.yml
+      - .github/workflows/api.node.js.yml
       - server/**
   workflow_dispatch:
 
