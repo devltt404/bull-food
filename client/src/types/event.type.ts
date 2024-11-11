@@ -58,4 +58,8 @@ export type DetailedEvent = {
     image?: string;
     description: string;
   };
+  calendarUrl?: {
+    google: string;
+    outlook: string;
+  };
 };

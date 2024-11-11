@@ -74,9 +74,16 @@ export function parseEventHTML(root: HTMLElement) {
         .map((tag) => tag.text.trim())
     : [];
 
-  let timeInfo1: string | undefined = undefined;
-  let timeInfo2: string | undefined = undefined;
-  let going: number | undefined = undefined;
+  let timeInfo1: string | undefined;
+  let timeInfo2: string | undefined;
+  let going: number | undefined;
+  let calendarUrl:
+    | {
+        google: string;
+        outlook: string;
+      }
+    | undefined;
+
   const location: {
     name?: string;
     address?: string;
@@ -102,6 +109,19 @@ export function parseEventHTML(root: HTMLElement) {
     going = parseInt(
       secondMainCardBlock.querySelector('.col-md-2_5 span')?.text.trim() || '0',
     );
+
+    const eventUid = secondMainCardBlock
+      .querySelector('a')
+      ?.getAttribute('onclick')
+      ?.match(/event_uid=(.*)&/)
+      ?.at(1);
+
+    if (eventUid) {
+      calendarUrl = {
+        google: `https://bullsconnect.usf.edu/divstudsucc/vcal.aspx?type=google&school=usf&uid=${eventUid}`,
+        outlook: `https://bullsconnect.usf.edu/divstudsucc/vcal.aspx?type=outlook&school=usf&uid=${eventUid}`,
+      };
+    }
   }
 
   const details: {
@@ -135,5 +155,6 @@ export function parseEventHTML(root: HTMLElement) {
     organizer,
     going,
     details,
+    calendarUrl,
   };
 }

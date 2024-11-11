@@ -96,6 +96,7 @@ export class EventsService {
           getEventImageSrc(parsedEventData.details.image),
         description: parsedEventData.details.description || 'No description',
       },
+      calendarUrl: parsedEventData.calendarUrl,
     };
   }
 }

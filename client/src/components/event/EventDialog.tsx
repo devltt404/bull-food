@@ -1,10 +1,20 @@
 import { useGetEventQuery } from "@/api/events.api";
 import { IconComponent } from "@/types/icon.type";
 import { motion } from "framer-motion";
-import { BookText, Clock, Info, MapPin, UsersRoundIcon, X } from "lucide-react";
+import {
+  BookText,
+  Clock,
+  Info,
+  MapPin,
+  SquareArrowOutUpRight,
+  UsersRoundIcon,
+  X,
+} from "lucide-react";
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
+import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 const Overlay = ({ children }: { children: React.ReactNode }) => {
   return createPortal(
@@ -148,11 +158,29 @@ const EventDialog = ({
                       <img
                         src={event.details.image}
                         alt={event.title}
-                        className="mb-6 w-full"
+                        className="mb-4 w-full"
                       />
                     )}
                     <p>{event.details.description}</p>
                   </section>
+
+                  {event.calendarUrl && (
+                    <div className="mb-2 grid gap-4 md:grid-cols-2">
+                      <Button asChild size="lg">
+                        <Link target="_blank" to={event.calendarUrl.google}>
+                          Add to Google Calendar
+                          <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
+                        </Link>
+                      </Button>
+
+                      <Button asChild size="lg" variant="secondary">
+                        <Link target="_blank" to={event.calendarUrl.outlook}>
+                          Add to Outlook Calendar
+                          <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </>

@@ -28,4 +28,8 @@ export class EventResponseDto {
     image?: string;
     description: string;
   };
+  calendarUrl?: {
+    google: string;
+    outlook: string;
+  };
 }
