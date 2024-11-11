@@ -43,6 +43,8 @@ const EventDialog = ({
   const { data: event, isLoading } = useGetEventQuery(id);
 
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShow(false);
@@ -59,6 +61,8 @@ const EventDialog = ({
     window.addEventListener("click", handleClickOutside);
 
     return () => {
+      document.body.style.overflow = "auto";
+
       window.removeEventListener("keydown", handleEscape);
       window.removeEventListener("click", handleClickOutside);
     };
