@@ -11,7 +11,7 @@ const NotFoundPage = () => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex min-h-[80vh] flex-col items-center justify-center"
     >
-      <h1 className="text-5xl font-medium text-gray-900">
+      <h1 className="mb-4 text-5xl font-medium text-gray-900">
         404 | Page Not Found
       </h1>
 

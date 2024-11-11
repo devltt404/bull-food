@@ -1,15 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import crypto from 'crypto';
 import { CreateSubscriberDto } from './dto/create-subscriber';
 import { FilterSubscriberDto } from './dto/query-subscriber';
-import { UpdateSubscriberByEmailDto } from './dto/update-subscriber';
-import { SubscriberRepository } from './infrastructure/persistence/subscriber.repository';
+import { SubscriberRepository } from './repositories/subscriber.repository';
 
 @Injectable()
 export class SubscriberService {
   constructor(private readonly subscriberRepository: SubscriberRepository) {}
 
   async create(createSubscriberDto: CreateSubscriberDto) {
-    return this.subscriberRepository.create(createSubscriberDto);
+    const payload = {
+      ...createSubscriberDto,
+      unsubscribeToken: crypto.randomBytes(16).toString('hex'),
+    };
+
+    return this.subscriberRepository.create(payload);
   }
 
   async findByEmail(email: string) {
@@ -20,10 +25,14 @@ export class SubscriberService {
     return this.subscriberRepository.findAll({ filterOptions });
   }
 
-  async updateByEmail({ email, payload }: UpdateSubscriberByEmailDto) {
-    return this.subscriberRepository.updateByEmail({
-      email,
-      payload,
-    });
+  async removeByToken(unsubscribeToken: string) {
+    const removedSubscriber =
+      await this.subscriberRepository.removeByToken(unsubscribeToken);
+
+    if (!removedSubscriber) {
+      throw new NotFoundException('Subscriber not found');
+    }
+
+    return removedSubscriber;
   }
 }

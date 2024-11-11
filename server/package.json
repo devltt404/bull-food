@@ -32,6 +32,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "compression": "^1.7.4",
+    "crypto": "^1.0.1",
     "handlebars": "^4.7.8",
     "i": "^0.3.7",
     "keyv": "^5.0.3",

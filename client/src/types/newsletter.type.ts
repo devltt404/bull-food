@@ -5,6 +5,10 @@ export interface SubscribeParams {
   campus: EventCampus;
 }
 
+export interface unSubscribeParams {
+  token: string;
+}
+
 export interface Subscriber {
   email: string;
   campus: EventCampus;

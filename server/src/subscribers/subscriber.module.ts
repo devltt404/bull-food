@@ -1,17 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SubscriberRepository } from './infrastructure/persistence/subscriber.repository';
-import {
-  SubscriberSchema,
-  SubscriberSchemaClass,
-} from './infrastructure/persistence/subscriber.schema';
+
+import { SubscriberRepository } from './repositories/subscriber.repository';
+import { Subscriber, SubscriberSchema } from './schemas/subscriber.schema';
 import { SubscriberService } from './subscriber.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: SubscriberSchemaClass.name,
+        name: Subscriber.name,
         schema: SubscriberSchema,
       },
     ]),

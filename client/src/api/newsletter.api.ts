@@ -1,4 +1,8 @@
-import { SubscribeParams, Subscriber } from "@/types/newsletter.type";
+import {
+  SubscribeParams,
+  Subscriber,
+  unSubscribeParams,
+} from "@/types/newsletter.type";
 import { api } from ".";
 
 export const newsletterApi = api.injectEndpoints({
@@ -10,7 +14,14 @@ export const newsletterApi = api.injectEndpoints({
         body: params,
       }),
     }),
+    unsubscribe: builder.mutation<Subscriber, unSubscribeParams>({
+      query: (params) => ({
+        method: "POST",
+        url: "/newsletter/unsubscribe",
+        body: params,
+      }),
+    }),
   }),
 });
 
-export const { useSubscribeMutation } = newsletterApi;
+export const { useSubscribeMutation, useUnsubscribeMutation } = newsletterApi;

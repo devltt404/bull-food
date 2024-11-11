@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -17,9 +17,16 @@ import redisConfig from './redis/config/redis.config';
   imports: [
     CacheModule,
     MongooseModule.forRootAsync({
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get('db.uri'),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const logger = new Logger('DatabaseConnection');
+
+        return {
+          uri: configService.get('db.uri'),
+          onConnectionCreate: (connection) => {
+            connection.on('connected', () => logger.log('Database connected'));
+          },
+        };
+      },
       inject: [ConfigService],
       imports: [ConfigModule],
     }),

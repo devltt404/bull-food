@@ -1,7 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreateSubscriberDto } from 'src/subscribers/dto/create-subscriber';
 import { pickFields } from 'src/utils/pick-fields';
-import { UnsubscribeNewsletterDto } from './dto/unsubscribe-newsletter.dto';
 import { NewsletterService } from './newsletter.service';
 
 @Controller({
@@ -21,9 +20,8 @@ export class NewsletterController {
   }
 
   @Post('unsubscribe')
-  async unsubscribe(@Body('email') { email }: UnsubscribeNewsletterDto) {
-    const subscriber = await this.newsletterService.unsubscribe(email);
-
+  async unsubscribe(@Body() { token }: { token: string }) {
+    const subscriber = await this.newsletterService.unsubscribe(token);
     return pickFields(subscriber, ['email', 'campus']);
   }
 }
