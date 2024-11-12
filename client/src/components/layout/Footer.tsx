@@ -4,8 +4,8 @@ const Footer = () => {
   return (
     <footer className="relative bg-lime-50 py-2.5">
       <div className="container flex items-center justify-between">
-        <p className="text-green-900">
-          &copy; Made by <span className="font-medium">Tri Pham</span>
+        <p className="text-green-900 font-medium">
+          &copy; Made by <span className="font-semibold">Tri Pham</span>
         </p>
 
         <div className="flex flex-wrap items-center gap-4">

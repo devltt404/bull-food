@@ -48,7 +48,7 @@ const CtaForm = ({ ctaRef }: { ctaRef: React.RefObject<HTMLDivElement> }) => {
         <h3 className="text-4xl font-semibold text-green-950">
           Subscribe to our newsletter
         </h3>
-        <p className="my-6">
+        <p className="my-6 font-medium">
           Sign up for daily updates on featured free food events.
         </p>
 

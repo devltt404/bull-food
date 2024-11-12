@@ -44,7 +44,7 @@ const FilterAccordion = ({
         <AccordionTrigger>
           <div className="flex items-center gap-2">
             <CalendarSearch className="h-5 w-5" />
-            <h2 className="text-lg">Quick Filter</h2>
+            <h2 className="text-lg ">Quick Filter</h2>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pb-0">

@@ -92,20 +92,12 @@ const EventDialog = ({
         ) : (
           event && (
             <>
-              <div className="relative">
-                <div className="aspect-[2/1] w-full">
-                  <img
-                    src={event.image}
-                    alt={event?.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <button
-                  onClick={() => setShow(false)}
-                  className="absolute right-4 top-4 rounded-full bg-primary p-2 text-white"
-                >
-                  <X className="h-6 w-6" />
-                </button>
+              <div className="aspect-[2/1] w-full">
+                <img
+                  src={event.image}
+                  alt={event?.title}
+                  className="h-full w-full object-cover"
+                />
               </div>
               <div className="px-8 py-6">
                 <h2 className="text-3xl font-semibold">{event.title}</h2>
@@ -166,14 +158,14 @@ const EventDialog = ({
 
                   {event.calendarUrl && (
                     <div className="mb-2 grid gap-4 md:grid-cols-2">
-                      <Button asChild size="lg">
+                      <Button asChild size="lg" variant="primary-ext">
                         <Link target="_blank" to={event.calendarUrl.google}>
                           Add to Google Calendar
                           <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
                         </Link>
                       </Button>
 
-                      <Button asChild size="lg" variant="secondary">
+                      <Button asChild size="lg" variant="secondary-ext">
                         <Link target="_blank" to={event.calendarUrl.outlook}>
                           Add to Outlook Calendar
                           <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
@@ -186,6 +178,12 @@ const EventDialog = ({
             </>
           )
         )}
+        <button
+          onClick={() => setShow(false)}
+          className="absolute right-4 top-4 rounded-full border-2 hover:bg-gray-100 border-primary bg-white p-2 text-white"
+        >
+          <X className="h-6 w-6 text-primary" />
+        </button>
       </motion.div>
     </Overlay>
   );

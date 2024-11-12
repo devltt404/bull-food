@@ -81,7 +81,9 @@ const EventsPage = () => {
       exit={{ opacity: 0, x: 10 }}
     >
       <div className="container-area">
-        <h1 className="mb-3 text-3xl font-medium">Food Events</h1>
+        <h1 className="gradient-text bg-gradient-to-r from-green-700 to-primary mb-3 text-4xl font-semibold">
+          Food Events
+        </h1>
 
         <FilterAccordion
           searchWord={searchWord}

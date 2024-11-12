@@ -10,9 +10,9 @@ const HeroSection = ({
   ctaRef: React.RefObject<HTMLDivElement>;
 }) => {
   return (
-    <div className="relative rounded-b-[75px] bg-primary/10 py-36 md:rounded-b-[100px] xl:rounded-b-[125px]">
+    <div className="relative rounded-b-[75px] bg-gradient-to-b from-transparent to-green-100 to-80% py-28 md:rounded-b-[100px] md:py-32 xl:rounded-t-[125px]">
       <div className="relative mx-auto">
-        <h1 className="spacing flex flex-wrap items-center justify-center gap-x-5 gap-y-4 text-6xl font-semibold leading-snug [word-spacing:5px]">
+        <h1 className="spacing flex flex-wrap items-center justify-center gap-x-5 gap-y-4 text-6xl font-bold leading-snug [word-spacing:5px]">
           <div className="inline-block bg-primary px-6 py-2 text-white">
             <motion.div
               initial={{ y: 15, opacity: 0 }}
@@ -22,8 +22,8 @@ const HeroSection = ({
               Hungry
             </motion.div>
           </div>
-          <div className="inline-block text-green-950">on</div>
-          <div className="relative inline-block text-green-950">
+          <div className="inline-block text-green-800">on</div>
+          <div className="gradient-text relative bg-gradient-to-r from-green-800 to-primary">
             Campus?
             <motion.div
               className="absolute -bottom-3 -left-3"
@@ -40,7 +40,7 @@ const HeroSection = ({
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.2 }}
-          className="mx-10 my-14 text-center text-lg text-gray-700"
+          className="mx-10 my-12 text-center text-xl font-medium text-gray-700"
         >
           BullFood helps you find{" "}
           <span className="font-semibold text-green-600">free</span> food events
@@ -53,10 +53,17 @@ const HeroSection = ({
           transition={{ delay: 0.5 }}
           className="text-center"
         >
-          <Button asChild variant="secondary" className="px-12 py-7 text-lg">
+          <Button
+            asChild
+            className="transform rounded-lg bg-gradient-to-r from-violet-700 to-secondary px-11 py-7 text-lg font-semibold transition hover:shadow-lg"
+          >
             <Link to="/events">
               Discover Now
-              <ChevronRight strokeWidth={2} size={24} className="ml-2" />
+              <ChevronRight
+                strokeWidth={2}
+                size={24}
+                className="ml-2 stroke-[2.5px]"
+              />
             </Link>
           </Button>
         </motion.div>

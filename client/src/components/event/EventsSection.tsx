@@ -11,12 +11,12 @@ const EventsSection = ({ isFetching, events, label }: EventsSectionProps) => {
 
   return (
     <section className="container" ref={ref}>
-      <h2 className="mb-8 border-b pb-4 text-3xl font-semibold text-green-950">
+      <h2 className="mb-8 border-b pb-4 text-3xl font-semibold text-green-950 tracking-[0.01em]">
         {label.left}{" "}
-        <span className="relative inline-block px-2.5 py-1 text-white">
+        <span className="relative inline-block px-3 py-1 text-white">
           <div
             className={cn(
-              "absolute left-0 top-0 -z-10 h-full bg-secondary transition-all delay-100 duration-300 ease-in-out",
+              "absolute left-0 top-0 -z-10 h-full bg-gradient-to-r from-violet-600 to-secondary transition-all delay-100 duration-300 ease-in-out",
               isInView ? "w-full" : "w-0",
             )}
           ></div>
@@ -24,7 +24,7 @@ const EventsSection = ({ isFetching, events, label }: EventsSectionProps) => {
         </span>{" "}
         {label.right}
       </h2>
-      
+
       {isFetching ? (
         <EventsCarousel events={events} isFetching={isFetching} />
       ) : events && events.length > 0 ? (

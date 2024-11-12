@@ -38,8 +38,10 @@ const EventsGrid = ({
         <p className="text-2xl font-medium">No Events found</p>
       ) : (
         Object.keys(groupedEvents).map((key) => (
-          <div className="mb-10" key={key}>
-            <h3 className="mb-6 text-3xl font-semibold">{key}</h3>
+          <div className="mb-10 border-t-2 border-t-secondary" key={key}>
+            <h3 className="gradient-text my-7 bg-gradient-to-r from-green-700 to-primary text-3xl font-semibold">
+              {key}
+            </h3>
             <Grid>
               {groupedEvents[key].map((event) => (
                 <EventCard
