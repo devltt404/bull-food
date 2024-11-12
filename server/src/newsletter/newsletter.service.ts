@@ -9,7 +9,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import path from 'path';
 import { EventCampus } from 'src/events/constants/event.constant';
 import { EventsService } from 'src/events/events.service';
-import { MailService } from 'src/mail/mail.service';
+import { QueueProducerService } from 'src/queue/queue-producer.service';
 import { CreateSubscriberDto } from 'src/subscribers/dto/create-subscriber';
 import { Subscriber } from 'src/subscribers/schemas/subscriber.schema';
 import { SubscriberService } from 'src/subscribers/subscriber.service';
@@ -21,8 +21,8 @@ export class NewsletterService {
   constructor(
     private readonly subscriberService: SubscriberService,
     private readonly eventsSerivce: EventsService,
-    private readonly mailService: MailService,
     private readonly configService: ConfigService,
+    private readonly queueProducerService: QueueProducerService,
   ) {}
 
   async subscribe(subscribeNewsletterDto: CreateSubscriberDto) {
@@ -39,7 +39,8 @@ export class NewsletterService {
 
     if (subscriber) {
       const today = new Date().toISOString();
-      this.sendNewsLetter({
+
+      await this.sendNewsletter({
         subscribers: [
           {
             email: subscriber.email,
@@ -64,7 +65,7 @@ export class NewsletterService {
   /**
    * Send newsletter of featured events to subscribers at specified campus in the given date range.
    */
-  private async sendNewsLetter({
+  async sendNewsletter({
     subscribers,
     campus,
     fromDate,
@@ -83,14 +84,10 @@ export class NewsletterService {
       toDate,
       campus,
     });
-    this.logger.log(
-      `📧 Sending newsletter to subscribers at ${campus}: ${subscribers.join(', ')}`,
-    );
-
     try {
-      const sendMailPromises = subscribers.map(
+      const addToQueuePromises = subscribers.map(
         ({ email, unsubscribeToken }) => {
-          return this.mailService.sendMail({
+          return this.queueProducerService.addToEmailQueue({
             to: email,
             subject: `USF free food events on ${new Date().toLocaleDateString()}`,
             templatePath: path.join(
@@ -105,15 +102,8 @@ export class NewsletterService {
         },
       );
 
-      await Promise.all(sendMailPromises);
-
-      this.logger.log(
-        `📧 Newsletter sent to ${subscribers.length} subscribers at ${campus}`,
-      );
+      await Promise.all(addToQueuePromises);
     } catch (error) {
-      this.logger.error(
-        `❌ Failed to send newsletter to ${subscribers.length} subscribers at ${campus}`,
-      );
       this.logger.error(error);
     }
   }
@@ -127,34 +117,26 @@ export class NewsletterService {
   async sendDailyNewsletter() {
     this.logger.log('✉️ Start sending daily newsletter...');
 
-    const subcribers = await this.subscriberService.findAll({
-      filterOptions: { isSubscribed: true },
-    });
+    const subcribers = await this.subscriberService.findAll({});
 
-    // Split subscribers by campus
     const subscribersByCampus = {};
     Object.values(EventCampus).forEach((campus) => {
       subscribersByCampus[campus] = [];
     });
     for (const subscriber of subcribers) {
-      subscribersByCampus[subscriber.campus].push({
-        email: subscriber.email,
-        unsubscribeToken: subscriber.unsubscribeToken,
-      });
+      subscribersByCampus[subscriber.campus].push(subscriber);
     }
 
     const today = new Date().toISOString();
 
-    // Send daily newsletter for each campus
-    for (const campus of Object.values(EventCampus)) {
-      await this.sendNewsLetter({
+    const sendNewsletterPromises = Object.values(EventCampus).map((campus) => {
+      return this.sendNewsletter({
         subscribers: subscribersByCampus[campus],
         campus,
         fromDate: today,
         toDate: today,
       });
-    }
-
-    this.logger.log('📥 Daily newsletter sent successfully');
+    });
+    await Promise.all(sendNewsletterPromises);
   }
 }

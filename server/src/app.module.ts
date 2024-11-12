@@ -11,6 +11,8 @@ import { EventsModule } from './events/events.module';
 import mailConfig from './mail/config/mail.config';
 import { MailModule } from './mail/mail.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
+import { QueueModule } from './queue/queue.module';
+import rabbitMQConfig from './queue/rabbitMQ/rabbitMQ.config';
 import redisConfig from './redis/config/redis.config';
 
 @Module({
@@ -38,10 +40,12 @@ import redisConfig from './redis/config/redis.config';
         mailConfig,
         redisConfig,
         databaseConfig,
+        rabbitMQConfig,
       ],
       isGlobal: true,
       envFilePath: ['.env'],
     }),
+    QueueModule,
     EventsModule,
     BullsConnectModule,
     MailModule,

@@ -2,6 +2,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import compression from 'compression';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { AppConfig } from './config/app.config.type';
 import handleValidationError from './utils/handle-validation-error';
@@ -14,6 +15,7 @@ async function bootstrap() {
     origin: appConfig?.clientBaseUrl,
     credentials: true,
   });
+  app.use(helmet());
   app.use(compression());
   app.setGlobalPrefix(appConfig?.apiPrefix || '');
   app.enableVersioning({

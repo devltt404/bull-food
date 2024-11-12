@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { readFile } from 'fs/promises';
 import Handlebars from 'handlebars';
 import * as nodemailer from 'nodemailer';
+import { SendMailData } from './interfaces/send-mail.interface';
 
 @Injectable()
 export class MailService {
@@ -20,14 +21,7 @@ export class MailService {
     });
   }
 
-  async sendMail({
-    templatePath,
-    context,
-    ...mailOptions
-  }: nodemailer.SendMailOptions & {
-    templatePath: string;
-    context: Record<string, unknown> | Record<string, unknown>[];
-  }) {
+  async sendMail({ templatePath, context, ...mailOptions }: SendMailData) {
     const template = await readFile(templatePath, 'utf8');
     const html = Handlebars.compile(template)(context);
     const data = await this.transporter.sendMail({
