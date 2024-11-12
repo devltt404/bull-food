@@ -1,16 +1,16 @@
 # Base image
-FROM node:18
+FROM node:20
 
 # Create app directory
 WORKDIR /usr/src/app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
 # Install app dependencies
 RUN npm install
 
-# Bundle app source
+# Copy all files from the current directory to the working directory
 COPY . .
 
 # Creates a "dist" folder with the production build
