@@ -163,14 +163,14 @@ const EventDialog = ({
 
                   {event.calendarUrl && (
                     <div className="mb-2 grid gap-4 md:grid-cols-2">
-                      <Button asChild size="lg" variant="primary-ext">
+                      <Button asChild size="lg" variant="default">
                         <Link target="_blank" to={event.calendarUrl.google}>
                           Add to Google Calendar
                           <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
                         </Link>
                       </Button>
 
-                      <Button asChild size="lg" variant="secondary-ext">
+                      <Button asChild size="lg" variant="secondary">
                         <Link target="_blank" to={event.calendarUrl.outlook}>
                           Add to Outlook Calendar
                           <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />

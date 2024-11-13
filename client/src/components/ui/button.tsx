@@ -17,8 +17,6 @@ const buttonVariants = cva(
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        "primary-ext":
-          "font-semibold bg-primary text-primary-foreground shadow-sm border border-2 hover:bg-white hover:text-primary border-primary",
         "secondary-gradient":
           "font-semibold bg-secondary-gradient gradient-bg-hover text-secondary-foreground shadow-sm bg-no-repeat",
         ghost: "hover:bg-accent hover:text-accent-foreground",
