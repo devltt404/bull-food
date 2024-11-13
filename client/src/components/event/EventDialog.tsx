@@ -81,17 +81,22 @@ const EventDialog = ({
   return (
     <Overlay>
       <motion.div
-        initial={{ opacity: 0, y: -30, scale: 0.85 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -30, scale: 0.85 }}
-        transition={{ duration: 0.25, ease: "easeInOut" }}
-        className="relative min-h-[calc(100vh-4rem)] w-full max-w-4xl overflow-hidden rounded-xl bg-background"
+        exit={{ opacity: 0, y: 30 }}
+        transition={{ duration: 0.28 }}
+        className="relative min-h-[calc(100vh-4rem)] w-full max-w-4xl overflow-hidden rounded-xl bg-white"
       >
+        <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
         {isLoading ? (
-          <div className="h-full animate-pulse bg-gray-300"></div>
+          <div className="relative flex h-full w-full items-center justify-center">
+            <span className="relative inline-flex h-8 w-8 rounded-full bg-gray-300"></span>
+            <span className="absolute inline-flex h-14 w-14 animate-ping rounded-full bg-gray-300 opacity-75"></span>
+            <span className="absolute inline-flex h-24 w-24 animate-ping rounded-full bg-gray-300 opacity-75"></span>
+          </div>
         ) : (
           event && (
-            <>
+            <div className="relative">
               <div className="aspect-[2/1] w-full">
                 <img
                   src={event.image}
@@ -175,14 +180,14 @@ const EventDialog = ({
                   )}
                 </div>
               </div>
-            </>
+            </div>
           )
         )}
         <button
           onClick={() => setShow(false)}
-          className="absolute right-4 top-4 rounded-full border-2 hover:bg-gray-100 border-primary bg-white p-2 text-white"
+          className="absolute right-4 top-4 text-wrap rounded-full border-2 border-black bg-black p-2 text-white transition hover:bg-white hover:text-black"
         >
-          <X className="h-6 w-6 text-primary" />
+          <X className="h-6 w-6" />
         </button>
       </motion.div>
     </Overlay>

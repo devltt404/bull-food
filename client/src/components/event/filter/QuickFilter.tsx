@@ -61,7 +61,7 @@ const QuickFilter = ({
               className={cn(
                 `flex h-full w-full flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition`,
                 daysOffset === option.value
-                  ? "bg-primary text-white"
+                  ? "bg-custom-gradient text-white"
                   : "border hover:border-primary hover:bg-green-50 hover:text-black",
               )}
             >

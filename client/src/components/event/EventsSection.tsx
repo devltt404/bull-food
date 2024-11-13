@@ -10,13 +10,19 @@ const EventsSection = ({ isFetching, events, label }: EventsSectionProps) => {
   const isInView = useInView(ref, { once: true });
 
   return (
-    <section className="container" ref={ref}>
-      <h2 className="mb-8 border-b pb-4 text-3xl font-semibold text-green-950 tracking-[0.01em]">
+    <section
+      className={cn(
+        "container transition duration-500 ease-in-out",
+        isInView ? "opacity-1 translate-y-0" : "translate-y-20 opacity-0",
+      )}
+      ref={ref}
+    >
+      <h2 className="mb-8 border-b pb-4 text-3xl font-semibold tracking-[0.01em] text-green-950">
         {label.left}{" "}
         <span className="relative inline-block px-3 py-1 text-white">
           <div
             className={cn(
-              "absolute left-0 top-0 -z-10 h-full bg-gradient-to-r from-violet-600 to-secondary transition-all delay-100 duration-300 ease-in-out",
+              "absolute left-0 top-0 -z-10 h-full bg-secondary-gradient transition-all delay-100 duration-300 ease-in-out",
               isInView ? "w-full" : "w-0",
             )}
           ></div>

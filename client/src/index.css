@@ -81,3 +81,12 @@
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
+
+.gradient-bg-hover {
+  background-size: 200% 200%;
+  transition: background-position 0.5s;
+}
+
+.gradient-bg-hover:hover {
+  background-position: right center;
+}

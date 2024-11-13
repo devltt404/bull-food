@@ -66,7 +66,13 @@ const IndexPage = () => {
       initial={false}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -10 }}
+      className="relative"
     >
+      {/* Background */}
+      <div className="absolute top-0 -z-10 h-full w-full bg-white">
+        <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-primary/50 opacity-50 blur-[80px]"></div>
+      </div>
+
       <HeroSection ctaRef={ctaRef} />
       <div className="flex flex-col gap-16 py-20">
         {eventSections.map((section, index) => (

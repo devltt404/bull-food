@@ -39,7 +39,7 @@ const EventsGrid = ({
       ) : (
         Object.keys(groupedEvents).map((key) => (
           <div className="mb-10 border-t-2 border-t-secondary" key={key}>
-            <h3 className="gradient-text my-7 bg-gradient-to-r from-green-700 to-primary text-3xl font-semibold">
+            <h3 className="gradient-text my-7 bg-secondary-gradient text-3xl font-semibold">
               {key}
             </h3>
             <Grid>

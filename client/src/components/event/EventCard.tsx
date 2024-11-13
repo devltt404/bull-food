@@ -45,7 +45,10 @@ export const EventCard = ({
   return (
     <>
       <div
-        onClick={() => setShowEventDialog(true)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowEventDialog(true);
+        }}
         className={cn(
           "cursor-pointer overflow-hidden rounded-br-2xl rounded-tl-2xl border-2 bg-white transition hover:border-primary",
           eventBadgeType === EventBadgeType.hot && "border-red-500",

@@ -10,10 +10,10 @@ const HeroSection = ({
   ctaRef: React.RefObject<HTMLDivElement>;
 }) => {
   return (
-    <div className="relative rounded-b-[75px] bg-gradient-to-b from-transparent to-green-100 to-80% py-28 md:rounded-b-[100px] md:py-32 xl:rounded-t-[125px]">
+    <div className="relative py-28 md:py-32">
       <div className="relative mx-auto">
         <h1 className="spacing flex flex-wrap items-center justify-center gap-x-5 gap-y-4 text-6xl font-bold leading-snug [word-spacing:5px]">
-          <div className="inline-block bg-primary px-6 py-2 text-white">
+          <div className="inline-block bg-primary-gradient px-3 py-2 text-white md:px-6">
             <motion.div
               initial={{ y: 15, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -23,7 +23,7 @@ const HeroSection = ({
             </motion.div>
           </div>
           <div className="inline-block text-green-800">on</div>
-          <div className="gradient-text relative bg-gradient-to-r from-green-800 to-primary">
+          <div className="gradient-text relative bg-primary-gradient">
             Campus?
             <motion.div
               className="absolute -bottom-3 -left-3"
@@ -55,7 +55,8 @@ const HeroSection = ({
         >
           <Button
             asChild
-            className="transform rounded-lg bg-gradient-to-r from-violet-700 to-secondary px-11 py-7 text-lg font-semibold transition hover:shadow-lg"
+            variant="secondary-gradient"
+            className="transform rounded-lg px-11 py-7 text-lg font-semibold transition hover:shadow-lg"
           >
             <Link to="/events">
               Discover Now
