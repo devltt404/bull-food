@@ -56,7 +56,7 @@ const HeroSection = ({
           <Button
             asChild
             variant="secondary-gradient"
-            className="transform rounded-lg px-11 py-7 text-lg font-semibold transition hover:shadow-lg"
+            className="gradient-bg-hover rounded-lg px-11 py-7 text-lg"
           >
             <Link to="/events">
               Discover Now

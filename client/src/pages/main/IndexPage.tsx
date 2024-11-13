@@ -64,8 +64,8 @@ const IndexPage = () => {
   return (
     <motion.div
       initial={false}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="relative"
     >
       {/* Background */}

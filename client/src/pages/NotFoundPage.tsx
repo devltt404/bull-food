@@ -11,11 +11,14 @@ const NotFoundPage = () => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex min-h-[80vh] flex-col items-center justify-center"
     >
-      <h1 className="mb-4 text-5xl font-medium text-gray-900">
-        404 | Page Not Found
+      <div className="gradient-text mb-2 bg-primary-gradient text-8xl font-semibold">
+        404
+      </div>
+      <h1 className="mb-2 text-center text-5xl font-medium text-gray-900 ">
+        Page Not Found
       </h1>
 
-      <Button size="lg" asChild variant="secondary" className="mt-6">
+      <Button size="lg" asChild variant="secondary-gradient" className="mt-6">
         <Link to="/">Return home</Link>
       </Button>
     </motion.div>

@@ -75,16 +75,16 @@ const EventsPage = () => {
 
   return (
     <motion.div
-      className="relative overflow-x-hidden"
+      className="relative"
       initial={false}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 10 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
     >
       {/* Background */}
       <div className="absolute top-0 z-[-2] h-full w-screen bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(33,196,93,0.13)_0,rgba(33,196,93,0)_50%,rgba(0,163,255,0)_100%)]"></div>
 
       <div className="container-area">
-        <h1 className="gradient-text bg-primary-gradient mb-3 text-4xl font-semibold">
+        <h1 className="gradient-text mb-3 bg-primary-gradient text-4xl font-semibold">
           Food Events
         </h1>
 
