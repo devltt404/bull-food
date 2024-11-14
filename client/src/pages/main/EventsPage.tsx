@@ -1,7 +1,7 @@
 import { useGetEventsQuery } from "@/api/events.api";
 import { useAppSelector } from "@/app/hooks";
-import EventsGrid from "@/components/event/EventsGrid";
 import FilterAccordion from "@/components/event/filter/FilterAccordion";
+import EventsGrid from "@/components/event/groups/EventsGroups";
 import useDebouncedValue from "@/hooks/useDebouncedValue";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { Event, EventsFilterOption } from "@/types/event.type";

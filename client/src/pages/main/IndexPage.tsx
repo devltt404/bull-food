@@ -76,7 +76,16 @@ const IndexPage = () => {
       <HeroSection ctaRef={ctaRef} />
       <div className="flex flex-col gap-16 py-20">
         {eventSections.map((section, index) => (
-          <EventsSection key={index} {...section} />
+          <div
+            key={index}
+            className="animate-fade-up"
+            style={{
+              animationFillMode: "both",
+              animationDelay: `${0.6 + index * 0.1}s`,
+            }}
+          >
+            <EventsSection {...section} />
+          </div>
         ))}
       </div>
 

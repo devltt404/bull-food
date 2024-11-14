@@ -12,46 +12,34 @@ const HeroSection = ({
   return (
     <div className="relative py-28 md:py-32">
       <div className="relative mx-auto">
-        <h1 className="spacing flex flex-wrap items-center justify-center gap-x-5 gap-y-4 text-6xl font-bold leading-snug [word-spacing:5px]">
+        <h1
+          className="spacing flex animate-fade-up flex-wrap items-center justify-center gap-x-5 gap-y-4 text-6xl font-bold leading-snug [word-spacing:5px]"
+          style={{ animationDelay: "0.2s", animationFillMode: "both" }}
+        >
           <div className="inline-block bg-primary-gradient px-3 py-2 text-white md:px-6">
-            <motion.div
-              initial={{ y: 15, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.25 }}
-            >
-              Hungry
-            </motion.div>
+            Hungry
           </div>
           <div className="inline-block text-green-800">on</div>
           <div className="gradient-text relative bg-primary-gradient">
             Campus?
-            <motion.div
-              className="absolute -bottom-3 -left-3"
-              initial={{ x: 15, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.35 }}
-            >
+            <div className="absolute -bottom-3 -left-3">
               <CurvedLine className="fill-primary" />
-            </motion.div>
+            </div>
           </div>
         </h1>
 
-        <motion.p
-          initial={{ y: -10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.2 }}
-          className="mx-10 my-12 text-center text-xl font-medium text-gray-700"
+        <p
+          className="mx-10 my-12 animate-fade-up text-center text-xl font-medium text-gray-700"
+          style={{ animationDelay: "0.3s", animationFillMode: "both" }}
         >
           BullFood helps you find{" "}
           <span className="font-semibold text-green-600">free</span> food events
           at USF!
-        </motion.p>
+        </p>
 
         <motion.div
-          initial={{ y: -10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-center"
+          className="animate-fade-up text-center"
+          style={{ animationDelay: "0.4s", animationFillMode: "both" }}
         >
           <Button
             asChild
@@ -76,14 +64,13 @@ const HeroSection = ({
           ctaRef.current?.scrollIntoView({ behavior: "smooth" });
         }}
       >
-        <motion.div
-          className="flex flex-col items-center"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
+        <div
+          className="flex animate-fade-up flex-col items-center"
+          style={{ animationDelay: "0.5s", animationFillMode: "both" }}
         >
           <p className="text-lg font-medium">Subscribe now</p>
           <ChevronDown className="-mt-1" size={24} />
-        </motion.div>
+        </div>
       </button>
     </div>
   );
