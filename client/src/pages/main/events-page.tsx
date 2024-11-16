@@ -1,7 +1,6 @@
 import { useGetEventsQuery } from "@/api/events";
 import { Event, EventsFilterOption } from "@/api/events/types";
 import { useAppSelector } from "@/app/hooks";
-import EmptyEvents from "@/components/events/empty";
 import EventsFilter from "@/components/events/filter";
 import EventsGroups from "@/components/events/groups";
 import EventsGroupsItemSkeleton from "@/components/events/groups/item/skeleton";
@@ -61,9 +60,14 @@ const EventsPage = () => {
     if (data) {
       setEvents((prev) => (from === 0 ? data : [...(prev || []), ...data]));
     }
-  }, [data, from]);
+  }, [data]);
 
-  // Reset the filter when the selected filter is changed
+  // Reset from when filter value changes
+  useEffect(() => {
+    setFrom(0);
+  }, [debouncedSearchWord, daysOffset, dateRange]);
+
+  // Reset filter values and from when selected filter option changes
   useEffect(() => {
     setFrom(0);
     if (selectedFilter === EventsFilterOption.quick) {
@@ -72,7 +76,7 @@ const EventsPage = () => {
     } else {
       setdaysOffset(null);
     }
-  }, [selectedFilter, daysOffset, dateRange]);
+  }, [selectedFilter]);
 
   useInfiniteScroll(
     () => {
@@ -111,10 +115,11 @@ const EventsPage = () => {
 
         {(isFetching && from === 0) || !events ? (
           <EventsGroupsItemSkeleton />
-        ) : events.length > 0 ? (
-          <EventsGroups events={events} isFilterChanged={from === 0} />
         ) : (
-          <EmptyEvents />
+          <EventsGroups
+            events={from === 0 ? data || [] : events}
+            isFilterChanged={from === 0}
+          />
         )}
       </div>
     </motion.div>
