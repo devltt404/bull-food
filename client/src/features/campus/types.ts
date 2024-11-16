@@ -1,5 +1,5 @@
-import { EventCampus } from "@/constants/event.constant"
+import { EventCampus } from "@/constants/event.constant";
 
-export type CampusState {
-    campus: EventCampus
-}
+export type CampusState = {
+  campus: EventCampus;
+};

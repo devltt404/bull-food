@@ -1,4 +1,8 @@
-import React, { FunctionComponent, ReactPortal } from "react";
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  ReactPortal,
+} from "react";
 
 export type EventDialogComponent = FunctionComponent<{
   id: string;
