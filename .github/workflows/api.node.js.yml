@@ -16,7 +16,6 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-
     strategy:
       matrix:
         node-version: [20.x]
@@ -68,7 +67,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
           context: server
@@ -76,13 +75,22 @@ jobs:
           push: true
           tags: devltt404/bullfood-server:latest
 
-      - name: Run container
+  run:
+    runs-on: self-hosted
+    needs: build
+
+    steps:
+      - name: Pull the latest image
         run: |
           docker pull devltt404/bullfood-server:latest
 
+      - name: Stop and remove any existing containers
+        run: |
           docker stop bullfood-server || true
           docker rm bullfood-server || true
 
+      - name: Run Docker container
+        run: |
           docker run -d \
             --name bullfood-server \
             --env-file .env \
