@@ -79,6 +79,10 @@ jobs:
     runs-on: self-hosted
     needs: build
 
+    defaults:
+      run:
+        working-directory: server
+
     steps:
       - name: Pull the latest image
         run: |
