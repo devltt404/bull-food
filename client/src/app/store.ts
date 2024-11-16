@@ -1,5 +1,5 @@
 import { api } from "@/api";
-import campusSlice from "@/features/campus.slice";
+import campusSlice from "@/features/campus";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 

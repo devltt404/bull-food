@@ -1,4 +1,4 @@
-import { IconComponent } from "@/types/icon.type";
+import { IconComponent } from "@/utils/types";
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { Mail } from "lucide-react";
 
