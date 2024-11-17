@@ -30,12 +30,15 @@ export function CampusSelect() {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          aria-labelledby="select-label"
           variant="outline"
           role="combobox"
           aria-expanded={open}
           className="w-[180px] justify-between"
         >
-          <p className="truncate">Campus: {campus}</p>
+          <p id="select-label" className="truncate">
+            Campus: {campus}
+          </p>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
