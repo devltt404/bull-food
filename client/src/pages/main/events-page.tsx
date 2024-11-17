@@ -93,6 +93,7 @@ const EventsPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
     >
       {/* Background */}
       <div className="max-w-screen absolute top-0 z-[-2] h-[100vh] w-full bg-[radial-gradient(100%_200%_at_50%_0%,rgba(33,196,93,0.13)_0,rgba(33,196,93,0)_50%,rgba(0,163,255,0)_100%)]"></div>

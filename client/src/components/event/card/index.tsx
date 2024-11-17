@@ -54,7 +54,12 @@ const EventCard: EventCardComponent = ({
         )}
       >
         <div className="relative">
-          <img className="h-40 w-full object-cover" src={event.image} />
+          <img
+            loading="lazy"
+            className="h-40 w-full object-cover"
+            src={event.image}
+            alt={event.title + " thumbnail"}
+          />
           <EventBadge going={event.going} />
         </div>
         <div className="px-4 pb-5 pt-3">

@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
-export function CampusSelect() {
+function CampusSelect() {
   const [open, setOpen] = React.useState<boolean>(false);
   const { campus } = useAppSelector((state: RootState) => state.campus);
   const dispatch = useAppDispatch();
