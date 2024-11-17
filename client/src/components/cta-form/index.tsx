@@ -74,7 +74,7 @@ const CtaForm: CtaFormComponent = ({ ctaRef }) => {
               Subscribe
             </Button>
           </div>
-          <p className="mt-4 text-sm text-muted-foreground">
+          <p className="mt-4 text-sm text-gray-800">
             The newsletter is free and you can unsubscribe at any time.
           </p>
         </div>

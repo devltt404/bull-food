@@ -30,8 +30,8 @@ const HeroSection: HeroSectionComponent = ({ ctaRef }) => {
           style={{ animationDelay: "0.3s", animationFillMode: "both" }}
         >
           BullFood helps you find{" "}
-          <span className="font-semibold text-green-600">free</span> food events
-          at USF!
+          <span className="font-semibold underline">free</span> food events at
+          USF!
         </p>
 
         <motion.div
