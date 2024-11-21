@@ -109,7 +109,7 @@ We use **Docker Compose** to set up and run **MongoDB**, **Redis**, and **Rabbit
 2. Verify running Containers
 
    ```bash
-   docker-compose ps
+   docker ps
    ```
 
 You should see the following services listed:
