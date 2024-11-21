@@ -1,9 +1,9 @@
 services:
   mongodb:
     image: mongo:8.0
-    container_name: mongodb
+    container_name: bf-mongodb
     ports:
-      - '27017:27017'
+      - '27018:27017'
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
@@ -15,7 +15,7 @@ services:
 
   redis:
     image: redis:7.4-alpine
-    container_name: redis
+    container_name: bf-redis
     ports:
       - '6379:6379'
     entrypoint: redis-server --appendonly yes
@@ -24,7 +24,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:4.0.3-management-alpine
-    container_name: rabbitmq
+    container_name: bf-rabbitmq
     ports:
       - '5672:5672'
       - '15672:15672'
