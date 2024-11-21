@@ -4,6 +4,19 @@ BullFood is a user-friendly website designed for students at the University of S
 
 [![BullFood](./screenshot.png)](https://bullfood.devltt.site/)
 
+## Table of Contents
+
+- [Tech Stack 🛠️](#tech-stack-🛠️)
+- [Features 🚀](#features-🚀)
+- [Running Locally 🧪](#running-locally-🧪)
+  - [Prerequisites](#prerequisites)
+  - [Steps](#steps)
+    - [Step 1: Clone the Repository](#step-1-clone-the-repository)
+    - [Step 2: Set Up the Client (Front-End)](#step-2-set-up-the-client-front-end)
+    - [Step 3: Set Up the Server (Back-End)](#step-3-set-up-the-server-back-end)
+    - [Step 4: Set Up the Services with Docker Compose](#step-4-set-up-the-services-with-docker-compose)
+    - [Last Step: Run the Server](#last-step-run-the-server)
+
 ## Tech Stack 🛠️
 
 - **Frontend:** [React](https://react.dev/) (with Typescript), [Redux](https://redux.js.org/), [TailwindCSS](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/)
