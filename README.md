@@ -68,11 +68,6 @@ cd bull-food
    cp .env.example .env
    ```
 
-4. Run the client (front-end)
-   ```bash
-   npm run dev
-   ```
-
 #### Step 3: Set Up the Server (Back-End)
 
 1. Navigate to the `server` folder:
@@ -124,7 +119,7 @@ You should see the following services listed:
 #### Last Step: Run the Server
 
 ```bash
-npm run start:dev
+npm run dev
 ```
 
 Access the website through your browser at: [http://localhost:5173](http://localhost:5173)
