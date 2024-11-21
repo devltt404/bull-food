@@ -1,6 +1,6 @@
 # [BullFood 🍔](https://bullfood.devltt.site/)
 
-BullFood is a user-friendly website designed for students at the University of South Florida (USF) to discover and receive updates about free food events on campus.
+BullFood is a user-friendly website designed for students at the University of South Florida (USF) to discover free food events on campus. Users can subscribe to a newsletter to receive daily updates about featured food events.
 
 [![BullFood](./screenshot.png)](https://bullfood.devltt.site/)
 
@@ -27,8 +27,10 @@ BullFood is a user-friendly website designed for students at the University of S
 
 ## Features 🚀
 
-- **Discover Free Food Events:** Browse a curated list of free food events on the USF campus.
-- **Newsletter Subscription:** Subscribe to receive daily updates about featured food events.
+- **NestJS Backend**: Built with a focus on _OOP_ and adherence to _SOLID_ principles.
+- **Email Notifications**: Utilize _RabbitMQ_ for efficient email delivery to users.
+- **Caching**: Implement _Redis_ to cache frequently requests.
+- **CI/CD Integration**: Automated deployment pipeline using _Docker_ and _GitHub Actions_.
 
 ## Running Locally 🧪
 
