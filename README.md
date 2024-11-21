@@ -112,7 +112,7 @@ We use **Docker Compose** to set up and run **MongoDB**, **Redis**, and **Rabbit
 
 You should see the following services listed:
 
-- **mongodb** on port `27017`
+- **mongodb** on port `27018`
 - **redis** on port `6379`
 - **rabbitmq** on port `5672` and web UI on port `15672`
 
