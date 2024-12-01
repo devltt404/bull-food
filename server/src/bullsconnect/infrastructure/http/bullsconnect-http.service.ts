@@ -1,11 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import { getReqUrl } from 'src/utils/get-req-url';
 
 @Injectable()
 export class BullsConnectHttpService {
@@ -33,12 +35,7 @@ export class BullsConnectHttpService {
   private handleRequest(config: InternalAxiosRequestConfig) {
     config.headers['start-time'] = new Date().getTime();
 
-    let fullUrl = config.url;
-    if (config.params) {
-      fullUrl += '?' + new URLSearchParams(config.params).toString();
-    }
-
-    this.logger.log(`Requesting ${fullUrl}`);
+    this.logger.log(`Requesting ${getReqUrl(config)}`);
 
     return config;
   }
@@ -48,17 +45,17 @@ export class BullsConnectHttpService {
     return new Date().getTime() - headers['start-time'];
   }
 
-  private handleFulfilledResponse(response: any) {
+  private handleFulfilledResponse(response: AxiosResponse) {
     this.logger.log(
-      `Response fullfilled: ${response.config.url} - ${this.calcResponseTime(response)}ms`,
+      `Response fullfilled: ${getReqUrl(response.config)} - ${this.calcResponseTime(response)}ms`,
     );
 
     return response;
   }
 
-  private handleRejectedResponse(error: any) {
+  private handleRejectedResponse(error: AxiosError) {
     this.logger.error(
-      `Response rejected: ${error.config.url} - ${this.calcResponseTime(error)}ms}`,
+      `Response rejected: ${error.config && getReqUrl(error.config)} - ${this.calcResponseTime(error)}ms}`,
     );
 
     return Promise.reject(error);

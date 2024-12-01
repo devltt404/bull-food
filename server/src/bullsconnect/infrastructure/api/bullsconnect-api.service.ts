@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import axios from 'axios';
 import { BullsConnectHttpService } from '../http/bullsconnect-http.service';
 import { FetchEventsDto } from './dto/fetch-events.dto';
 import {
@@ -43,14 +44,23 @@ export class BullsConnectApiService {
   async fetchEventsList(
     params: FetchEventsDto,
   ): Promise<(FetchedEvent | FetchedDateSeparator)[]> {
-    const { data }: { data: (FetchedEvent | FetchedDateSeparator)[] } =
-      await this.bullsConnectHttpService.get(
-        '/mobile_ws/v17/mobile_events_list',
-        {
-          params,
-        },
-      );
-    return data;
+    try {
+      const { data }: { data: (FetchedEvent | FetchedDateSeparator)[] } =
+        await this.bullsConnectHttpService.get(
+          '/mobile_ws/v17/mobile_events_list',
+          {
+            params,
+            timeout: 5000,
+          },
+        );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.code === 'ECONNABORTED') {
+        return [];
+      } else {
+        throw error;
+      }
+    }
   }
 
   /**
