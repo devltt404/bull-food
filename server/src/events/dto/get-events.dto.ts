@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer';
-import { IsInt, IsISO8601, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
+import { isDDMMMYYYY } from 'src/utils/decorators/is-DDMMMYYYY.decorator';
 import { EventCampus } from '../constants/event.constant';
 import { IsEventCampus } from '../decorators/is-event-campus.decorator';
 
@@ -8,11 +9,11 @@ export class GetEventsDto {
   campus: EventCampus;
 
   @IsOptional()
-  @IsISO8601()
+  @isDDMMMYYYY()
   fromDate?: string;
 
   @IsOptional()
-  @IsISO8601()
+  @isDDMMMYYYY()
   toDate?: string;
 
   @IsOptional()

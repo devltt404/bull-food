@@ -5,7 +5,7 @@ import EventsSection from "@/components/events/section";
 import { EventsSectionProps } from "@/components/events/section/types";
 import HeroSection from "@/components/hero-section";
 import Footer from "@/components/layout/footer";
-import { getIsoDate } from "@/utils/helper";
+import { getDDMMMYYYYDate } from "@/utils/helper";
 import { motion } from "framer-motion";
 import { useMemo, useRef } from "react";
 
@@ -15,8 +15,14 @@ const IndexPage = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
 
   // Memoize dates
-  const today = useMemo(() => getIsoDate(), []);
-  const tomorrow = useMemo(() => getIsoDate(1), []);
+  const today = useMemo(() => getDDMMMYYYYDate(), []);
+  const tomorrow = useMemo(
+    () =>
+      getDDMMMYYYYDate({
+        daysOffset: 1,
+      }),
+    [],
+  );
 
   const { data: todayFeaturedEvents, isFetching: isTodayFetching } =
     useGetFeaturedEventsQuery({
@@ -63,6 +69,7 @@ const IndexPage = () => {
 
   return (
     <motion.div
+    
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

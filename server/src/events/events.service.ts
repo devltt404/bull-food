@@ -3,7 +3,6 @@ import { parse } from 'node-html-parser';
 import { BullsConnectApiService } from 'src/bullsconnect/infrastructure/api/bullsconnect-api.service';
 import { FetchEventsDto } from 'src/bullsconnect/infrastructure/api/dto/fetch-events.dto';
 import { FetchedEvent } from 'src/bullsconnect/infrastructure/api/interfaces/fetched-events.interface';
-import { formatDDMMMYYYY } from 'src/utils/format-date';
 import { getEventImageSrc } from 'src/utils/get-event-image-src';
 import { parseEventHTML, parseFetchedEvents } from 'src/utils/parse-events';
 import { EventResponseDto, EventsResponseDto } from './dto/events-response.dto';
@@ -33,10 +32,10 @@ export class EventsService {
       queryParams['search_word'] = searchWord;
     }
     if (fromDate) {
-      queryParams['filter8'] = formatDDMMMYYYY(fromDate);
+      queryParams['filter8'] = fromDate;
     }
     if (toDate) {
-      queryParams['filter9'] = formatDDMMMYYYY(toDate);
+      queryParams['filter9'] = toDate;
     }
 
     const fetchEventData =

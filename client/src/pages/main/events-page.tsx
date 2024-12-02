@@ -6,7 +6,7 @@ import EventsGroups from "@/components/events/groups";
 import EventsGroupsItemSkeleton from "@/components/events/groups/item/skeleton";
 import useDebouncedValue from "@/hooks/use-debounced-value";
 import { useInfiniteScroll } from "@/hooks/use-inifinite-scroll";
-import { getIsoDate } from "@/utils/helper";
+import { getDDMMMYYYYDate } from "@/utils/helper";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -30,18 +30,22 @@ const EventsPage = () => {
 
   const debouncedSearchWord = useDebouncedValue<string>(searchWord, 300);
 
-  const isoDateRange = useMemo(() => {
+  const formattedDateRange = useMemo(() => {
     if (selectedFilter === EventsFilterOption.advanced) {
       return {
-        fromDate: dateRange?.from?.toISOString(),
-        toDate: dateRange?.to?.toISOString(),
+        fromDate: dateRange?.from
+          ? getDDMMMYYYYDate({ startDate: dateRange.from })
+          : undefined,
+        toDate: dateRange?.to
+          ? getDDMMMYYYYDate({ startDate: dateRange.to })
+          : undefined,
       };
     } else if (
       selectedFilter === EventsFilterOption.quick &&
       daysOffset !== null
     ) {
-      const isoDate = getIsoDate(daysOffset);
-      return { fromDate: isoDate, toDate: isoDate };
+      const formattedDate = getDDMMMYYYYDate({ daysOffset });
+      return { fromDate: formattedDate, toDate: formattedDate };
     } else {
       return {};
     }
@@ -52,7 +56,7 @@ const EventsPage = () => {
     range: from,
     searchWord: debouncedSearchWord,
     limit: LIMIT,
-    ...isoDateRange,
+    ...formattedDateRange,
   });
 
   // Append new data to the events
