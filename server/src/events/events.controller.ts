@@ -20,7 +20,7 @@ export class EventsController {
   ) {
     return await this.cacheService.getOrSet({
       key: req.url,
-      ttl: 300000, // 5 minutes
+      ttl: 900000, // 15 minutes
       getter: async () => {
         return await this.eventsService.getEvents(getEventsDto);
       },
@@ -34,7 +34,7 @@ export class EventsController {
   ) {
     return await this.cacheService.getOrSet({
       key: req.url,
-      ttl: 300000, // 5 minutes
+      ttl: 900000, // 15 minutes
       getter: async () => {
         return await this.eventsService.getFeaturedEvents(getEventsDto);
       },
