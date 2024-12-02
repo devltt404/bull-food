@@ -65,8 +65,14 @@
   }
 
   body {
-    @apply overflow-y-scroll scroll-smooth bg-background text-foreground;
+    @apply scroll-smooth bg-background text-foreground;
   }
+}
+
+
+html {
+  /* Fix scrollbar jumping */
+  padding-right: calc(17px - (100vw - 100%));
 }
 
 .container-area {
