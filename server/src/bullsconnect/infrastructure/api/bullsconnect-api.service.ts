@@ -71,7 +71,7 @@ export class BullsConnectApiService {
    */
   async fetchEvent(id: string): Promise<string> {
     const { data }: { data: string } = await this.bullsConnectHttpService.get(
-      'rsvp_boot',
+      '/rsvp_boot',
       {
         params: {
           id,
