@@ -2,6 +2,7 @@ import { useGetEventQuery } from "@/api/events";
 import Overlay from "@/components/event/dialog/overlay";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useScrollbarSize } from "@/hooks/use-scrollbar-size";
 import { IconComponent } from "@/utils/types";
 import { easeInOut, motion } from "framer-motion";
 import {
@@ -37,9 +38,11 @@ const SectionHeading = ({
 
 const EventDialog: EventDialogComponent = ({ id, setShow }) => {
   const { data: event, isLoading } = useGetEventQuery(id);
+  const { scrollWidth } = useScrollbarSize();
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    document.body.style.marginRight = `${scrollWidth}px`;
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -58,11 +61,12 @@ const EventDialog: EventDialogComponent = ({ id, setShow }) => {
 
     return () => {
       document.body.style.overflow = "auto";
+      document.body.style.marginRight = "0";
 
       window.removeEventListener("keydown", handleEscape);
       window.removeEventListener("click", handleClickOutside);
     };
-  }, [setShow]);
+  }, [setShow, scrollWidth]);
 
   return (
     <Overlay>
@@ -80,7 +84,6 @@ const EventDialog: EventDialogComponent = ({ id, setShow }) => {
         }}
         className="relative min-h-[calc(100vh-4rem)] w-full max-w-4xl overflow-hidden rounded-xl bg-white"
       >
-        <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
         {isLoading ? (
           <div className="relative flex h-full w-full items-center justify-center">
             <span className="relative inline-flex h-8 w-8 rounded-full bg-gray-300"></span>

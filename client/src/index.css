@@ -69,12 +69,6 @@
   }
 }
 
-
-html {
-  /* Fix scrollbar jumping */
-  padding-right: calc(17px - (100vw - 100%));
-}
-
 .container-area {
   @apply container py-8;
 }
