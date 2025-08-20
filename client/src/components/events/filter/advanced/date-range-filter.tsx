@@ -24,7 +24,7 @@ const DateRangeFilter: DateRangeFilterComponent = ({
         <PopoverTrigger asChild>
           <Button
             id="date"
-            variant={"outline"}
+            variant={"outline-solid"}
             className={cn(
               "h-full w-[300px] justify-start bg-white text-left font-normal",
               !date && "text-muted-foreground",

@@ -93,7 +93,7 @@ const EventDialog: EventDialogComponent = ({ id, setShow }) => {
         ) : (
           event && (
             <div className="relative">
-              <div className="aspect-[2/1] w-full">
+              <div className="aspect-2/1 w-full">
                 <img
                   src={event.image}
                   alt={event?.title}

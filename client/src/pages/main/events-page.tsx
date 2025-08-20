@@ -100,7 +100,7 @@ const EventsPage = () => {
       transition={{ duration: 0.3 }}
     >
       {/* Background */}
-      <div className="max-w-screen absolute top-0 z-[-2] h-[100vh] w-full bg-[radial-gradient(100%_200%_at_50%_0%,rgba(33,196,93,0.13)_0,rgba(33,196,93,0)_50%,rgba(0,163,255,0)_100%)]"></div>
+      <div className="max-w-screen absolute top-0 z-[-2] h-screen w-full bg-[radial-gradient(100%_200%_at_50%_0%,rgba(33,196,93,0.13)_0,rgba(33,196,93,0)_50%,rgba(0,163,255,0)_100%)]"></div>
 
       <div className="container-area">
         <h1 className="gradient-text mb-3 bg-primary-gradient text-4xl font-semibold">
