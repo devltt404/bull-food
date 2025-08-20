@@ -90,11 +90,6 @@
 }
 
 /* Wrappers */
-
-.events-groups-item-wrapper {
-  @apply mb-10 border-t-2 border-t-secondary;
-}
-
 .events-cards-grid-wrapper {
   @apply grid items-start gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
 }

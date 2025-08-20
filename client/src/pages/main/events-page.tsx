@@ -21,7 +21,7 @@ const EventsPage = () => {
   );
   const [from, setFrom] = useState<number>(0);
   const [events, setEvents] = useState<Event[] | null>(null);
-  const [daysOffset, setdaysOffset] = useState<number | null>(null);
+  const [daysOffset, setDaysOffset] = useState<number | null>(null);
   const [searchWord, setSearchWord] = useState<string>("");
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: undefined,
@@ -64,7 +64,7 @@ const EventsPage = () => {
     if (data) {
       setEvents((prev) => (from === 0 ? data : [...(prev || []), ...data]));
     }
-  }, [data]);
+  }, [data, from]);
 
   // Reset from when filter value changes
   useEffect(() => {
@@ -78,7 +78,7 @@ const EventsPage = () => {
       setSearchWord("");
       setDateRange(undefined);
     } else {
-      setdaysOffset(null);
+      setDaysOffset(null);
     }
   }, [selectedFilter]);
 
@@ -114,7 +114,7 @@ const EventsPage = () => {
           daysOffset={daysOffset}
           selectedFilter={selectedFilter}
           setDateRange={setDateRange}
-          setdaysOffset={setdaysOffset}
+          setDaysOffset={setDaysOffset}
           setSelectedFilter={setSelectedFilter}
         />
 

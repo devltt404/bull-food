@@ -6,7 +6,7 @@ export type EventsFilterComponent = FunctionComponent<{
   selectedFilter: EventsFilterOption;
   setSelectedFilter: React.Dispatch<React.SetStateAction<EventsFilterOption>>;
   daysOffset: number | null;
-  setdaysOffset: React.Dispatch<React.SetStateAction<number | null>>;
+  setDaysOffset: React.Dispatch<React.SetStateAction<number | null>>;
   dateRange: DateRange | undefined;
   setDateRange: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
   searchWord: string;

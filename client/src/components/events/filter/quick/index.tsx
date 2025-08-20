@@ -13,7 +13,7 @@ import WordDateLabel from "./word-date-label";
 
 const QuickEventsFilter: QuickEventsFilterComponent = ({
   daysOffset,
-  setdaysOffset,
+  setDaysOffset,
 }) => {
   const filterOptions = useMemo(() => {
     const res = [
@@ -45,7 +45,7 @@ const QuickEventsFilter: QuickEventsFilterComponent = ({
           >
             <button
               key={idx}
-              onClick={() => setdaysOffset(option.value)}
+              onClick={() => setDaysOffset(option.value)}
               className={cn(
                 `flex h-full w-full flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition`,
                 daysOffset === option.value

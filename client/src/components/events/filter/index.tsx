@@ -14,7 +14,7 @@ const EventsFilter: EventsFilterComponent = ({
   selectedFilter,
   setSelectedFilter,
   daysOffset,
-  setdaysOffset,
+  setDaysOffset,
   dateRange,
   setDateRange,
   searchWord,
@@ -38,7 +38,7 @@ const EventsFilter: EventsFilterComponent = ({
         <AccordionContent className="pb-0">
           <QuickEventsFilter
             daysOffset={daysOffset}
-            setdaysOffset={setdaysOffset}
+            setDaysOffset={setDaysOffset}
           />
         </AccordionContent>
       </AccordionItem>

@@ -64,12 +64,18 @@ const IndexPage = () => {
         events: tomorrowFeaturedEvents,
       },
     ],
-    [upcomingEvents, todayFeaturedEvents, tomorrowFeaturedEvents],
+    [
+      upcomingEvents,
+      todayFeaturedEvents,
+      tomorrowFeaturedEvents,
+      isTodayFetching,
+      isTomorrowFetching,
+      isUpcomingFetching,
+    ],
   );
 
   return (
     <motion.div
-    
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

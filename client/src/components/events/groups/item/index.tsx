@@ -9,17 +9,18 @@ const EventsGroupsItem: EventsGroupsItemComponent = ({ date, events }) => {
   const isInView = useInView(ref, { once: true });
 
   return (
-    <div className="events-groups-item-wrapper">
-      <div
-        ref={ref}
-        className={cn("opacity-0", isInView && "animate-fade-up")}
-        style={{ animationFillMode: "forwards" }}
-      >
-        <h3 className="gradient-text my-7 bg-secondary-gradient text-3xl font-semibold">
-          {date}
-        </h3>
-        <EventCardsGrid events={events} />
-      </div>
+    <div
+      ref={ref} 
+      className={cn(
+        "mb-10 border-t-2 border-t-secondary opacity-0",
+        isInView && "animate-fade-up",
+      )}
+      style={{ animationFillMode: "forwards" }}
+    >
+      <h3 className="gradient-text my-7 bg-secondary-gradient text-3xl font-semibold">
+        {date}
+      </h3>
+      <EventCardsGrid events={events} />
     </div>
   );
 };
