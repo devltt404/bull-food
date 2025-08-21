@@ -1,11 +1,11 @@
-import AnimatedRoutes from "./components/animated-routes";
-import Index from "./components/wrapper/scroll-to-top";
+import Routes from "./components/Routes";
+import ScrollToTop from "./components/wrappers/ScrollToTop";
 
 function App() {
   return (
-    <Index>
-      <AnimatedRoutes />
-    </Index>
+    <ScrollToTop>
+      <Routes />
+    </ScrollToTop>
   );
 }
 

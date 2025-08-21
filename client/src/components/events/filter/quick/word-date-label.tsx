@@ -1,7 +1,7 @@
 import { WordDateLabelComponent } from "./types";
 
-const WordDateLabel: WordDateLabelComponent = ({ word }) => {
+const DateWordLabel: WordDateLabelComponent = ({ word }) => {
   return <div className="text-lg font-medium">{word}</div>;
 };
 
-export default WordDateLabel;
+export default DateWordLabel;

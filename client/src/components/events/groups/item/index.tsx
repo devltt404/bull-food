@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import EventCardsGrid from "../../grid";
@@ -10,14 +10,15 @@ const EventsGroupsItem: EventsGroupsItemComponent = ({ date, events }) => {
 
   return (
     <div
-      ref={ref} 
+      ref={ref}
       className={cn(
-        "mb-10 border-t-2 border-t-secondary opacity-0",
-        isInView && "animate-fade-up",
+        "mb-10 border-t-2 border-t-secondary",
+        isInView
+          ? "animate-in duration-500 ease-in-out slide-in-from-bottom-10 fade-in"
+          : "opacity-0",
       )}
-      style={{ animationFillMode: "forwards" }}
     >
-      <h3 className="gradient-text my-7 bg-secondary-gradient text-3xl font-semibold">
+      <h3 className="gradient-text bg-secondary-gradient my-7 text-3xl font-semibold">
         {date}
       </h3>
       <EventCardsGrid events={events} />

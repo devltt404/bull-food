@@ -1,4 +1,4 @@
-import EventCardSkeleton from "@/components/event/card/skeleton";
+import EventCardSkeleton from "@/components/events/card/EventCardSkeleton";
 
 const EventCardsGridSkeleton = () => {
   return (

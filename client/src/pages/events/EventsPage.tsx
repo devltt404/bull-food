@@ -1,0 +1,130 @@
+import { useGetEventsQuery } from "@/api/events";
+import { Event, EventsFilterOption } from "@/api/events/types";
+import { useAppSelector } from "@/app/hooks";
+import EmptyEvents from "@/components/events/EmptyEvents";
+import EventsFilter from "@/components/events/filter";
+import EventsGroups from "@/components/events/groups";
+import EventsGroupsItemSkeleton from "@/components/events/groups/item/skeleton";
+import useDebouncedValue from "@/hooks/use-debounced-value";
+import { useInfiniteScroll } from "@/hooks/use-inifinite-scroll";
+import { formatDate } from "@/utils/helper";
+import { useEffect, useMemo, useState } from "react";
+import { DateRange } from "react-day-picker";
+
+const LIMIT = 40;
+
+const EventsPage = () => {
+  const { campus } = useAppSelector((state) => state.campus);
+
+  const [selectedFilter, setSelectedFilter] = useState<EventsFilterOption>(
+    EventsFilterOption.quick,
+  );
+  const [from, setFrom] = useState<number>(0);
+  const [events, setEvents] = useState<Event[] | null>(null);
+  const [daysOffset, setDaysOffset] = useState<number | null>(null);
+  const [searchWord, setSearchWord] = useState<string>("");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: undefined,
+    to: undefined,
+  });
+
+  const debouncedSearchWord = useDebouncedValue<string>(searchWord, 300);
+
+  const formattedDateRange = useMemo(() => {
+    if (selectedFilter === EventsFilterOption.advanced) {
+      return {
+        fromDate: dateRange?.from
+          ? formatDate({ startDate: dateRange.from })
+          : undefined,
+        toDate: dateRange?.to
+          ? formatDate({ startDate: dateRange.to })
+          : undefined,
+      };
+    } else if (
+      selectedFilter === EventsFilterOption.quick &&
+      daysOffset !== null
+    ) {
+      const formattedDate = formatDate({ daysOffset });
+      return { fromDate: formattedDate, toDate: formattedDate };
+    } else {
+      return {};
+    }
+  }, [selectedFilter, daysOffset, dateRange]);
+
+  const { data, isFetching } = useGetEventsQuery({
+    campus,
+    range: from,
+    searchWord: debouncedSearchWord,
+    limit: LIMIT,
+    ...formattedDateRange,
+  });
+
+  // Append new data to the events
+  useEffect(() => {
+    if (data) {
+      setEvents((prev) => (from === 0 ? data : [...(prev || []), ...data]));
+    }
+  }, [data, from]);
+
+  // Reset from when filter value changes
+  useEffect(() => {
+    setFrom(0);
+  }, [debouncedSearchWord, daysOffset, dateRange]);
+
+  // Reset filter values and from when selected filter option changes
+  useEffect(() => {
+    setFrom(0);
+    if (selectedFilter === EventsFilterOption.quick) {
+      setSearchWord("");
+      setDateRange(undefined);
+    } else {
+      setDaysOffset(null);
+    }
+  }, [selectedFilter]);
+
+  useInfiniteScroll(
+    () => {
+      setFrom((prev) => prev + LIMIT);
+    },
+    isFetching,
+    data?.length !== 0,
+    1500,
+  );
+
+  return (
+    <div className="relative">
+      {/* Background */}
+      <div className="absolute top-0 z-[-2] h-screen w-full max-w-screen bg-[radial-gradient(100%_200%_at_50%_0%,rgba(33,196,93,0.13)_0,rgba(33,196,93,0)_50%,rgba(0,163,255,0)_100%)]"></div>
+
+      <div className="content-wrapper">
+        <h1 className="gradient-text bg-primary-gradient mb-3 text-4xl font-semibold">
+          Food Events
+        </h1>
+
+        <EventsFilter
+          searchWord={searchWord}
+          setSearchWord={setSearchWord}
+          dateRange={dateRange}
+          daysOffset={daysOffset}
+          selectedFilter={selectedFilter}
+          setDateRange={setDateRange}
+          setDaysOffset={setDaysOffset}
+          setSelectedFilter={setSelectedFilter}
+        />
+
+        {(isFetching && from === 0) || !events ? (
+          <EventsGroupsItemSkeleton />
+        ) : events.length === 0 ? (
+          <EmptyEvents />
+        ) : (
+          <EventsGroups
+            events={from === 0 ? data || [] : events}
+            isFilterChanged={from === 0}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default EventsPage;

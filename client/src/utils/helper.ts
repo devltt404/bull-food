@@ -10,7 +10,10 @@ export function classifyEventBadgeType(going: number) {
   return EventBadgeType.none;
 }
 
-export function getDDMMMYYYYDate({
+/**
+ * Format date to DD MMM YYYY
+ */
+export function formatDate({
   daysOffset,
   startDate,
 }: {

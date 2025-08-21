@@ -5,11 +5,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { useMemo } from "react";
 import NumDateLabel from "./num-date-label";
 import { QuickEventsFilterComponent } from "./types";
-import WordDateLabel from "./word-date-label";
+import DateWordLabel from "./word-date-label";
 
 const QuickEventsFilter: QuickEventsFilterComponent = ({
   daysOffset,
@@ -17,9 +17,9 @@ const QuickEventsFilter: QuickEventsFilterComponent = ({
 }) => {
   const filterOptions = useMemo(() => {
     const res = [
-      { label: <WordDateLabel word="All" />, value: null },
-      { label: <WordDateLabel word="Today" />, value: 0 },
-      { label: <WordDateLabel word="Tomorrow" />, value: 1 },
+      { label: <DateWordLabel word="All" />, value: null },
+      { label: <DateWordLabel word="Today" />, value: 0 },
+      { label: <DateWordLabel word="Tomorrow" />, value: 1 },
     ];
 
     for (let i = 2; i < 7; i++) {
@@ -36,7 +36,7 @@ const QuickEventsFilter: QuickEventsFilterComponent = ({
   }, []);
 
   return (
-    <Carousel className="px-2 pb-6 pt-4">
+    <Carousel className="px-2 pt-4 pb-6">
       <CarouselContent className="items-stretch md:-ml-6">
         {filterOptions.map((option, idx) => (
           <CarouselItem
@@ -47,10 +47,10 @@ const QuickEventsFilter: QuickEventsFilterComponent = ({
               key={idx}
               onClick={() => setDaysOffset(option.value)}
               className={cn(
-                `flex h-full w-full flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition`,
+                `flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition-colors duration-300 ease-in-out`,
                 daysOffset === option.value
-                  ? "bg-custom-gradient text-white"
-                  : "border hover:border-primary hover:bg-green-50 hover:text-black",
+                  ? "bg-radial-[at_25%_25%] from-green-400 to-green-500 text-primary-foreground"
+                  : "border hover:border-primary hover:bg-green-100 hover:text-primary-foreground",
               )}
             >
               {option.label}

@@ -1,4 +1,4 @@
-import EventCard from "@/components/event/card";
+import EventCard from "@/components/events/card/EventCard";
 import { EventCardsGridComponent } from "./types";
 
 const EventCardsGrid: EventCardsGridComponent = ({ events }) => (
