@@ -1,10 +1,14 @@
+import { Event } from "@/api/events/types";
 import { cn } from "@/utils/cn";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import EventCardsGrid from "../../grid";
-import { EventsGroupsItemComponent } from "./types";
+import EventCard from "../../../components/events/card/EventCard";
 
-const EventsGroupsItem: EventsGroupsItemComponent = ({ date, events }) => {
+interface EventsGroupProps {
+  date: string;
+  events: Event[];
+}
+const EventsGroup = ({ date, events }: EventsGroupProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
@@ -21,9 +25,13 @@ const EventsGroupsItem: EventsGroupsItemComponent = ({ date, events }) => {
       <h3 className="gradient-text bg-secondary-gradient my-7 text-3xl font-semibold">
         {date}
       </h3>
-      <EventCardsGrid events={events} />
+      <div className="events-cards-grid-wrapper">
+        {events.map((event) => (
+          <EventCard key={event.id} event={event} isTextTruncate={false} />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default EventsGroupsItem;
+export default EventsGroup;

@@ -54,7 +54,7 @@ const HeroSection = ({ ctaRef }: HeroSectionProps) => {
       </div>
 
       <button
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 cursor-pointer text-gray-400 transition hover:text-green-950"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 transition hover:text-green-950"
         onClick={() => {
           ctaRef.current?.scrollIntoView({ behavior: "smooth" });
         }}

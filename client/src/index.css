@@ -120,11 +120,37 @@
   body {
     @apply bg-background text-foreground;
   }
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
 }
 
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
+}
+
+@layer utilities {
+  .gradient-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .hover-bg-gradient {
+    background-size: 150% 150%;
+    transition: background-position 0.3s ease-in-out;
+  }
+
+  .hover-bg-gradient:hover {
+    background-position: right center;
+  }
+
+  .animate-fade-up {
+    @apply animate-in duration-500 ease-in-out fill-mode-both slide-in-from-bottom-10 fade-in;
+  }
 }
 
 .bg-primary-gradient {
@@ -135,31 +161,6 @@
   @apply bg-gradient-to-r from-purple-600 to-pink-600;
 }
 
-.content-wrapper {
-  @apply container py-8;
-}
-
-.gradient-text {
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
-.hover-bg-gradient {
-  background-size: 150% 150%;
-  transition: background-position 0.3s ease-in-out;
-}
-
-.hover-bg-gradient:hover {
-  background-position: right center;
-}
-
-.animate-fade-up {
-  @apply animate-in duration-500 ease-in-out fill-mode-both slide-in-from-bottom-10 fade-in;
-}
-
-/* Wrappers */
 .events-cards-grid-wrapper {
   @apply grid items-start gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
 }

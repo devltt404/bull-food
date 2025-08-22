@@ -2,11 +2,11 @@ import { useGetEventsQuery } from "@/api/events";
 import { Event, EventsFilterOption } from "@/api/events/types";
 import { useAppSelector } from "@/app/hooks";
 import EmptyEvents from "@/components/events/EmptyEvents";
-import EventsFilter from "@/components/events/filter";
-import EventsGroups from "@/components/events/groups";
-import EventsGroupsItemSkeleton from "@/components/events/groups/item/skeleton";
 import useDebouncedValue from "@/hooks/use-debounced-value";
 import { useInfiniteScroll } from "@/hooks/use-inifinite-scroll";
+import EventsGroupsItemSkeleton from "@/pages/events/components/EventsGroup.skeleton";
+import EventsGroups from "@/pages/events/components/EventsGroups";
+import EventsFilter from "@/pages/events/components/filter";
 import { formatDate } from "@/utils/helper";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -96,7 +96,7 @@ const EventsPage = () => {
       {/* Background */}
       <div className="absolute top-0 z-[-2] h-screen w-full max-w-screen bg-[radial-gradient(100%_200%_at_50%_0%,rgba(33,196,93,0.13)_0,rgba(33,196,93,0)_50%,rgba(0,163,255,0)_100%)]"></div>
 
-      <div className="content-wrapper">
+      <div className="container py-8">
         <h1 className="gradient-text bg-primary-gradient mb-3 text-4xl font-semibold">
           Food Events
         </h1>

@@ -1,7 +1,7 @@
 import { Event } from "@/api/events/types";
 import EmptyEvents from "@/components/events/EmptyEvents";
 import EventCard from "@/components/events/card/EventCard";
-import EventCardSkeleton from "@/components/events/card/EventCardSkeleton";
+import EventCardSkeleton from "@/components/events/card/EventCard.skeleton";
 import {
   Carousel,
   CarouselContent,
@@ -32,20 +32,17 @@ const EventsSection = ({ isFetching, events, label }: EventsSectionProps) => {
 
       {isFetching || (events && events.length > 0) ? (
         <Carousel>
-          <CarouselContent className="-ml-4 md:-ml-8">
+          <CarouselContent>
             {isFetching
               ? Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="max-w-[20rem] pl-4 md:pl-8"
-                  >
+                  <CarouselItem key={index} className="!w-[20rem] basis-auto">
                     <EventCardSkeleton />
                   </CarouselItem>
                 ))
               : events?.map((event) => (
                   <CarouselItem
                     key={event.id}
-                    className="max-w-[20rem] pl-4 md:pl-8"
+                    className="!w-[20rem] basis-auto"
                   >
                     <EventCard event={event} />
                   </CarouselItem>

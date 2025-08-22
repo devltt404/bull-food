@@ -47,7 +47,7 @@ const QuickEventsFilter: QuickEventsFilterComponent = ({
               key={idx}
               onClick={() => setDaysOffset(option.value)}
               className={cn(
-                `flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition-colors duration-300 ease-in-out`,
+                `flex h-full w-full flex-col items-center justify-center rounded-md bg-white py-8 text-muted-foreground transition`,
                 daysOffset === option.value
                   ? "bg-radial-[at_25%_25%] from-green-400 to-green-500 text-primary-foreground"
                   : "border hover:border-primary hover:bg-green-100 hover:text-primary-foreground",

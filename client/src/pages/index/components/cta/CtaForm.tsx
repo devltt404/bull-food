@@ -1,10 +1,10 @@
 import { useSubscribeMutation } from "@/api/newsletter";
 import { useAppSelector } from "@/app/hooks";
-import SubscribeDialog from "@/components/SubscribeDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import React, { LegacyRef } from "react";
+import SubscribeDialog from "./SubscribeDialog";
 
 interface CtaFormProps {
   ref: LegacyRef<HTMLElement>;
@@ -16,7 +16,7 @@ const CtaForm = ({ ref }: CtaFormProps) => {
   const [subscribe, { isLoading: isSubscribing }] = useSubscribeMutation();
 
   const [email, setEmail] = React.useState<string>("");
-  const [showAlert, setShowAlert] = React.useState<boolean>(false);
+  const [showDialog, setShowDialog] = React.useState<boolean>(false);
   const [alertErrMessage, setAlertErrMessage] = React.useState<string>("");
   const [isSuccess, setIsSuccess] = React.useState<boolean>(true);
 
@@ -28,14 +28,14 @@ const CtaForm = ({ ref }: CtaFormProps) => {
       .then(() => {
         setEmail("");
         setIsSuccess(true);
-        setShowAlert(true);
+        setShowDialog(true);
       })
       .catch((e) => {
         setAlertErrMessage(
           e.data?.message || "Unable to subscribe. Please try again later.",
         );
         setIsSuccess(false);
-        setShowAlert(true);
+        setShowDialog(true);
       });
   };
 
@@ -83,8 +83,8 @@ const CtaForm = ({ ref }: CtaFormProps) => {
       </form>
 
       <SubscribeDialog
-        show={showAlert}
-        setShow={setShowAlert}
+        show={showDialog}
+        setShow={setShowDialog}
         isSuccess={isSuccess}
         errMessage={alertErrMessage}
       />

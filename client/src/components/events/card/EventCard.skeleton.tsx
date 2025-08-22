@@ -1,6 +1,6 @@
 const EventCardSkeleton = () => {
   return (
-    <div className="overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white">
+    <div className="w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white">
       <div className="relative">
         {/* Skeleton for the image */}
         <div className="h-40 w-full animate-pulse bg-gray-200" />

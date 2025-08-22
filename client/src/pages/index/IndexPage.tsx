@@ -4,7 +4,7 @@ import { SocialLinks } from "@/config/footer.config";
 import { formatDate } from "@/utils/helper";
 import { motion } from "framer-motion";
 import { useMemo, useRef } from "react";
-import CtaForm from "./components/CtaForm";
+import CtaForm from "./components/cta/CtaForm";
 import EventsSection, { EventsSectionProps } from "./components/EventsSection";
 import HeroSection from "./components/HeroSection";
 

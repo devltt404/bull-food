@@ -2,11 +2,10 @@ import { Event } from "@/api/events/types";
 import { EventBadgeType } from "@/constants/event.constant";
 import { cn } from "@/utils/cn";
 import { classifyEventBadgeType } from "@/utils/helper";
-import { AnimatePresence } from "framer-motion";
 import { Clock, MapPin, Users } from "lucide-react";
 import { useMemo, useState } from "react";
-import EventDialog from "../../event/dialog";
-import EventBadge from "../EventBadge";
+import EventBadge from "./EventBadge";
+import EventDialog from "./EventDialog";
 
 interface EventCardProps {
   event: Event;
@@ -46,13 +45,13 @@ const EventCard = ({
 
   return (
     <>
-      <div
+      <button
         onClick={(e) => {
           e.stopPropagation();
           setShowEventDialog(true);
         }}
         className={cn(
-          "cursor-pointer overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white transition hover:border-primary",
+          "w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white transition hover:border-primary",
           eventBadgeType === EventBadgeType.hot && "border-red-500",
           eventBadgeType === EventBadgeType.popular && "border-yellow-500",
           className,
@@ -65,9 +64,10 @@ const EventCard = ({
             src={event.image}
             alt={event.title + " thumbnail"}
           />
+
           <EventBadge going={event.going} />
         </div>
-        <div className="px-4 pt-3 pb-5">
+        <div className="px-4 pt-3 pb-5 text-left">
           <h3
             className={cn(
               "mb-1 text-lg font-medium",
@@ -89,13 +89,13 @@ const EventCard = ({
             ))}
           </ul>
         </div>
-      </div>
+      </button>
 
-      <AnimatePresence>
-        {showEventDialog && (
-          <EventDialog setShow={setShowEventDialog} id={event.id} />
-        )}
-      </AnimatePresence>
+      <EventDialog
+        eventId={event.id}
+        show={showEventDialog}
+        setShow={setShowEventDialog}
+      />
     </>
   );
 };
