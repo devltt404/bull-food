@@ -5,7 +5,7 @@ import { RefObject } from "react";
 import { Link } from "react-router-dom";
 
 interface HeroSectionProps {
-  ctaRef: RefObject<HTMLDivElement>;
+  ctaRef: RefObject<HTMLDivElement | null>;
 }
 
 const HeroSection = ({ ctaRef }: HeroSectionProps) => {

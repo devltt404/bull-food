@@ -11,7 +11,7 @@ import HeroSection from "./components/HeroSection";
 const IndexPage = () => {
   const { campus } = useAppSelector((state) => state.campus);
 
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
 
   // Memoize dates
   const today = useMemo(() => formatDate(), []);
