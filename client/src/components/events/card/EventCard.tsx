@@ -51,19 +51,21 @@ const EventCard = ({
           setShowEventDialog(true);
         }}
         className={cn(
-          "w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white transition hover:border-primary",
+          "group w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white transition",
           eventBadgeType === EventBadgeType.hot && "border-red-500",
           eventBadgeType === EventBadgeType.popular && "border-yellow-500",
           className,
         )}
       >
         <div className="relative">
-          <img
-            loading="lazy"
-            className="h-40 w-full object-cover"
-            src={event.image}
-            alt={event.title + " thumbnail"}
-          />
+          <div className="h-40 overflow-hidden">
+            <img
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform group-hover:scale-105"
+              src={event.image}
+              alt={event.title + " thumbnail"}
+            />
+          </div>
 
           <EventBadge going={event.going} />
         </div>
@@ -72,15 +74,16 @@ const EventCard = ({
             className={cn(
               "mb-1 text-lg font-medium",
               isTextTruncate && "truncate",
-              eventBadgeType === EventBadgeType.hot && "text-red-600",
-              eventBadgeType === EventBadgeType.popular && "text-yellow-600",
             )}
           >
             {event.title}
           </h3>
           <ul className="flex flex-col gap-1">
             {eventDetails.map((detail, index) => (
-              <li key={index} className="flex items-center text-gray-500">
+              <li
+                key={index}
+                className="flex items-center text-muted-foreground"
+              >
                 <detail.icon size={16} className="mr-2 inline-block shrink-0" />
                 <p className={cn("text-sm", isTextTruncate && "truncate")}>
                   {detail.text}

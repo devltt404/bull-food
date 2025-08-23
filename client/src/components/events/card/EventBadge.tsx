@@ -24,7 +24,7 @@ const HotEventBadge = () => {
   return (
     <EventBadgeWrapper className="border-red-600 bg-red-50 fill-red-600 py-1 text-red-600">
       <svg
-        className="h-4 w-4"
+        className="!size-3.5"
         viewBox="0 0 56 56"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -39,7 +39,7 @@ const PopularEventBadge = () => {
   return (
     <EventBadgeWrapper className="border-yellow-500 bg-yellow-50 fill-yellow-600 py-1 text-yellow-600">
       <svg
-        className="h-4 w-4 fill-yellow-500"
+        className="!size-3.5"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
