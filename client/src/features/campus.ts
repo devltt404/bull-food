@@ -1,7 +1,9 @@
 import { EventCampus } from "@/constants/event.constant";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CampusState } from "./types";
 
+type CampusState = {
+  campus: EventCampus;
+};
 const initialState: CampusState = {
   campus: (localStorage.getItem("campus") as EventCampus) ?? EventCampus.Tampa,
 };

@@ -1,5 +1,5 @@
 import Routes from "./components/Routes";
-import ScrollToTop from "./components/wrappers/ScrollToTop";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (

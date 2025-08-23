@@ -54,18 +54,14 @@ const HeroSection = ({ ctaRef }: HeroSectionProps) => {
       </div>
 
       <button
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 transition hover:text-green-950"
+        className="animate-fade-up absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center text-muted-foreground transition hover:text-green-900"
         onClick={() => {
           ctaRef.current?.scrollIntoView({ behavior: "smooth" });
         }}
+        style={{ animationDelay: "0.45s" }}
       >
-        <div
-          className="animate-fade-up flex flex-col items-center"
-          style={{ animationDelay: "0.45s" }}
-        >
-          <p className="text-lg font-medium">Subscribe now</p>
-          <ChevronDown size={24} />
-        </div>
+        <p className="text-lg font-medium">Subscribe now</p>
+        <ChevronDown className="size-6" />
       </button>
     </div>
   );

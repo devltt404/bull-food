@@ -1,19 +1,20 @@
-import { IconComponent } from "@/utils/types";
-import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
+import GitHubIcon from "@/components/svg/GitHubIcon";
+import LinkedinIcon from "@/components/svg/LinkedinIcon";
 import { Mail } from "lucide-react";
+import { FC, SVGProps } from "react";
 
 export const SocialLinks: {
-  icon: IconComponent;
+  icon: FC<SVGProps<SVGSVGElement>>;
   link: string;
   label: string;
 }[] = [
   {
-    icon: GitHubLogoIcon,
+    icon: GitHubIcon,
     link: "https://github.com/devltt404",
     label: "GitHub profile",
   },
   {
-    icon: LinkedInLogoIcon,
+    icon: LinkedinIcon,
     link: "https://www.linkedin.com/in/tri-pham-843878294/",
     label: "LinkedIn profile",
   },

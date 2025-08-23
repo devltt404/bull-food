@@ -1,10 +1,18 @@
 import { useSubscribeMutation } from "@/api/newsletter";
 import { useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/utils/cn";
+import { Check, X } from "lucide-react";
 import React, { LegacyRef } from "react";
-import SubscribeDialog from "./SubscribeDialog";
 
 interface CtaFormProps {
   ref: LegacyRef<HTMLElement>;
@@ -17,7 +25,7 @@ const CtaForm = ({ ref }: CtaFormProps) => {
 
   const [email, setEmail] = React.useState<string>("");
   const [showDialog, setShowDialog] = React.useState<boolean>(false);
-  const [alertErrMessage, setAlertErrMessage] = React.useState<string>("");
+  const [errorMsg, setErrorMsg] = React.useState<string>("");
   const [isSuccess, setIsSuccess] = React.useState<boolean>(true);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,7 +39,7 @@ const CtaForm = ({ ref }: CtaFormProps) => {
         setShowDialog(true);
       })
       .catch((e) => {
-        setAlertErrMessage(
+        setErrorMsg(
           e.data?.message || "Unable to subscribe. Please try again later.",
         );
         setIsSuccess(false);
@@ -82,12 +90,35 @@ const CtaForm = ({ ref }: CtaFormProps) => {
         </div>
       </form>
 
-      <SubscribeDialog
-        show={showDialog}
-        setShow={setShowDialog}
-        isSuccess={isSuccess}
-        errMessage={alertErrMessage}
-      />
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="relative flex flex-col items-center justify-center gap-3">
+              <div
+                className={cn(
+                  "rounded-full p-2",
+                  isSuccess ? "bg-primary" : "bg-destructive",
+                )}
+              >
+                {isSuccess ? (
+                  <Check className="h-10 w-10 text-white" />
+                ) : (
+                  <X className="h-10 w-10 text-white" />
+                )}
+              </div>
+
+              <p className="text-2xl font-semibold">
+                {isSuccess ? "Subscribed!" : "Failed"}
+              </p>
+            </DialogTitle>
+            <DialogDescription className="py-2 text-center text-base">
+              {isSuccess
+                ? `You will now receive daily newsletter about featured free food events at USF - ${campus}.`
+                : errorMsg}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

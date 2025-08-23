@@ -4,7 +4,7 @@ import { SocialLinks } from "@/config/footer.config";
 import { formatDate } from "@/utils/helper";
 import { motion } from "framer-motion";
 import { useMemo, useRef } from "react";
-import CtaForm from "./components/cta/CtaForm";
+import CtaForm from "./components/CtaForm";
 import EventsSection, { EventsSectionProps } from "./components/EventsSection";
 import HeroSection from "./components/HeroSection";
 
@@ -108,7 +108,7 @@ const IndexPage = () => {
           <div className="flex flex-wrap items-center gap-4">
             {SocialLinks.map(({ icon: Icon, link, label }, idx) => (
               <a key={idx} href={link} target="_blank" rel="noreferrer">
-                <Icon className="h-[26px] w-[26px] text-muted-foreground transition hover:text-green-950" />
+                <Icon className="size-[26px] text-muted-foreground transition hover:text-green-950" />
                 <span className="sr-only">{label}</span>
               </a>
             ))}

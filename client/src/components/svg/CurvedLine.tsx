@@ -1,8 +1,6 @@
-interface CurvedLineProps {
-  className?: string;
-}
+import { SVGProps } from "react";
 
-const CurvedLine = ({ className }: CurvedLineProps) => {
+const CurvedLine = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="322"
@@ -10,7 +8,7 @@ const CurvedLine = ({ className }: CurvedLineProps) => {
       version="1.1"
       viewBox="0 0 2400 149"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      {...props}
     >
       <path
         transform="translate(1054.2 -.18822)"

@@ -2,7 +2,6 @@ import { useGetEventQuery } from "@/api/events";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
-import { IconComponent } from "@/utils/types";
 import {
   BookText,
   Clock,
@@ -12,15 +11,14 @@ import {
   UsersRoundIcon,
   XIcon,
 } from "lucide-react";
+import { FC, SVGProps } from "react";
 import { Link } from "react-router-dom";
 
-const SectionHeading = ({
-  Icon,
-  title,
-}: {
-  Icon: IconComponent;
+interface SectionHeadingProps {
+  Icon: FC<SVGProps<SVGSVGElement>>;
   title: string;
-}) => {
+}
+const SectionHeading = ({ Icon, title }: SectionHeadingProps) => {
   return (
     <div className="mb-4">
       <h3 className="mb-1 text-2xl font-medium text-green-600">
@@ -37,7 +35,6 @@ interface EventDialogProps {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 const EventDialog = ({ eventId, show, setShow }: EventDialogProps) => {
   const {
     data: event,

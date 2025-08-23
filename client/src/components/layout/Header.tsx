@@ -29,7 +29,10 @@ const Header = () => {
             dispatch(setCampus(value as EventCampus));
           }}
         >
-          <SelectTrigger className="w-fit font-medium !text-foreground">
+          <SelectTrigger
+            className="w-fit font-medium !text-foreground"
+            aria-label="Select campus"
+          >
             Campus: {campus}
           </SelectTrigger>
           <SelectContent>

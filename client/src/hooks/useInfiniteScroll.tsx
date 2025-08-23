@@ -1,19 +1,29 @@
 import throttle from "@/utils/throttle";
 import { useEffect } from "react";
 
-export const useInfiniteScroll = (
-  fetchMore: () => void,
-  isFetching: boolean,
-  hasMore: boolean,
-  triggerPoint: number, // The pixel value from the bottom of the page to trigger the fetchMore
-) => {
+interface UseInfiniteScrollParams {
+  fetchFn: () => void;
+  isFetching: boolean;
+  hasMore: boolean;
+  /**
+   * The pixel value from the bottom of the page to trigger the fetchFn
+   */
+  triggerPoint: number;
+}
+
+export const useInfiniteScroll = ({
+  fetchFn,
+  isFetching,
+  hasMore,
+  triggerPoint,
+}: UseInfiniteScrollParams) => {
   const handleScroll = throttle(() => {
     if (
       document.body.scrollHeight - triggerPoint <
       window.scrollY + window.innerHeight
     ) {
       if (hasMore && !isFetching) {
-        fetchMore();
+        fetchFn();
       }
     }
   }, 500);

@@ -1,6 +1,6 @@
 import EventCardSkeleton from "@/components/events/card/EventCard.skeleton";
 
-const EventsGroupSkeleton = () => {
+const EventsGroupsSkeleton = () => {
   return (
     <div>
       <div className="my-7 h-9 w-60 animate-pulse rounded-sm bg-gray-200"></div>
@@ -15,4 +15,4 @@ const EventsGroupSkeleton = () => {
   );
 };
 
-export default EventsGroupSkeleton;
+export default EventsGroupsSkeleton;

@@ -1,95 +1,37 @@
-import { useGetEventsQuery } from "@/api/events";
-import { Event, EventsFilterOption } from "@/api/events/types";
-import { useAppSelector } from "@/app/hooks";
 import EmptyEvents from "@/components/events/EmptyEvents";
-import useDebouncedValue from "@/hooks/use-debounced-value";
-import { useInfiniteScroll } from "@/hooks/use-inifinite-scroll";
-import EventsGroupsItemSkeleton from "@/pages/events/components/EventsGroup.skeleton";
-import EventsGroups from "@/pages/events/components/EventsGroups";
-import EventsFilter from "@/pages/events/components/filter";
-import { formatDate } from "@/utils/helper";
-import { useEffect, useMemo, useState } from "react";
-import { DateRange } from "react-day-picker";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 
-const LIMIT = 40;
+import {
+  EventsProvider,
+  FETCH_EVENTS_LIMIT,
+  useEvents,
+} from "./components/EventsContext";
+import EventsFilters from "./components/EventsFilters";
+import EventsGroups from "./components/EventsGroups";
+import EventsGroupsSkeleton from "./components/EventsGroups.skeleton";
 
-const EventsPage = () => {
-  const { campus } = useAppSelector((state) => state.campus);
-
-  const [selectedFilter, setSelectedFilter] = useState<EventsFilterOption>(
-    EventsFilterOption.quick,
-  );
-  const [from, setFrom] = useState<number>(0);
-  const [events, setEvents] = useState<Event[] | null>(null);
-  const [daysOffset, setDaysOffset] = useState<number | null>(null);
-  const [searchWord, setSearchWord] = useState<string>("");
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: undefined,
-    to: undefined,
-  });
-
-  const debouncedSearchWord = useDebouncedValue<string>(searchWord, 300);
-
-  const formattedDateRange = useMemo(() => {
-    if (selectedFilter === EventsFilterOption.advanced) {
-      return {
-        fromDate: dateRange?.from
-          ? formatDate({ startDate: dateRange.from })
-          : undefined,
-        toDate: dateRange?.to
-          ? formatDate({ startDate: dateRange.to })
-          : undefined,
-      };
-    } else if (
-      selectedFilter === EventsFilterOption.quick &&
-      daysOffset !== null
-    ) {
-      const formattedDate = formatDate({ daysOffset });
-      return { fromDate: formattedDate, toDate: formattedDate };
-    } else {
-      return {};
-    }
-  }, [selectedFilter, daysOffset, dateRange]);
-
-  const { data, isFetching } = useGetEventsQuery({
-    campus,
-    range: from,
-    searchWord: debouncedSearchWord,
-    limit: LIMIT,
-    ...formattedDateRange,
-  });
-
-  // Append new data to the events
-  useEffect(() => {
-    if (data) {
-      setEvents((prev) => (from === 0 ? data : [...(prev || []), ...data]));
-    }
-  }, [data, from]);
-
-  // Reset from when filter value changes
-  useEffect(() => {
-    setFrom(0);
-  }, [debouncedSearchWord, daysOffset, dateRange]);
-
-  // Reset filter values and from when selected filter option changes
-  useEffect(() => {
-    setFrom(0);
-    if (selectedFilter === EventsFilterOption.quick) {
-      setSearchWord("");
-      setDateRange(undefined);
-    } else {
-      setDaysOffset(null);
-    }
-  }, [selectedFilter]);
-
-  useInfiniteScroll(
-    () => {
-      setFrom((prev) => prev + LIMIT);
-    },
+function EventsPageContent() {
+  const {
+    events,
     isFetching,
-    data?.length !== 0,
-    1500,
-  );
+    isError,
+    setFetchEventsParams,
+    fetchEventsParams: { range },
+  } = useEvents();
+
+  const hasEmptyEvents = isError || events.length === 0;
+
+  useInfiniteScroll({
+    fetchFn: () => {
+      setFetchEventsParams((prev) => ({
+        ...prev,
+        range: (prev.range || 0) + FETCH_EVENTS_LIMIT,
+      }));
+    },
+    isFetching: isFetching,
+    hasMore: !hasEmptyEvents,
+    triggerPoint: 1500,
+  });
 
   return (
     <div className="relative">
@@ -101,30 +43,26 @@ const EventsPage = () => {
           Food Events
         </h1>
 
-        <EventsFilter
-          searchWord={searchWord}
-          setSearchWord={setSearchWord}
-          dateRange={dateRange}
-          daysOffset={daysOffset}
-          selectedFilter={selectedFilter}
-          setDateRange={setDateRange}
-          setDaysOffset={setDaysOffset}
-          setSelectedFilter={setSelectedFilter}
-        />
+        <div className="mb-8">
+          <EventsFilters />
+        </div>
 
-        {(isFetching && from === 0) || !events ? (
-          <EventsGroupsItemSkeleton />
-        ) : events.length === 0 ? (
-          <EmptyEvents />
+        {isFetching && !range ? (
+          <EventsGroupsSkeleton />
+        ) : hasEmptyEvents ? (
+          <EmptyEvents className="mt-20" />
         ) : (
-          <EventsGroups
-            events={from === 0 ? data || [] : events}
-            isFilterChanged={from === 0}
-          />
+          <EventsGroups events={events} isFilterChanged={!range} />
         )}
       </div>
     </div>
   );
-};
+}
 
-export default EventsPage;
+export default function EventsPageV2() {
+  return (
+    <EventsProvider>
+      <EventsPageContent />
+    </EventsProvider>
+  );
+}
