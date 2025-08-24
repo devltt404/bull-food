@@ -30,17 +30,16 @@ jobs:
         with:
           sparse-checkout: "server"
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-          cache-dependency-path: "server/pnpm-lock.yaml"
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
