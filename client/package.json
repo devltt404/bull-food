@@ -51,6 +51,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4.1.12",
+    "terser": "^5.43.1",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
