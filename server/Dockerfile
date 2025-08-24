@@ -1,6 +1,9 @@
 # Base image
 FROM node:20
 
+# Enable corepack and pnpm
+RUN corepack enable
+
 # Create app directory
 WORKDIR /usr/src/app
 
