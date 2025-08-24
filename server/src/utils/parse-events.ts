@@ -50,7 +50,8 @@ export function parseFetchedEvents(
       startTime,
       endTime,
       image: getEventImageSrc(event.p11),
-      location: event.p6,
+      // Get location name text before HTML tags (e.g. 'BSN 221<div>' -> 'BSN 221')
+      location: event.p6.match(/^[^<]+/)?.[0].trim() || 'TBD',
       going: parseInt(event.p10),
     };
   });

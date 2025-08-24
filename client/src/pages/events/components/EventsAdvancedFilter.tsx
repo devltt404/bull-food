@@ -24,7 +24,7 @@ export default function EventsAdvancedFilter() {
   useEffect(() => {
     const { from, to } = dateRange || {};
     setFetchEventsParams({
-      searchWord: debouncedSearchWord,
+      searchWord: debouncedSearchWord || undefined,
       fromDate: from ? formatDate({ startDate: from }) : undefined,
       toDate: to ? formatDate({ startDate: to }) : undefined,
     });
@@ -36,7 +36,7 @@ export default function EventsAdvancedFilter() {
         <div className="relative max-w-64">
           <Input
             value={searchWord}
-            onChange={(e) => setSearchWord(e.target.value.trim())}
+            onChange={(e) => setSearchWord(e.target.value)}
             placeholder="Search Events"
             className="bg-background pl-10"
           />

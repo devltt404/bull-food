@@ -3,7 +3,7 @@ import EventCard from "@/components/events/card/EventCard";
 import { cn } from "@/utils/cn";
 import { isBefore, isToday, isTomorrow } from "date-fns";
 import { useInView } from "framer-motion";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 
 interface EventsGroupProps {
   date: string;
@@ -37,52 +37,51 @@ const EventsGroup = ({ date, events }: EventsGroupProps) => {
 
 interface EventsGroupsProps {
   events: Event[];
-  isFilterChanged: boolean;
+  isFilterUpdated: boolean;
 }
-const EventsGroups = ({ events, isFilterChanged }: EventsGroupsProps) => {
-  const groupedEvents = useRef<GroupedEvents>({});
+const EventsGroups = ({ events, isFilterUpdated }: EventsGroupsProps) => {
+  // BullsConnect sometimes returns duplicate events across pages.
+  // Track existing event IDs to avoid adding duplicates.
   const eventIdsSet = useRef<Set<string>>(new Set<string>());
+  const groupedEvents = useRef<GroupedEvents>({});
 
-  useMemo(() => {
-    if (!events) return;
+  // Clear the existing events to store new events after filter update
+  if (isFilterUpdated) {
+    groupedEvents.current = {};
+    eventIdsSet.current.clear();
+  }
 
-    if (isFilterChanged) {
-      groupedEvents.current = {};
-      eventIdsSet.current.clear();
+  const today = new Date();
+  const newGroupedEvents: GroupedEvents = {};
+
+  events.forEach((event) => {
+    if (eventIdsSet.current.has(event.id)) return;
+
+    const date = event.date || event.startDate;
+    if (!date) return;
+
+    let key = date;
+    const dateObj = new Date(date);
+
+    if (isToday(dateObj)) key = "Today";
+    else if (isTomorrow(dateObj)) key = "Tomorrow";
+    else if (isBefore(dateObj, today)) key = "Ongoing";
+
+    if (!newGroupedEvents[key]) newGroupedEvents[key] = [];
+    newGroupedEvents[key].push(event);
+    eventIdsSet.current.add(event.id);
+  });
+
+  Object.keys(newGroupedEvents).forEach((key) => {
+    if (groupedEvents.current[key]) {
+      groupedEvents.current[key] = [
+        ...groupedEvents.current[key],
+        ...newGroupedEvents[key],
+      ];
+    } else {
+      groupedEvents.current[key] = newGroupedEvents[key];
     }
-
-    const today = new Date();
-    const newGroupedEvents: GroupedEvents = {};
-
-    events.forEach((event) => {
-      if (eventIdsSet.current.has(event.id)) return;
-
-      const date = event.date || event.startDate;
-      if (!date) return;
-
-      let key = date;
-      const dateObj = new Date(date);
-
-      if (isToday(dateObj)) key = "Today";
-      else if (isTomorrow(dateObj)) key = "Tomorrow";
-      else if (isBefore(dateObj, today)) key = "Ongoing";
-
-      if (!newGroupedEvents[key]) newGroupedEvents[key] = [];
-      newGroupedEvents[key].push(event);
-      eventIdsSet.current.add(event.id);
-    });
-
-    Object.keys(newGroupedEvents).forEach((key) => {
-      if (groupedEvents.current[key]) {
-        groupedEvents.current[key] = [
-          ...groupedEvents.current[key],
-          ...newGroupedEvents[key],
-        ];
-      } else {
-        groupedEvents.current[key] = newGroupedEvents[key];
-      }
-    });
-  }, [events, isFilterChanged]);
+  });
 
   return Object.keys(groupedEvents.current).map((key) => (
     <EventsGroup key={key} date={key} events={groupedEvents.current[key]} />

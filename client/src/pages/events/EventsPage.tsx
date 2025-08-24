@@ -52,7 +52,7 @@ function EventsPageContent() {
         ) : hasEmptyEvents ? (
           <EmptyEvents className="mt-20" />
         ) : (
-          <EventsGroups events={events} isFilterChanged={!range} />
+          <EventsGroups events={events} isFilterUpdated={!range} />
         )}
       </div>
     </div>
