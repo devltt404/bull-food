@@ -6,6 +6,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 export interface EventsSectionProps {
@@ -48,6 +50,8 @@ const EventsSection = ({ isFetching, events, label }: EventsSectionProps) => {
                   </CarouselItem>
                 ))}
           </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       ) : (
         <EmptyEvents />

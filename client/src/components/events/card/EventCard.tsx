@@ -51,7 +51,7 @@ const EventCard = ({
           setShowEventDialog(true);
         }}
         className={cn(
-          "group w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white transition",
+          "group/card w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border-2 bg-white transition",
           eventBadgeType === EventBadgeType.hot && "border-red-500",
           eventBadgeType === EventBadgeType.popular && "border-yellow-500",
           className,
@@ -61,7 +61,7 @@ const EventCard = ({
           <div className="h-40 overflow-hidden">
             <img
               loading="lazy"
-              className="h-full w-full object-cover transition-transform group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform group-hover/card:scale-105"
               src={event.image}
               alt={event.title + " thumbnail"}
             />
