@@ -61,7 +61,7 @@ cd bull-food
 2. Install Dependencies
 
    ```bash
-   npm i
+   pnpm i
    ```
 
 3. Copy the `.env.example` to `.env`.
@@ -81,7 +81,7 @@ cd bull-food
 2. Install client dependencies
 
    ```bash
-   npm i
+   pnpm i
    ```
 
 3. Setup env variables
@@ -121,7 +121,7 @@ You should see the following services listed:
 #### Last Step: Run the Server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Access the website through your browser at: [http://localhost:5173](http://localhost:5173)
