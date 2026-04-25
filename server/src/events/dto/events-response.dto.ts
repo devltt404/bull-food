@@ -8,6 +8,7 @@ export class EventsResponseDto {
   endTime: string | null;
   image: string;
   location: string;
+  organizer: string | null;
   going: number;
 }
 

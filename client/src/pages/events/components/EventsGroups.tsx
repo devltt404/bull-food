@@ -1,34 +1,28 @@
 import { Event, GroupedEvents } from "@/api/events/types";
 import EventCard from "@/components/events/card/EventCard";
-import { cn } from "@/utils/cn";
+import { isEventLive } from "@/utils/helper";
 import { isBefore, isToday, isTomorrow } from "date-fns";
-import { useInView } from "framer-motion";
 import { useRef } from "react";
+
+const GROUP = {
+  ongoing: "Ongoing",
+  today: "Today",
+  tomorrow: "Tomorrow",
+} as const;
 
 interface EventsGroupProps {
   date: string;
   events: Event[];
 }
 const EventsGroup = ({ date, events }: EventsGroupProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true });
-
   return (
-    <div
-      ref={ref}
-      className={cn(
-        "mb-10 border-t-2 border-t-secondary",
-        isInView
-          ? "animate-in duration-500 ease-in-out slide-in-from-bottom-10 fade-in"
-          : "opacity-0",
-      )}
-    >
-      <h3 className="gradient-text bg-secondary-gradient my-7 text-3xl font-semibold">
+    <div className="animate-fade-up space-y-6">
+      <h2 className="font-display text-2xl font-bold tracking-tight border-l-4 border-primary py-2 pl-4">
         {date}
-      </h3>
-      <div className="events-cards-grid-wrapper">
+      </h2>
+      <div className="grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {events.map((event) => (
-          <EventCard key={event.id} event={event} isTextTruncate={false} />
+          <EventCard key={event.id} event={event} />
         ))}
       </div>
     </div>
@@ -63,9 +57,10 @@ const EventsGroups = ({ events, isFilterUpdated }: EventsGroupsProps) => {
     let key = date;
     const dateObj = new Date(date);
 
-    if (isToday(dateObj)) key = "Today";
-    else if (isTomorrow(dateObj)) key = "Tomorrow";
-    else if (isBefore(dateObj, today)) key = "Ongoing";
+    if (isEventLive(event)) key = GROUP.ongoing;
+    else if (isToday(dateObj)) key = GROUP.today;
+    else if (isTomorrow(dateObj)) key = GROUP.tomorrow;
+    else if (isBefore(dateObj, today)) key = GROUP.ongoing;
 
     if (!newGroupedEvents[key]) newGroupedEvents[key] = [];
     newGroupedEvents[key].push(event);

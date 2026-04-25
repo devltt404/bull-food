@@ -5,6 +5,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { BullsConnectModule } from './bullsconnect/bullsconnect.module';
 import bullsconnectConfig from './bullsconnect/config/bullsconnect.config';
 import { CacheModule } from './cache/cache.module';
+import { ChatModule } from './chat/chat.module';
+import chatConfig from './chat/config/chat.config';
 import appConfig from './config/app.config';
 import databaseConfig from './database/database.config';
 import { EventsModule } from './events/events.module';
@@ -41,6 +43,7 @@ import redisConfig from './redis/config/redis.config';
         redisConfig,
         databaseConfig,
         rabbitMQConfig,
+        chatConfig,
       ],
       isGlobal: true,
       envFilePath: ['.env'],
@@ -50,6 +53,7 @@ import redisConfig from './redis/config/redis.config';
     BullsConnectModule,
     MailModule,
     NewsletterModule,
+    ChatModule,
     CacheModule,
   ],
 })

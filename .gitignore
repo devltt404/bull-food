@@ -7,3 +7,5 @@
 
 /server/dist
 /client/dist
+
+/.claude-local

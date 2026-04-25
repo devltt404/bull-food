@@ -3,7 +3,6 @@ import {
   GetEventsParams as BaseGetEventsParams,
   Event,
 } from "@/api/events/types";
-import { useAppSelector } from "@/app/hooks";
 import {
   createContext,
   Dispatch,
@@ -15,8 +14,8 @@ import {
 
 export const FETCH_EVENTS_LIMIT = 40;
 
-// "campus" and "limit" will always be included in the query
-type GetEventsParams = Omit<BaseGetEventsParams, "campus" | "limit">;
+// "limit" will always be included in the query
+type GetEventsParams = Omit<BaseGetEventsParams, "limit">;
 
 interface EventsContextType {
   fetchEventsParams: GetEventsParams;
@@ -29,14 +28,12 @@ interface EventsContextType {
 const EventsContext = createContext<EventsContextType | undefined>(undefined);
 
 export const EventsProvider = ({ children }: PropsWithChildren) => {
-  const { campus } = useAppSelector((state) => state.campus);
   const [fetchEventsParams, setFetchEventsParams] = useState<GetEventsParams>(
     {},
   );
 
   const { data, isFetching, isError } = useGetEventsQuery({
     ...fetchEventsParams,
-    campus,
     limit: FETCH_EVENTS_LIMIT,
   });
 

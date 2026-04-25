@@ -15,7 +15,7 @@ const UnsubscribePage = () => {
 
   return (
     data && (
-      <div className="flex min-h-[80vh] flex-col items-center justify-center">
+      <div style={{ viewTransitionName: "page-content" }} className="flex min-h-[80vh] flex-col items-center justify-center">
         <h1 className="mb-4 text-5xl font-semibold text-gray-900">
           Unsubscribed
         </h1>

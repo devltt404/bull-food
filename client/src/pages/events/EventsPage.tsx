@@ -19,7 +19,8 @@ function EventsPageContent() {
     fetchEventsParams: { range },
   } = useEvents();
 
-  const hasEmptyEvents = isError || events.length === 0;
+  const isInitialLoad = !range;
+  const hasNoEvents = events.length === 0;
 
   useInfiniteScroll({
     fetchFn: () => {
@@ -29,37 +30,33 @@ function EventsPageContent() {
       }));
     },
     isFetching: isFetching,
-    hasMore: !hasEmptyEvents,
+    // Stop fetching once the last page returned nothing
+    hasMore: !isError && !hasNoEvents,
     triggerPoint: 1500,
   });
 
   return (
-    <div className="relative">
-      {/* Background */}
-      <div className="absolute top-0 z-[-2] h-screen w-full max-w-screen bg-[radial-gradient(100%_200%_at_50%_0%,rgba(33,196,93,0.13)_0,rgba(33,196,93,0)_50%,rgba(0,163,255,0)_100%)]"></div>
-
-      <div className="container py-8">
-        <h1 className="gradient-text bg-primary-gradient mb-3 text-4xl font-semibold">
-          Food Events
-        </h1>
-
-        <div className="mb-8">
+    <div style={{ viewTransitionName: "page-content" }} className="flex flex-col pb-16">
+      <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b pb-4 pt-6 shadow-sm">
+        <div className="container px-4 md:px-6">
           <EventsFilters />
         </div>
+      </div>
 
-        {isFetching && !range ? (
+      <div className="container px-4 md:px-6 pt-8 space-y-12">
+        {isFetching && isInitialLoad ? (
           <EventsGroupsSkeleton />
-        ) : hasEmptyEvents ? (
+        ) : isInitialLoad && hasNoEvents && !isFetching ? (
           <EmptyEvents className="mt-20" />
         ) : (
-          <EventsGroups events={events} isFilterUpdated={!range} />
+          <EventsGroups events={events} isFilterUpdated={isInitialLoad} />
         )}
       </div>
     </div>
   );
 }
 
-export default function EventsPageV2() {
+export default function EventsPage() {
   return (
     <EventsProvider>
       <EventsPageContent />

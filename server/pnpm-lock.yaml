@@ -80,6 +80,9 @@ importers:
       npm:
         specifier: ^10.8.3
         version: 10.9.3
+      openai:
+        specifier: ^6.34.0
+        version: 6.34.0
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -2808,6 +2811,18 @@ packages:
   onetime@5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
+
+  openai@6.34.0:
+    resolution: {integrity: sha512-yEr2jdGf4tVFYG6ohmr3pF6VJuveP0EA/sS8TBx+4Eq5NT10alu5zg2dmxMXMgqpihRDQlFGpRt2XwsGj+Fyxw==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -7001,6 +7016,8 @@ snapshots:
     dependencies:
       mimic-fn: 2.1.0
 
+  openai@6.34.0: {}
+
   optionator@0.9.4:
     dependencies:
       deep-is: 0.1.4
@@ -7296,6 +7313,7 @@ snapshots:
       node-html-parser: 6.1.13
       nodemailer: 6.10.1
       npm: 10.9.3
+      openai: 6.34.0
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -7317,6 +7335,8 @@ snapshots:
       - snappy
       - socks
       - supports-color
+      - ws
+      - zod
 
   set-function-length@1.2.2:
     dependencies:

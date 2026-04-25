@@ -17,7 +17,6 @@ export class EventsService {
   async getEvents({
     range = 0,
     limit = 40,
-    campus,
     fromDate,
     toDate,
     searchWord,
@@ -41,13 +40,8 @@ export class EventsService {
     const fetchEventData =
       await this.bullsConnectApiService.fetchEventsList(queryParams);
 
-    // Filter date separators and events that are not on the specified campus
     const filteredEvents = fetchEventData.filter((event) => {
-      return (
-        !event.listingSeparator &&
-        'p22' in event &&
-        (!campus || event.p22.includes(`Campus - ${campus}`))
-      );
+      return !event.listingSeparator && 'p22' in event;
     }) as FetchedEvent[];
 
     return parseFetchedEvents(filteredEvents);
@@ -55,13 +49,11 @@ export class EventsService {
 
   async getFeaturedEvents({
     limit,
-    campus,
     fromDate,
     toDate,
   }: GetEventsDto): Promise<EventsResponseDto[]> {
     // ⚠️ BullsConnect API does not support sorting by "going" count, so we have to fetch 100 upcoming events and sort them manually
     const events = await this.getEvents({
-      campus,
       limit: 100,
       fromDate,
       toDate,

@@ -82,7 +82,6 @@ export class NewsletterService {
       limit: 5,
       fromDate,
       toDate,
-      campus,
     });
     try {
       const addToQueuePromises = subscribers.map(

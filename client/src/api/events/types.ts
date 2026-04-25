@@ -1,12 +1,4 @@
-import { EventCampus } from "../../constants/event.constant";
-
-export enum EventsFilterOption {
-  quick = "quick",
-  advanced = "advanced",
-}
-
 export type GetEventsParams = {
-  campus: EventCampus;
   fromDate?: string;
   toDate?: string;
   limit?: number;
@@ -24,6 +16,7 @@ export type Event = {
   endTime: string | null;
   image: string;
   location: string;
+  organizer: string | null;
   going: number;
 };
 

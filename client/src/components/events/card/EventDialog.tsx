@@ -11,7 +11,7 @@ import {
   UsersRoundIcon,
   XIcon,
 } from "lucide-react";
-import { FC, SVGProps } from "react";
+import { ViewTransition, startTransition, FC, SVGProps } from "react";
 import { Link } from "react-router-dom";
 
 interface SectionHeadingProps {
@@ -32,10 +32,19 @@ const SectionHeading = ({ Icon, title }: SectionHeadingProps) => {
 
 interface EventDialogProps {
   eventId: string;
+  cardImage: string;
+  cardTitle: string;
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const EventDialog = ({ eventId, show, setShow }: EventDialogProps) => {
+
+const EventDialog = ({
+  eventId,
+  cardImage,
+  cardTitle,
+  show,
+  setShow,
+}: EventDialogProps) => {
   const {
     data: event,
     isError,
@@ -54,114 +63,120 @@ const EventDialog = ({ eventId, show, setShow }: EventDialogProps) => {
   }
 
   return (
-    <Dialog open={show} onOpenChange={setShow}>
+    <Dialog
+      open={show}
+      onOpenChange={(open) => startTransition(() => setShow(open))}
+    >
       <DialogContent className="h-[90vh] !max-w-4xl overflow-y-auto border-none p-0 [&>button]:hidden">
-        {isLoading ? (
-          <div className="relative flex h-full w-full items-center justify-center">
-            <span className="relative inline-flex h-8 w-8 rounded-full bg-gray-300"></span>
-            <span className="absolute inline-flex h-14 w-14 animate-ping rounded-full bg-gray-300 opacity-75"></span>
-            <span className="absolute inline-flex h-24 w-24 animate-ping rounded-full bg-gray-300 opacity-75"></span>
-          </div>
-        ) : (
-          event && (
-            <div className="relative">
-              <DialogClose asChild>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="absolute top-4 right-4 z-10 size-8"
-                >
-                  <XIcon />
-                </Button>
-              </DialogClose>
-              <div className="aspect-2/1 w-full">
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              {event && (
-                <div className="px-8 py-6">
-                  <h2 className="text-3xl font-semibold">{event.title}</h2>
+        <div className="relative">
+          <DialogClose asChild>
+            <Button
+              size="icon"
+              variant="outline"
+              className="absolute top-4 right-4 z-10 size-8"
+            >
+              <XIcon />
+            </Button>
+          </DialogClose>
 
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    by
-                    <span className="font-medium text-secondary">
-                      {" "}
-                      {event.organizer}
-                    </span>
-                  </p>
-
-                  <div className="mt-4 mb-6 flex flex-wrap gap-2">
-                    {event.tags.map((tag) => (
-                      <Badge
-                        className="bg-gray-500 text-sm font-normal text-white"
-                        key={tag}
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-col gap-6">
-                    <section>
-                      <SectionHeading title="Info" Icon={Info} />
-                      <div className="grid grid-cols-[1.8rem_auto] items-center gap-y-3">
-                        <Clock className="inline-block h-5 w-5" />
-                        <p>
-                          {event.timeInfo1} | {event.timeInfo2}
-                        </p>
-
-                        <MapPin className="inline-block h-5 w-5" />
-                        <div>
-                          <p>{event.location.name}</p>
-                          <p>{event.location.address}</p>
-                        </div>
-
-                        <UsersRoundIcon className="inline-block h-5 w-5" />
-                        <p>
-                          <span className="font-medium">{event.going}</span>{" "}
-                          going
-                        </p>
-                      </div>
-                    </section>
-
-                    <section>
-                      <SectionHeading Icon={BookText} title="Details" />
-                      {event.details.image && (
-                        <img
-                          src={event.details.image}
-                          alt={event.title}
-                          className="mb-4 w-full"
-                        />
-                      )}
-                      <p>{event.details.description}</p>
-                    </section>
-
-                    {event.calendarUrl && (
-                      <div className="mb-2 grid gap-4 md:grid-cols-2">
-                        <Button asChild size="lg" variant="default">
-                          <Link target="_blank" to={event.calendarUrl.google}>
-                            Add to Google Calendar
-                            <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
-                          </Link>
-                        </Button>
-
-                        <Button asChild size="lg" variant="secondary">
-                          <Link target="_blank" to={event.calendarUrl.outlook}>
-                            Add to Outlook Calendar
-                            <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
-                          </Link>
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+          {/* Hero image — always rendered immediately using card data as fallback */}
+          <ViewTransition name={`event-img-${eventId}`} share="event-img-morph">
+            <div className="aspect-2/1 w-full overflow-hidden">
+              <img
+                src={event?.image ?? cardImage}
+                alt={event?.title ?? cardTitle}
+                className="h-full w-full object-cover"
+              />
             </div>
-          )
-        )}
+          </ViewTransition>
+
+          {isLoading ? (
+            <div className="relative flex h-48 w-full items-center justify-center">
+              <span className="relative inline-flex h-8 w-8 rounded-full bg-gray-300"></span>
+              <span className="absolute inline-flex h-14 w-14 animate-ping rounded-full bg-gray-300 opacity-75"></span>
+              <span className="absolute inline-flex h-24 w-24 animate-ping rounded-full bg-gray-300 opacity-75"></span>
+            </div>
+          ) : (
+            event && (
+              <div className="px-8 py-6">
+                <h2 className="text-3xl font-semibold">{event.title}</h2>
+
+                <p className="mt-1 text-sm text-muted-foreground">
+                  by
+                  <span className="font-medium text-secondary">
+                    {" "}
+                    {event.organizer}
+                  </span>
+                </p>
+
+                <div className="mt-4 mb-6 flex flex-wrap gap-2">
+                  {event.tags.map((tag) => (
+                    <Badge
+                      className="bg-gray-500 text-sm font-normal text-white"
+                      key={tag}
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="flex flex-col gap-6">
+                  <section>
+                    <SectionHeading title="Info" Icon={Info} />
+                    <div className="grid grid-cols-[1.8rem_auto] items-center gap-y-3">
+                      <Clock className="inline-block h-5 w-5" />
+                      <p>
+                        {event.timeInfo1} | {event.timeInfo2}
+                      </p>
+
+                      <MapPin className="inline-block h-5 w-5" />
+                      <div>
+                        <p>{event.location.name}</p>
+                        <p>{event.location.address}</p>
+                      </div>
+
+                      <UsersRoundIcon className="inline-block h-5 w-5" />
+                      <p>
+                        <span className="font-medium">{event.going}</span>{" "}
+                        going
+                      </p>
+                    </div>
+                  </section>
+
+                  <section>
+                    <SectionHeading Icon={BookText} title="Details" />
+                    {event.details.image && (
+                      <img
+                        src={event.details.image}
+                        alt={event.title}
+                        className="mb-4 w-full"
+                      />
+                    )}
+                    <p>{event.details.description}</p>
+                  </section>
+
+                  {event.calendarUrl && (
+                    <div className="mb-2 grid gap-4 md:grid-cols-2">
+                      <Button asChild size="lg" variant="default">
+                        <Link target="_blank" to={event.calendarUrl.google}>
+                          Add to Google Calendar
+                          <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
+                        </Link>
+                      </Button>
+
+                      <Button asChild size="lg" variant="secondary">
+                        <Link target="_blank" to={event.calendarUrl.outlook}>
+                          Add to Outlook Calendar
+                          <SquareArrowOutUpRight className="ml-2 h-4 w-4 stroke-[2.3px]" />
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

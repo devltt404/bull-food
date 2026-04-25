@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
   return (
-    <div className="flex min-h-[80vh] flex-col items-center justify-center">
+    <div style={{ viewTransitionName: "page-content" }} className="flex min-h-[80vh] flex-col items-center justify-center">
       <div className="gradient-text bg-primary-gradient mb-2 text-8xl font-semibold">
         404
       </div>
@@ -12,7 +12,7 @@ const NotFoundPage = () => {
       </h1>
 
       <Button size="lg" variant="secondary" asChild className="mt-6">
-        <Link to="/">Return home</Link>
+        <Link viewTransition to="/">Return home</Link>
       </Button>
     </div>
   );

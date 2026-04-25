@@ -5,7 +5,7 @@
 
 @theme inline {
   --font-sans: "Poppins", sans-serif;
-  --font-heading: "Poppins", sans-serif;
+  --font-display: "Bricolage Grotesque", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -45,18 +45,18 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(98.61% 0.0034 67.78);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: var(--color-green-400);
-  --primary-foreground: oklch(0.145 0 0);
+  --primary: var(--color-green-600);
+  --primary-foreground: oklch(1 0 0);
   --secondary: var(--color-purple-600);
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(0.5 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -128,6 +128,86 @@
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
+}
+
+@keyframes typing-dot {
+  0%, 100% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(-2px); opacity: 1; }
+}
+
+@keyframes chat-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+@keyframes chat-out {
+  from { opacity: 1; transform: translateY(0)    scale(1); }
+  to   { opacity: 0; transform: translateY(16px) scale(0.96); }
+}
+
+/* ── View Transitions ──────────────────────────────────────────────────────── */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+@keyframes slide-up {
+  from { transform: translateY(10px); }
+  to   { transform: translateY(0); }
+}
+@keyframes slide-down {
+  from { transform: translateY(0); }
+  to   { transform: translateY(10px); }
+}
+
+/* Page route transitions — targets the named page-content element */
+::view-transition-old(page-content) {
+  animation: 150ms ease-out both fade-out, 150ms ease-out both slide-down;
+}
+::view-transition-new(page-content) {
+  animation: 210ms ease-in 150ms both fade-in, 400ms ease-in both slide-up;
+}
+
+/* Suspend reveals — used by <ViewTransition exit="slide-down"> on Suspense fallbacks */
+::view-transition-old(.slide-down) {
+  animation: 150ms ease-out both fade-out, 150ms ease-out both slide-down;
+}
+::view-transition-new(.slide-up) {
+  animation: 210ms ease-in 150ms both fade-in, 400ms ease-in both slide-up;
+}
+
+/* Event card → dialog shared image morph */
+::view-transition-group(.event-img-morph) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(.event-img-morph) {
+  animation: 350ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+}
+::view-transition-new(.event-img-morph) {
+  animation: 350ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+}
+
+/* Persistent header stays put */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+/* Suppress root cross-fade — page content handled by named VTs */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay:    0s !important;
+  }
 }
 
 @layer utilities {

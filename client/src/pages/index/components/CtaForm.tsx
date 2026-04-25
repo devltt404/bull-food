@@ -9,9 +9,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/utils/cn";
-import { Check, X } from "lucide-react";
+import { BellRing, Check, X } from "lucide-react";
 import React, { LegacyRef } from "react";
 
 interface CtaFormProps {
@@ -48,52 +47,45 @@ const CtaForm = ({ ref }: CtaFormProps) => {
   };
 
   return (
-    <section
-      ref={ref}
-      className="rounded-t-[75px] bg-primary/10 md:rounded-t-[100px] xl:rounded-t-[125px]"
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="container mx-auto max-w-2xl py-20 text-center sm:py-24"
-      >
-        <h3 className="text-4xl font-semibold text-green-950">
-          Subscribe to our newsletter
-        </h3>
-        <p className="my-6 font-medium">
-          Sign up for daily updates on featured free food events.
-        </p>
+    <section ref={ref} className="border-t bg-primary/5">
+      <div className="container flex justify-center py-20 sm:py-24">
+        <div className="w-full max-w-md space-y-3 rounded-2xl border border-border/50 bg-card p-6 text-left shadow-xl">
+          <div className="mb-2 flex items-center gap-2">
+            <BellRing className="h-5 w-5 text-primary" />
+            <h3 className="font-display font-bold tracking-tight">
+              Get food drop alerts
+            </h3>
+          </div>
 
-        <div className="mx-auto max-w-lg">
-          <div className="flex h-12 items-center space-x-4">
+          <form onSubmit={handleSubmit} className="flex gap-2">
             <Input
               disabled={isSubscribing}
               value={email}
               onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
               type="email"
-              placeholder="Your email address"
-              className="h-full bg-white"
+              placeholder="student@university.edu"
+              required
+              className="h-12 bg-background"
             />
-
-            <Separator orientation="vertical" />
-
             <Button
               disabled={isSubscribing || !email}
-              className="h-full"
+              className="h-12 px-6 font-bold"
               type="submit"
             >
               Subscribe
             </Button>
-          </div>
-          <p className="mt-4 text-sm text-gray-800">
+          </form>
+
+          <p className="mt-2 text-center text-xs text-muted-foreground">
             The newsletter is free and you can unsubscribe at any time.
           </p>
         </div>
-      </form>
+      </div>
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="relative flex flex-col items-center justify-center gap-3">
+            <DialogTitle className="flex flex-col items-center gap-3">
               <div
                 className={cn(
                   "rounded-full p-2",
@@ -106,8 +98,7 @@ const CtaForm = ({ ref }: CtaFormProps) => {
                   <X className="h-10 w-10 text-white" />
                 )}
               </div>
-
-              <p className="text-2xl font-semibold">
+              <p className="font-display text-2xl font-bold tracking-tight">
                 {isSuccess ? "Subscribed!" : "Failed"}
               </p>
             </DialogTitle>

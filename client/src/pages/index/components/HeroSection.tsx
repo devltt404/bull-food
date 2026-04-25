@@ -1,6 +1,5 @@
-import CurvedLine from "@/components/svg/CurvedLine";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, SparklesIcon } from "lucide-react";
 import { RefObject } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,43 +9,50 @@ interface HeroSectionProps {
 
 const HeroSection = ({ ctaRef }: HeroSectionProps) => {
   return (
-    <div className="hero relative py-28 md:py-32">
-      <div className="relative mx-auto">
+    <div className="hero relative py-24 md:py-28">
+      <div className="relative mx-auto max-w-3xl text-center">
+        <div className="mb-5 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+          <SparklesIcon className="mr-2 h-4 w-4" />
+          Your campus food radar
+        </div>
         <h1
-          className="animate-fade-up flex flex-wrap items-center justify-center gap-x-5 gap-y-4 text-6xl leading-snug font-bold [word-spacing:5px]"
+          className="animate-fade-up font-display text-7xl font-extrabold tracking-tight"
           style={{ animationDelay: "0.15s" }}
         >
-          <div className="bg-primary-gradient inline-block px-3 py-2 text-white md:px-6">
-            Hungry
-          </div>
-          <div className="inline-block text-green-600">on</div>
-          <div className="gradient-text bg-primary-gradient relative">
-            Campus?
-            <div className="absolute -bottom-3 -left-3">
-              <CurvedLine className="fill-primary" />
-            </div>
-          </div>
+          Never miss a{" "}
+          <span className="relative inline-block text-primary">
+            food event
+            <svg
+              className="absolute -bottom-1 left-0 h-3 w-full text-primary/30"
+              viewBox="0 0 100 10"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 5 Q 50 10 100 5"
+                stroke="currentColor"
+                stroke-width="4"
+                fill="none"
+              />
+            </svg>
+          </span>{" "}
+          on campus again.
         </h1>
 
         <p
-          className="animate-fade-up mx-10 my-12 text-center text-xl font-medium text-gray-700"
+          className="animate-fade-up mx-10 my-8 text-center text-xl text-muted-foreground"
           style={{ animationDelay: "0.25s" }}
         >
-          BullFood helps you find{" "}
-          <span className="font-semibold underline">food events</span> at USF!
+          Discover free pizza, club socials, and food truck pop-ups happening
+          right now. Get alerts before the good stuff runs out.
         </p>
 
         <div
           className="animate-fade-up text-center"
           style={{ animationDelay: "0.35s" }}
         >
-          <Button
-            asChild
-            className="bg-secondary-gradient hover-bg-gradient h-13 !px-10 text-lg font-medium"
-            variant="secondary"
-          >
-            <Link to="/events">
-              Discover Now
+          <Button asChild className="text-lg h-14 px-8 font-semibold shadow-lg">
+            <Link viewTransition to="/events">
+              Discover now
               <ChevronRight strokeWidth="3" />
             </Link>
           </Button>
