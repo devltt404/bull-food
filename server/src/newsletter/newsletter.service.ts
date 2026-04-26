@@ -7,7 +7,6 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import path from 'path';
-import { EventCampus } from 'src/events/constants/event.constant';
 import { EventsService } from 'src/events/events.service';
 import { QueueProducerService } from 'src/queue/queue-producer.service';
 import { CreateSubscriberDto } from 'src/subscribers/dto/create-subscriber';
@@ -47,7 +46,6 @@ export class NewsletterService {
             unsubscribeToken: subscriber.unsubscribeToken,
           },
         ],
-        campus: subscriber.campus,
         fromDate: today,
         toDate: today,
       });
@@ -62,17 +60,12 @@ export class NewsletterService {
     return this.subscriberService.removeByToken(token);
   }
 
-  /**
-   * Send newsletter of featured events to subscribers at specified campus in the given date range.
-   */
   async sendNewsletter({
     subscribers,
-    campus,
     fromDate,
     toDate,
   }: {
     subscribers: Pick<Subscriber, 'email' | 'unsubscribeToken'>[];
-    campus: EventCampus;
     fromDate: string;
     toDate: string;
   }) {
@@ -107,35 +100,15 @@ export class NewsletterService {
     }
   }
 
-  /**
-   * Send daily newsletter to all subscribers at 8:00 AM EDT.
-   */
   @Cron(CronExpression.EVERY_DAY_AT_8AM, {
     timeZone: 'America/New_York',
   })
   async sendDailyNewsletter() {
     this.logger.log('✉️ Start sending daily newsletter...');
 
-    const subcribers = await this.subscriberService.findAll({});
-
-    const subscribersByCampus = {};
-    Object.values(EventCampus).forEach((campus) => {
-      subscribersByCampus[campus] = [];
-    });
-    for (const subscriber of subcribers) {
-      subscribersByCampus[subscriber.campus].push(subscriber);
-    }
-
+    const subscribers = await this.subscriberService.findAll({});
     const today = new Date().toISOString();
 
-    const sendNewsletterPromises = Object.values(EventCampus).map((campus) => {
-      return this.sendNewsletter({
-        subscribers: subscribersByCampus[campus],
-        campus,
-        fromDate: today,
-        toDate: today,
-      });
-    });
-    await Promise.all(sendNewsletterPromises);
+    await this.sendNewsletter({ subscribers, fromDate: today, toDate: today });
   }
 }
