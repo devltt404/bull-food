@@ -10,6 +10,7 @@ const GROUP = {
   tomorrow: "Tomorrow",
 } as const;
 
+
 interface EventsGroupProps {
   date: string;
   events: Event[];

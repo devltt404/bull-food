@@ -35,7 +35,7 @@ export type DetailedEvent = {
     address?: string;
   };
   tags: string[];
-  organizer: string;
+  organizer: string | null;
   going: number;
   details: {
     image?: string;

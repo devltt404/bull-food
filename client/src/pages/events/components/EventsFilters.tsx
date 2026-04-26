@@ -6,16 +6,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import useDebouncedValue from "@/hooks/useDebouncedValue";
 import { cn } from "@/utils/cn";
-import { formatDate } from "@/utils/helper";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import { CalendarIcon, Search, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DateRange } from "react-day-picker";
-import { useEvents } from "./EventsContext";
+import { QuickDay, useEvents } from "./EventsContext";
 
-type QuickDay = "all" | "today" | "tomorrow" | "week";
+const QUICK_DAYS: { label: string; value: QuickDay }[] = [
+  { label: "All", value: "all" },
+  { label: "Today", value: "today" },
+  { label: "Tomorrow", value: "tomorrow" },
+  { label: "Next 7 Days", value: "week" },
+];
 
 function getDateButtonLabel(quickDay: QuickDay, dateRange: DateRange | undefined): React.ReactNode {
   if (quickDay !== "all")
@@ -27,76 +30,30 @@ function getDateButtonLabel(quickDay: QuickDay, dateRange: DateRange | undefined
   return <>{format(dateRange.from, "LLL dd")} – {format(dateRange.to, "LLL dd, y")}</>;
 }
 
-const QUICK_DAYS: { label: string; value: QuickDay }[] = [
-  { label: "All", value: "all" },
-  { label: "Today", value: "today" },
-  { label: "Tomorrow", value: "tomorrow" },
-  { label: "This Week", value: "week" },
-];
-
-function getQuickDayDates(day: QuickDay): {
-  fromDate?: string;
-  toDate?: string;
-} {
-  if (day === "today") {
-    const d = formatDate({ daysOffset: 0 });
-    return { fromDate: d, toDate: d };
-  }
-  if (day === "tomorrow") {
-    const d = formatDate({ daysOffset: 1 });
-    return { fromDate: d, toDate: d };
-  }
-  if (day === "week") {
-    return { fromDate: formatDate(), toDate: formatDate({ daysOffset: 6 }) };
-  }
-  return {};
-}
-
 export default function EventsFilters() {
-  const { setFetchEventsParams } = useEvents();
-  const [searchWord, setSearchWord] = useState("");
-  const [dateRange, setDateRange] = useState<DateRange>();
-  const [quickDay, setQuickDay] = useState<QuickDay>("all");
-
-  const debouncedSearchWord = useDebouncedValue<string>(searchWord, 300);
-
-  const hasActiveFilters =
-    !!debouncedSearchWord || !!dateRange || quickDay !== "all";
+  const {
+    searchWord,
+    setSearchWord,
+    dateRange,
+    setDateRange,
+    quickDay,
+    setQuickDay,
+    clearFilters,
+    hasActiveFilters,
+  } = useEvents();
 
   function handleQuickDay(day: QuickDay) {
     setQuickDay(day);
-    setDateRange(undefined);
+    if (day === "today") setDateRange({ from: new Date(), to: new Date() });
+    else if (day === "tomorrow") { const d = addDays(new Date(), 1); setDateRange({ from: d, to: d }); }
+    else if (day === "week") setDateRange({ from: new Date(), to: addDays(new Date(), 6) });
+    else setDateRange(undefined);
   }
 
   function handleDateRange(range: DateRange | undefined) {
     setDateRange(range);
     setQuickDay("all");
   }
-
-  function clearAll() {
-    setSearchWord("");
-    setDateRange(undefined);
-    setQuickDay("all");
-  }
-
-  useEffect(() => {
-    const dateDates =
-      quickDay !== "all"
-        ? getQuickDayDates(quickDay)
-        : {
-            fromDate: dateRange?.from
-              ? formatDate({ startDate: dateRange.from })
-              : undefined,
-            toDate: dateRange?.to
-              ? formatDate({ startDate: dateRange.to })
-              : undefined,
-          };
-
-    setFetchEventsParams({
-      searchWord: debouncedSearchWord || undefined,
-      ...dateDates,
-    });
-  }, [debouncedSearchWord, dateRange, quickDay, setFetchEventsParams]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-4">
@@ -105,7 +62,7 @@ export default function EventsFilters() {
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
           placeholder="Search events..."
-          className="h-12 bg-muted/50 border-muted pl-10"
+          className="h-10 bg-muted/50 border-muted pl-10"
         />
         <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
       </div>
@@ -114,10 +71,7 @@ export default function EventsFilters() {
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className={cn(
-              "h-12 w-full sm:w-[240px] justify-start font-normal bg-muted/50 border-muted",
-              (dateRange || quickDay !== "all") && "border-primary text-primary",
-            )}
+            className="h-10 w-full sm:w-[240px] justify-start font-normal bg-muted/50 border-muted"
           >
             <CalendarIcon className="mr-2 size-4 shrink-0" />
             {getDateButtonLabel(quickDay, dateRange)}
@@ -150,15 +104,17 @@ export default function EventsFilters() {
         </PopoverContent>
       </Popover>
 
-      {hasActiveFilters && (
-        <button
-          onClick={clearAll}
-          className="flex items-center gap-1 text-sm text-muted-foreground transition hover:text-foreground"
-        >
-          <X className="size-3.5" />
-          Clear
-        </button>
-      )}
+      <button
+        onClick={clearFilters}
+        disabled={!hasActiveFilters}
+        className={cn(
+          "flex items-center gap-1 text-sm text-muted-foreground transition hover:text-foreground",
+          !hasActiveFilters && "invisible",
+        )}
+      >
+        <X className="size-3.5" />
+        Clear
+      </button>
     </div>
   );
 }

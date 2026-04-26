@@ -67,7 +67,7 @@ export function parseEventHTML(root: HTMLElement) {
     ?.getAttribute('src');
 
   const title = root.querySelector('.rsvp__event-name')?.text;
-  const organizer = root.querySelector('.rsvp__event-org a')?.text;
+  const organizer = root.querySelector('.rsvp__event-org button')?.text?.trim();
 
   const tagsElem = root.querySelector('.rsvp__event-tags');
   const tags = tagsElem

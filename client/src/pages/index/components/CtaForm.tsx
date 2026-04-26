@@ -47,17 +47,24 @@ const CtaForm = ({ ref }: CtaFormProps) => {
   };
 
   return (
-    <section ref={ref} className="border-t bg-primary/5">
-      <div className="container flex justify-center py-20 sm:py-24">
-        <div className="w-full max-w-md space-y-3 rounded-2xl border border-border/50 bg-card p-6 text-left shadow-xl">
-          <div className="mb-2 flex items-center gap-2">
+    <section ref={ref}>
+      <div className="container pb-16">
+        <div className="w-full space-y-4 rounded-3xl border border-border/50 bg-card p-6 shadow-xl md:p-10">
+          <div className="flex items-center gap-2">
             <BellRing className="h-5 w-5 text-primary" />
-            <h3 className="font-display font-bold tracking-tight">
+            <h3 className="font-display text-2xl font-bold md:text-3xl">
               Get food drop alerts
             </h3>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex gap-2">
+          <p className="text-muted-foreground">
+            Sign up for daily updates on featured food events.
+          </p>
+
+          <form
+            onSubmit={handleSubmit}
+            className="flex w-full flex-col gap-3 sm:flex-row"
+          >
             <Input
               disabled={isSubscribing}
               value={email}
@@ -65,19 +72,19 @@ const CtaForm = ({ ref }: CtaFormProps) => {
               type="email"
               placeholder="student@university.edu"
               required
-              className="h-12 bg-background"
+              className="h-14 flex-1 border-border bg-background text-base shadow-inner"
             />
             <Button
               disabled={isSubscribing || !email}
-              className="h-12 px-6 font-bold"
               type="submit"
+              className="h-14 w-full px-8 text-base font-semibold sm:w-auto"
             >
               Subscribe
             </Button>
           </form>
 
-          <p className="mt-2 text-center text-xs text-muted-foreground">
-            The newsletter is free and you can unsubscribe at any time.
+          <p className="text-xs text-muted-foreground">
+            You can unsubscribe anytime.
           </p>
         </div>
       </div>
@@ -104,7 +111,7 @@ const CtaForm = ({ ref }: CtaFormProps) => {
             </DialogTitle>
             <DialogDescription className="py-2 text-center text-base">
               {isSuccess
-                ? `You will now receive daily newsletter about featured free food events at USF - ${campus}.`
+                ? `You will now receive daily newsletter about featured food events at USF - ${campus}.`
                 : errorMsg}
             </DialogDescription>
           </DialogHeader>

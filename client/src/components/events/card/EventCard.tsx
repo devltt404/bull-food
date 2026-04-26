@@ -2,7 +2,7 @@ import { Event } from "@/api/events/types";
 import { cn } from "@/utils/cn";
 import { formatRelativeDate, isEventLive } from "@/utils/helper";
 import { Building2, CalendarIcon, Clock, MapPin, Users } from "lucide-react";
-import { ViewTransition, startTransition, useMemo, useState } from "react";
+import { startTransition, useMemo, useState } from "react";
 import EventDialog from "./EventDialog";
 
 interface EventCardProps {
@@ -34,7 +34,7 @@ const EventCard = ({ event, className }: EventCardProps) => {
       >
         <div className="relative aspect-video overflow-hidden bg-muted">
           {live && (
-            <span className="absolute top-2.5 right-2.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-md">
+            <span className="absolute top-2.5 right-2.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold tracking-wide text-white uppercase shadow-md">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
@@ -42,26 +42,12 @@ const EventCard = ({ event, className }: EventCardProps) => {
               Live
             </span>
           )}
-          {showEventDialog ? (
-            <img
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
-              src={event.image}
-              alt={event.title + " thumbnail"}
-            />
-          ) : (
-            <ViewTransition
-              name={`event-img-${event.id}`}
-              share="event-img-morph"
-            >
-              <img
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
-                src={event.image}
-                alt={event.title + " thumbnail"}
-              />
-            </ViewTransition>
-          )}
+          <img
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+            src={event.image}
+            alt={event.title + " thumbnail"}
+          />
         </div>
 
         <div className="flex flex-col p-5">
@@ -106,8 +92,6 @@ const EventCard = ({ event, className }: EventCardProps) => {
 
       <EventDialog
         eventId={event.id}
-        cardImage={event.image}
-        cardTitle={event.title}
         show={showEventDialog}
         setShow={setShowEventDialog}
       />

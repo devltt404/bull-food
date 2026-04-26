@@ -85,6 +85,9 @@ jobs:
           MAIL_USER=${{ secrets.MAIL_USER }}
           MAIL_PASS=${{ secrets.MAIL_PASS }}
           BC_SESSION_ID=${{ secrets.BC_SESSION_ID }}
+          OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL=${{ vars.OPENAI_BASE_URL }}
+          OPENAI_CHAT_MODEL=${{ vars.OPENAI_CHAT_MODEL }}
           EOF
 
       - name: Pull the latest image

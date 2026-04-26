@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { createFadeStagger } from "@/utils/animation";
 import { ChevronDown, ChevronRight, SparklesIcon } from "lucide-react";
 import { RefObject } from "react";
 import { Link } from "react-router-dom";
@@ -8,16 +9,20 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ ctaRef }: HeroSectionProps) => {
+  const staggerDelay = createFadeStagger(0.05);
   return (
     <div className="hero relative py-24 md:py-28">
       <div className="relative mx-auto max-w-3xl text-center">
-        <div className="mb-5 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+        <div
+          className="animate-fade-up mb-5 inline-flex items-center rounded-full border-2 border-dashed border-primary/50 px-3 py-1 text-sm font-medium text-primary"
+          {...staggerDelay()}
+        >
           <SparklesIcon className="mr-2 h-4 w-4" />
           Your campus food radar
         </div>
         <h1
           className="animate-fade-up font-display text-7xl font-extrabold tracking-tight"
-          style={{ animationDelay: "0.15s" }}
+          {...staggerDelay()}
         >
           Never miss a{" "}
           <span className="relative inline-block text-primary">
@@ -30,7 +35,7 @@ const HeroSection = ({ ctaRef }: HeroSectionProps) => {
               <path
                 d="M0 5 Q 50 10 100 5"
                 stroke="currentColor"
-                stroke-width="4"
+                strokeWidth="4"
                 fill="none"
               />
             </svg>
@@ -40,18 +45,15 @@ const HeroSection = ({ ctaRef }: HeroSectionProps) => {
 
         <p
           className="animate-fade-up mx-10 my-8 text-center text-xl text-muted-foreground"
-          style={{ animationDelay: "0.25s" }}
+          {...staggerDelay()}
         >
-          Discover free pizza, club socials, and food truck pop-ups happening
-          right now. Get alerts before the good stuff runs out.
+          Discover pizza, club socials, and food truck pop-ups happening right
+          now. Get alerts before the good stuff runs out.
         </p>
 
-        <div
-          className="animate-fade-up text-center"
-          style={{ animationDelay: "0.35s" }}
-        >
-          <Button asChild className="text-lg h-14 px-8 font-semibold shadow-lg">
-            <Link viewTransition to="/events">
+        <div className="animate-fade-up text-center" {...staggerDelay()}>
+          <Button asChild className="h-14 px-8 text-lg font-semibold shadow-lg">
+            <Link to="/events">
               Discover now
               <ChevronRight strokeWidth="3" />
             </Link>
@@ -61,10 +63,8 @@ const HeroSection = ({ ctaRef }: HeroSectionProps) => {
 
       <button
         className="animate-fade-up absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center text-muted-foreground transition hover:text-green-900"
-        onClick={() => {
-          ctaRef.current?.scrollIntoView({ behavior: "smooth" });
-        }}
-        style={{ animationDelay: "0.45s" }}
+        onClick={() => ctaRef.current?.scrollIntoView({ behavior: "smooth" })}
+        {...staggerDelay()}
       >
         <p className="text-lg font-medium">Subscribe now</p>
         <ChevronDown className="size-6" />

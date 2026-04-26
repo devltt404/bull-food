@@ -1,5 +1,5 @@
-import EmptyEvents from "@/components/events/EmptyEvents";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { UtensilsCrossed } from "lucide-react";
 
 import {
   EventsProvider,
@@ -30,24 +30,34 @@ function EventsPageContent() {
       }));
     },
     isFetching: isFetching,
-    // Stop fetching once the last page returned nothing
     hasMore: !isError && !hasNoEvents,
     triggerPoint: 1500,
   });
 
   return (
-    <div style={{ viewTransitionName: "page-content" }} className="flex flex-col pb-16">
-      <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b pb-4 pt-6 shadow-sm">
+    <div className="animate-page-in flex flex-col pb-16">
+      <div className="sticky top-[66px] z-40 border-b bg-background pt-6 pb-4 shadow-sm">
         <div className="container px-4 md:px-6">
           <EventsFilters />
         </div>
       </div>
 
-      <div className="container px-4 md:px-6 pt-8 space-y-12">
+      <div className="container space-y-12 px-4 pt-8 md:px-6">
         {isFetching && isInitialLoad ? (
           <EventsGroupsSkeleton />
         ) : isInitialLoad && hasNoEvents && !isFetching ? (
-          <EmptyEvents className="mt-20" />
+          <div className="mx-auto flex max-w-md flex-col items-center justify-center py-24 text-center">
+            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+              <UtensilsCrossed className="h-10 w-10 text-muted-foreground" />
+            </div>
+            <h2 className="mb-2 font-display text-2xl font-bold">
+              No events found
+            </h2>
+            <p className="text-muted-foreground">
+              We couldn't find any food events matching your search criteria.
+              Try adjusting your filters.
+            </p>
+          </div>
         ) : (
           <EventsGroups events={events} isFilterUpdated={isInitialLoad} />
         )}

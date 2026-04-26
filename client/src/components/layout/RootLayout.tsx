@@ -1,6 +1,10 @@
-import ChatWidget from "@/components/chat/ChatWidget.tsx";
+import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header.tsx";
+
+const LazyChatWidget = React.lazy(
+  () => import("@/components/chat/ChatWidget.tsx"),
+);
 
 const RootLayout = () => {
   return (
@@ -9,7 +13,9 @@ const RootLayout = () => {
       <main className="bg-background">
         <Outlet />
       </main>
-      <ChatWidget />
+      <Suspense>
+        <LazyChatWidget />
+      </Suspense>
     </>
   );
 };

@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Poppins", sans-serif;
-  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-sans: "Inter Variable", sans-serif;
+  --font-display: "Bricolage Grotesque Variable", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -55,7 +55,7 @@
   --primary-foreground: oklch(1 0 0);
   --secondary: var(--color-purple-600);
   --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.97 0 0);
+  --muted: oklch(92.72% 0.0097 72.66);
   --muted-foreground: oklch(0.5 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
@@ -229,6 +229,9 @@
 
   .animate-fade-up {
     @apply animate-in duration-500 ease-in-out fill-mode-both slide-in-from-bottom-10 fade-in;
+  }
+  .animate-page-in {
+    animation: fade-in 0.25s ease-out both;
   }
 }
 

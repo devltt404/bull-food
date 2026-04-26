@@ -79,7 +79,7 @@ export class EventsService {
         address: parsedEventData.location.address,
       },
       tags: parsedEventData.tags,
-      organizer: parsedEventData.organizer || 'USF',
+      organizer: parsedEventData.organizer || null,
       going: parsedEventData.going || 0,
       details: {
         image:

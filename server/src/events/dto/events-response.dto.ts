@@ -23,7 +23,7 @@ export class EventResponseDto {
     address?: string;
   };
   tags: string[];
-  organizer: string;
+  organizer: string | null;
   going: number;
   details: {
     image?: string;

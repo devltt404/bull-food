@@ -1,3 +1,5 @@
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/inter";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";

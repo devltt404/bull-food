@@ -11,14 +11,14 @@ const TOOLS: OpenAI.Chat.Completions.ChatCompletionTool[] = [
     function: {
       name: 'get_events',
       description:
-        'Fetch upcoming free food events at USF. Call this whenever the user asks about food events, availability, timing, location, or anything related to campus food.',
+        'Fetch upcoming food events at USF. Call this whenever the user asks about food events, availability, timing, location, or anything related to campus food.',
       parameters: {
         type: 'object',
         properties: {
           searchWord: {
             type: 'string',
             description:
-              'Keyword to search for (e.g. "pizza", "bbq", "sushi").',
+              'Keyword to search for a specific food type (e.g. "pizza", "bbq", "sushi"). Do NOT use meal times like "lunch", "dinner", or "breakfast" as keywords — those are not searchable; use date/time filters instead.',
           },
           fromDate: {
             type: 'string',
@@ -68,17 +68,28 @@ export class ChatService {
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       {
         role: 'system',
-        content: `You are BullFood, a friendly assistant for USF (University of South Florida) students helping them find free food events on campus. Today is ${today}. When a user asks about food events, use the get_events tool to fetch current data. Be concise and friendly. If a question is unrelated to USF free food events, gently redirect.
+        content: `You are BullFood, a friendly assistant for USF (University of South Florida) students helping them find food events on campus. Today is ${today}. Always use the get_events tool to answer questions — never answer from memory. Be concise and friendly. If a question is unrelated to USF free food events, gently redirect.
 
-When listing events, format each one with these fields:
-- **Title**
+When calling get_events:
+- Use searchWord only for specific food/cuisine types (e.g. "pizza", "bbq", "sushi"). Never use meal times like "lunch", "dinner", or "breakfast" as searchWord — omit it entirely for those queries.
+- For "tomorrow", set fromDate and toDate both to tomorrow's date in DDMMMYYYY format.
+
+When the user asks about "lunch", "dinner", or "breakfast" events, treat those as time-of-day filters, not food categories:
+- Breakfast: events that start between 6 AM and 11 AM
+- Lunch: events that start or overlap between 11 AM and 2 PM
+- Dinner: events that start or overlap between 5 PM and 9 PM
+Fetch all events for that date, then determine which ones fall within that time window based on their start/end times.
+
+When listing events, format each one like this:
+
+**<N>. <Event Title>** (bold, no "Title:" label; use index N when listing multiple events, omit the number for a single event)
 - **Date:** <date>
 - **Time:** <time>
 - **Location:** <location>
 - **Organizer:** <organizer> (if available)
 - **Ongoing:** <count> (if available)
-- A 1-sentence summary of the description (if available)
-- **Food:** <specific food items> — include this line ONLY when food items are explicitly named in the title or description; omit it entirely otherwise
+- **Description:** A 1-sentence summary (if available)
+- **Food:** <specific food items> — include ONLY when food items are explicitly named in the title or description; omit otherwise
 
 If fewer events are available than requested, just list what exists — do not apologize for the count.`,
       },
@@ -90,7 +101,7 @@ If fewer events are available than requested, just list what exists — do not a
       model: this.model,
       messages,
       tools: TOOLS,
-      tool_choice: 'auto',
+      tool_choice: 'required',
       max_tokens: 512,
       stream: false,
     });
@@ -102,11 +113,10 @@ If fewer events are available than requested, just list what exists — do not a
         choice.message.tool_calls,
       );
 
-      // Stream the final answer with tool results injected
       const stream = await this.openai.chat.completions.create({
         model: this.model,
         messages: [...messages, choice.message, ...toolMessages],
-        max_tokens: 512,
+        max_tokens: 2048,
         stream: true,
       });
 
