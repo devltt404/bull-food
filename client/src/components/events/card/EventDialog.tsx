@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import {
   BookText,
   Clock,
@@ -62,9 +61,7 @@ const EventDialog = ({ eventId, show, setShow }: EventDialogProps) => {
   return (
     <Dialog open={show} onOpenChange={setShow}>
       <DialogContent className="h-[90vh] !max-w-4xl overflow-y-auto border-none p-0 [&>button]:hidden">
-        <VisuallyHidden.Root>
-          <DialogTitle>{event?.title ?? "Event details"}</DialogTitle>
-        </VisuallyHidden.Root>
+        <DialogTitle className="sr-only">{event?.title ?? "Event details"}</DialogTitle>
 
         {isLoading ? (
           <div className="relative flex h-full w-full items-center justify-center">

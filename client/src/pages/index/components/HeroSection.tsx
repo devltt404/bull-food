@@ -21,7 +21,7 @@ const HeroSection = ({ ctaRef }: HeroSectionProps) => {
           Your campus food radar
         </div>
         <h1
-          className="animate-fade-up font-display text-7xl font-extrabold tracking-tight"
+          className="animate-fade-up font-display text-5xl font-extrabold tracking-tight sm:text-6xl xl:text-7xl"
           {...staggerDelay()}
         >
           Never miss a{" "}
@@ -44,7 +44,7 @@ const HeroSection = ({ ctaRef }: HeroSectionProps) => {
         </h1>
 
         <p
-          className="animate-fade-up mx-10 my-8 text-center text-xl text-muted-foreground"
+          className="animate-fade-up mx-10 my-8 text-center text-lg md:text-xl text-muted-foreground"
           {...staggerDelay()}
         >
           Discover pizza, club socials, and food truck pop-ups happening right
