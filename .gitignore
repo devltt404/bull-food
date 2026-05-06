@@ -8,4 +8,6 @@
 /server/dist
 /client/dist
 
+/client/stats.html
+
 /.claude-local

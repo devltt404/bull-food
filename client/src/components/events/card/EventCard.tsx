@@ -2,8 +2,9 @@ import { Event } from "@/api/events/types";
 import { cn } from "@/utils/cn";
 import { formatRelativeDate, isEventLive } from "@/utils/helper";
 import { Building2, CalendarIcon, Clock, MapPin, Users } from "lucide-react";
-import { startTransition, useMemo, useState } from "react";
-import EventDialog from "./EventDialog";
+import React, { startTransition, useMemo, useState } from "react";
+
+const EventDialog = React.lazy(() => import("./EventDialog"));
 
 interface EventCardProps {
   event: Event;
@@ -90,11 +91,13 @@ const EventCard = ({ event, className }: EventCardProps) => {
         </div>
       </button>
 
-      <EventDialog
-        eventId={event.id}
-        show={showEventDialog}
-        setShow={setShowEventDialog}
-      />
+      <React.Suspense>
+        <EventDialog
+          eventId={event.id}
+          show={showEventDialog}
+          setShow={setShowEventDialog}
+        />
+      </React.Suspense>
     </>
   );
 };

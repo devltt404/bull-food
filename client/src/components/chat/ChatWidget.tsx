@@ -1,7 +1,6 @@
 import { Bot, MessageCircle, Send, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { cn } from "@/utils/cn";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -206,7 +205,6 @@ const ChatWidget = () => {
                         msg.content
                       ) : msg.content ? (
                         <ReactMarkdown
-                          remarkPlugins={[remarkGfm]}
                           components={{
                             p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
                             strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
