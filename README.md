@@ -1,8 +1,8 @@
-# [BullFood 🍔](https://bullfood.devltt.site/)
+# [BullFood 🍔](https://bullfood.tripham.site/)
 
 BullFood is a user-friendly website designed for students at the University of South Florida (USF) to discover free food events on campus. Users can subscribe to a newsletter to receive daily updates about featured food events.
 
-[![BullFood](./screenshot.png)](https://bullfood.devltt.site/)
+[![BullFood](./screenshot.png)](https://bullfood.tripham.site/)
 
 ## Table of Contents
 

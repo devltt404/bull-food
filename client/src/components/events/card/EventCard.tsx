@@ -93,7 +93,7 @@ const EventCard = ({ event, className }: EventCardProps) => {
 
       <React.Suspense>
         <EventDialog
-          eventId={event.id}
+          event={event}
           show={showEventDialog}
           setShow={setShowEventDialog}
         />
