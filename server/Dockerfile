@@ -1,27 +1,18 @@
-# Base image
+
 FROM node:20
 
-# Enable corepack and pnpm
 RUN corepack enable
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
 
-# Install app dependencies
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
-# Copy all files from the current directory to the working directory
 COPY . .
 
-# Creates a "dist" folder with the production build
 RUN pnpm run build
 
-# Expose the port the app runs on
 EXPOSE 4000
 
-# Start the server using the production build
-CMD [ "node", "dist/main.js" ]
-
+CMD ["node", "dist/main.js"]
